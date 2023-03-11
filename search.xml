@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>试一下图片的上传</title>
+    <url>/2023/03/11/%E8%AF%95%E4%B8%80%E4%B8%8B%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%8A%E4%BC%A0/</url>
+    <content><![CDATA[<p>今天给图片创建了一个<strong>图床</strong><br>试试能不能正常的上传图片<br><del>正好有个朋友在垃圾桶捡到了个木头</del></p>
+<hr>
+<p><img src="https://gitee.com/disaster-prevention-college_2_0/img/raw/master/img/%E5%9E%83%E5%9C%BE%E6%A1%B6%E6%9C%A8%E5%A4%B4.jpg"></p>
+]]></content>
+  </entry>
+  <entry>
     <title>试着练习一下markdown</title>
     <url>/2023/03/10/%E8%AF%95%E7%9D%80%E7%BB%83%E4%B9%A0%E4%B8%80%E4%B8%8Bmarkdown/</url>
     <content><![CDATA[<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><p><em>斜体</em> 一个*<br><strong>粗体</strong> 两个*<br><em><strong>又斜又粗</strong></em> 三个*</p>
