@@ -67,7 +67,7 @@
     <title>python练习题</title>
     <url>/2023/03/13/python%E7%BB%83%E4%B9%A0%E9%A2%98/</url>
     <content><![CDATA[<ol>
-<li>斐波那契函数<br>在——上补充<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a,b=<span class="number">0</span>,<span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> a&lt;=<span class="number">100</span>:</span><br><span class="line">    <span class="built_in">print</span>(a,end=<span class="string">&#x27;,&#x27;</span>)</span><br><span class="line">    ------</span><br></pre></td></tr></table></figure>
+<li>斐波那契函数<br>在——上补充代码，输出100以内的斐波那契数<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a,b=<span class="number">0</span>,<span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> a&lt;=<span class="number">100</span>:</span><br><span class="line">    <span class="built_in">print</span>(a,end=<span class="string">&#x27;,&#x27;</span>)</span><br><span class="line">    ------</span><br></pre></td></tr></table></figure>
 答案：<br><code>a,b=b+a,a</code></li>
 </ol>
 <p>试着思考相同结构能否用c语言实现</p>
