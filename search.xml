@@ -11,7 +11,31 @@
   <entry>
     <title>PHP语言的学习</title>
     <url>/2023/03/13/PHP%E8%AF%AD%E8%A8%80%E7%9A%84%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h3 id="PHP语法"><a href="#PHP语法" class="headerlink" title="PHP语法"></a>PHP语法</h3><ol>
+<li><p>基本语法<br>以<code>&lt;?php</code>  作为开头<br>每句话以 <code>;</code>结尾<br><code>?&gt;</code>  作为结尾</p>
+</li>
+<li><p>注释<br><code>//</code>单行注释<br><code>/**  */</code>   多行注释</p>
+</li>
+<li><p>传值与传址<br><code>$a=$b</code>传值，指向不同的内存空间<br><code>$a=&amp;$b</code>传址，指向相同的内存空间，同时改变</p>
+</li>
+<li><p>全局变量与超全局变量<br>全局声明（函数外声明）的变量会保存在<code>$-GLOBAS</code>中，函数内默认不能访问全局变量，访问需要加上global关键字<br>也可以使用全局数组<code>$GLOBALLS(&#39;变量名&#39;)</code>调用全局变量</p>
+</li>
+</ol>
+<p>超全局变量<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230314100903.png"></p>
+<ol start="5">
+<li><p>变量检测和变量删除<br><code>isset()</code> 检测<br><code>unset()</code> 删除，在函数中用global引入的全局变量无法删除</p>
+</li>
+<li><p>static关键字<br>延长生命周期（好像和c语言一样）</p>
+</li>
+<li><p>字符串界定符<br>界定符中定义字符串可以省略””</p>
+<blockquote>
+<p>$str &#x3D;&lt;&lt;&lt;php<br>php</p>
+</blockquote>
+</li>
+<li><p>strlen()和mb_strlen()<br><code>strlen()</code>用于计算字符串长度<br><code>mb_strlen(变量名,&#39;编码形式（utf8）&#39;)</code>宽字节计算长度</p>
+</li>
+</ol>
+]]></content>
       <categories>
         <category>PHP</category>
       </categories>
