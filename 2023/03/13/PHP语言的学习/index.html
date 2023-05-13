@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="基本语法以&lt;?php  作为开头每句话以 ;结尾?&gt;  作为结尾 注释&#x2F;&#x2F;  单行注释&#x2F;**  *&#x2F;   多行注释 传值与传址$a&#x3D;$b   传值，指向不同的内存空间$a&#x3D;&amp;$b  传址，指向相同的内存空间，同时改变 局部变量，全局变量与超全局变量全局声明（函数外声明）的变量会保存在$-GLOBALS中，函数内默认不能访问全局变量，访问需要加上global关键字也可以使用全局数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP语言的学习">
+<meta property="og:url" content="http://example.com/2023/03/13/PHP%E8%AF%AD%E8%A8%80%E7%9A%84%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="睡猫的博客">
+<meta property="og:description" content="基本语法以&lt;?php  作为开头每句话以 ;结尾?&gt;  作为结尾 注释&#x2F;&#x2F;  单行注释&#x2F;**  *&#x2F;   多行注释 传值与传址$a&#x3D;$b   传值，指向不同的内存空间$a&#x3D;&amp;$b  传址，指向相同的内存空间，同时改变 局部变量，全局变量与超全局变量全局声明（函数外声明）的变量会保存在$-GLOBALS中，函数内默认不能访问全局变量，访问需要加上global关键字也可以使用全局数">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230314100903.png">
+<meta property="article:published_time" content="2023-03-13T15:13:48.000Z">
+<meta property="article:modified_time" content="2023-03-21T16:48:22.932Z">
+<meta property="article:author" content="？？喵！！">
+<meta property="article:tag" content="PHP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230314100903.png">
+
+<link rel="canonical" href="http://example.com/2023/03/13/PHP%E8%AF%AD%E8%A8%80%E7%9A%84%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>PHP语言的学习 | 睡猫的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">睡猫的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">分享代码，记录生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/13/PHP%E8%AF%AD%E8%A8%80%E7%9A%84%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PHP语言的学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-13 23:13:48" itemprop="dateCreated datePublished" datetime="2023-03-13T23:13:48+08:00">2023-03-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-22 00:48:22" itemprop="dateModified" datetime="2023-03-22T00:48:22+08:00">2023-03-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><p>以<code>&lt;?php</code>  作为开头<br>每句话以 <code>;</code>结尾<br><code>?&gt;</code>  作为结尾</p>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p><code>//</code>  <em>单行注释</em><br><code>/**  */</code>   <em>多行注释</em></p>
+<h2 id="传值与传址"><a href="#传值与传址" class="headerlink" title="传值与传址"></a>传值与传址</h2><p><code>$a=$b</code>   <em>传值，指向不同的内存空间</em><br><code>$a=&amp;$b</code>  <em>传址，指向相同的内存空间，同时改变</em></p>
+<h2 id="局部变量，全局变量与超全局变量"><a href="#局部变量，全局变量与超全局变量" class="headerlink" title="局部变量，全局变量与超全局变量"></a>局部变量，全局变量与超全局变量</h2><p>全局声明（函数外声明）的变量会保存在<code>$-GLOBALS</code>中，函数内默认不能访问全局变量，访问需要加上global关键字<br>也可以使用全局数组<code>$GLOBALS(&#39;变量名&#39;)</code>调用全局变量</p>
+<p><em><strong>超全局变量</strong></em><br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230314100903.png"><br><a target="_blank" rel="noopener" href="https://www.runoob.com/php/php-superglobals.html">菜鸟教程全局变量</a></p>
+<p>局部变量：函数内部声明的变量，只能在函数内部使用</p>
+<h2 id="变量检测和变量删除"><a href="#变量检测和变量删除" class="headerlink" title="变量检测和变量删除"></a>变量检测和变量删除</h2><p><code>isset()</code>   <em>检测</em><br><code>unset()</code>   <em>删除，在函数中用global引入的全局变量无法删除</em></p>
+<h2 id="static关键字"><a href="#static关键字" class="headerlink" title="static关键字"></a>static关键字</h2><p>延长生命周期（好像和c语言一样）</p>
+<h2 id="字符串界定符"><a href="#字符串界定符" class="headerlink" title="字符串界定符"></a>字符串界定符</h2><p>作用就是按照原样，包括换行格式什么的，输出在其内部的东西,任何特殊字符都不需要转义</p>
+<blockquote>
+</blockquote>
+<pre><code>$str =&lt;&lt;&lt;EOF
+EOF;
+</code></pre>
+<h2 id="strlen-和mb-strlen"><a href="#strlen-和mb-strlen" class="headerlink" title="strlen()和mb_strlen()"></a>strlen()和mb_strlen()</h2><p><code>strlen()</code>   <em>用于计算字符串长度</em><br><code>mb_strlen(变量名,&#39;编码形式（utf8）&#39;)</code>   <em>宽字节计算长度</em></p>
+<h2 id="PHP类型比较"><a href="#PHP类型比较" class="headerlink" title="PHP类型比较"></a>PHP类型比较</h2><p>php是弱类型语音，经常要对变量进行比较；<br><strong>松散比较</strong>：使用两个<code>==</code>，只比较值<br><strong>严格比较</strong>：使用三个<code>===</code>，既比较值，也比较类型</p>
+<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><p>常量被定义后，在脚本其他任何地方不能被改变，常量是全局的，函数内也可以<strong>直接使用</strong></p>
+<ol>
+<li>使用<strong>define(“名称”,”常量的值”,是否区分大小写)</strong><br>例如 <code>define(&quot;GREE&quot;,&quot;欢迎欢迎&quot;,ture)</code>&#x2F;&#x2F;<em>常量名前面不能加$</em></li>
+<li>使用<strong>const 名称&#x3D;常量的值</strong><br>例如 <code>const NAME=&#39;哈哈哈</code>   &#x2F;&#x2F;<em>常量一般情况下用大写字母</em></li>
+</ol>
+<h2 id="并置运算符"><a href="#并置运算符" class="headerlink" title="并置运算符"></a>并置运算符</h2><p>使两个字符串相加<br>例如 <code>&quot;hello&quot;.&quot;world&quot;</code></p>
+<h2 id="strpos-函数"><a href="#strpos-函数" class="headerlink" title="strpos()函数"></a>strpos()函数</h2><p>用于在字符串内找一个指定的字符或文本，如果找到匹配则返回第一个匹配（<strong>第一个字符要从0开始算</strong>）的字符位置，否则返回FALSE<br>例如</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$txt</span>=<span class="string">&quot;hello world&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">strpos</span>(<span class="variable">$txt</span>,<span class="string">&quot;world&quot;</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>输出 6 </p>
+<h2 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h2><table>
+<thead>
+<tr>
+<th>与</th>
+<th>或</th>
+<th>异或</th>
+<th>非</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>and   &amp;&amp;</td>
+<td>or   ||</td>
+<td>xor</td>
+<td>!</td>
+</tr>
+</tbody></table>
+<p>异或：有且仅有一个为true，则返回true<br>非：如果为假则返回真</p>
+<h2 id="组合比较符（太空船）"><a href="#组合比较符（太空船）" class="headerlink" title="组合比较符（太空船）"></a>组合比较符（太空船）</h2><p><code>$c = $a &lt;=&gt; $b;</code></p>
+<blockquote>
+</blockquote>
+<pre><code>如果 $a &gt; $b, 则 $c 的值为 1。
+如果 $a == $b, 则 $c 的值为 0。
+如果 $a &lt; $b, 则 $c 的值为 -1。
+</code></pre>
+<p>c语言的strcmp()函数</p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p><strong>数组创建</strong></p>
+<ol>
+<li><code>$arr=array();</code></li>
+<li><code>$arr=[];</code></li>
+</ol>
+<p><strong>多维数组</strong></p>
+<ol>
+<li>多维数组创建<br>$arr&#x3D;[<br>[];<br>];</li>
+<li>多维数组的调用<br>$arr[0][1]   &#x2F;&#x2F;<em>可以索引数组和关联数组相结合</em></li>
+</ol>
+<p><strong>关联数组</strong><br>分配给数组指定的键值对,以下两种创建方式是相同的<br><code>$age=array(&quot;Peter&quot;=&gt;&quot;35&quot;,&quot;Ben&quot;=&gt;&quot;37&quot;,&quot;Joe&quot;=&gt;&quot;43&quot;);</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$age</span>[<span class="string">&#x27;Peter&#x27;</span>]=<span class="string">&quot;35&quot;</span>;</span><br><span class="line"><span class="variable">$age</span>[<span class="string">&#x27;Ben&#x27;</span>]=<span class="string">&quot;37&quot;</span>;</span><br><span class="line"><span class="variable">$age</span>[<span class="string">&#x27;Joe&#x27;</span>]=<span class="string">&quot;43&quot;</span>; </span><br></pre></td></tr></table></figure>
+
+<p><strong>与数组有关的函数（方法）</strong></p>
+<ol>
+<li><code>key($arr);</code><br>返回数组的键值（下标）</li>
+<li><code>current($arr)</code><br>返回数组的值</li>
+<li><code>next($arr)</code><br>使数组指针下移，返回下移后的数组的值，最后返回FALSE</li>
+<li><code>prev($arr)</code><br>使数组指针上移，返回下移后的数组的值，最后返回FALSE</li>
+<li><code>count($arr)</code><br>计算数组长度(元素数量)</li>
+<li><code>list($a,$b)=&amp;arr</code><br>将数组第一个值付给$a，第二个值付给$b,以此类推，加上循环可以遍历数组</li>
+</ol>
+<h2 id="数组排列"><a href="#数组排列" class="headerlink" title="数组排列"></a>数组排列</h2><blockquote>
+</blockquote>
+<pre><code>sort() - 对数组进行  升序  排列
+rsort() - 对数组进行  降序  排列
+asort() - 根据关联数组的  值，  对数组进行  升序  排列
+ksort() - 根据关联数组的  键，对数组进行  升序  排列
+arsort() - 根据关联数组的  值，对数组进行  降序  排列
+krsort() - 根据关联数组的  键，对数组进行  降序  排列
+r是降序，k是键，a是值
+</code></pre>
+<p>运行实例</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$cars</span>=<span class="keyword">array</span>(<span class="string">&quot;Volvo&quot;</span>,<span class="string">&quot;BMW&quot;</span>,<span class="string">&quot;Toyota&quot;</span>); </span><br><span class="line"><span class="title function_ invoke__">rsort</span>(<span class="variable">$cars</span>);   <span class="comment">//逆序排列字母元素</span></span><br><span class="line"><span class="title function_ invoke__">print_r</span>(<span class="variable">$cars</span>)</span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>结果 <code>Array( [0] =&gt; BMW [1] =&gt; Toyota [2] =&gt; Volvo )</code>   <em>自动标出键值对</em></p>
+<h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><p>php语言的for循环，while循环和c语言中的循环没有区别，这里不过多介绍<br>主要介绍运行foreach循环<br>foreach用于<strong>遍历数组</strong>，有以下两种形式</p>
+<blockquote>
+</blockquote>
+<pre><code>foreach($array as $value)
+&#123;
+    要执行代码;   //每进行一次循环，当前数组元素的值就会被赋值给 $value 
+&#125;
+</code></pre>
+<blockquote>
+</blockquote>
+<pre><code>foreach($array as $key=&gt; &amp;value)
+&#123;
+    要执行代码;   //每一次循环，当前数组元素的键与值就都会被赋值给 $key 和 $value 变量
+&#125;
+</code></pre>
+<p>例如</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$x</span>=<span class="keyword">array</span>(<span class="string">&quot;aa&quot;</span>=&gt; <span class="number">1</span>,<span class="string">&quot;bb&quot;</span>=&gt; <span class="number">2</span>,<span class="string">&quot;cc&quot;</span>=&gt; <span class="number">3</span>);</span><br><span class="line"><span class="keyword">foreach</span>(<span class="variable">$x</span> <span class="keyword">as</span> <span class="variable">$key</span>=&gt;<span class="variable">$value</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$key</span>. <span class="string">&quot;=&gt;&quot;</span> .<span class="variable">$value</span>. PHP_EOL;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>结果</p>
+<blockquote>
+</blockquote>
+<pre><code>aa=&gt;1
+bb=&gt;2
+cc=&gt;3
+</code></pre>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><ol>
+<li>php函数用<code>function</code>关键字</li>
+<li>函数可以传参，可以传址，如果参数个数不确定的情况下可以用<strong>点语法</strong><br>例如  <code>function sum(...$var)&#123;&#125;</code>  &#x2F;&#x2F;<em>注意$var是个数组</em></li>
+<li>参数可以设定<strong>默认值</strong><br>例如  <code>function sum($var=100)&#123;&#125;</code> &#x2F;&#x2F;<em>没有传递参数时使用默认值</em></li>
+<li>参数可以<strong>强制类型</strong><br>例如  <code>function sum(int $var)&#123;&#125;</code><br>&#x2F;&#x2F;<em>在函数前面加上declare(strict_types&#x3D;1);变成严格模式，字符与整形也不能互传</em></li>
+<li>函数<strong>返回值约束</strong><br>例如  <code>function sum(int $var): string</code><br>&#x2F;&#x2F;<em>返回类型前加上问号，代表返回值可有可无</em></li>
+<li>函数的特殊用法：<strong>变量函数</strong><br>函数在调用时的函数名可以是一个变量<br>例如:<blockquote>
+</blockquote>
+<pre><code>&amp;name=&quot;fun&quot;;
+function fun()&#123;&#125;;
+$name();
+</code></pre>
+</li>
+</ol>
+<p>根据函数名的变化调用不同的函数</p>
+<h2 id="魔术常量"><a href="#魔术常量" class="headerlink" title="魔术常量"></a>魔术常量</h2><p>PHP 向它运行的任何脚本提供了大量的预定义常量。<br><strong>定义</strong>：有八个魔术常量的值是随着在代码中的位置而改变</p>
+<blockquote>
+</blockquote>
+<pre><code>__LIEN__
+__FILE__
+__DIR__
+__FUNCTION__
+__CLASS__
+__TRAIL__
+__METHOD__
+__NAMESPACE__
+</code></pre>
+<ol>
+<li><p>__LINE__<br>文件中LINE所在的行号</p>
+</li>
+<li><p>__FILE__<br>文件完整的路径和文件名</p>
+</li>
+<li><p>__DIR__<br>文件所在的目录（也就是FILE减去文件名&#x3D;&#x3D;<code>dirname(__FILE__)</code>）</p>
+</li>
+<li><p>__FUNCTION__<br>函数名称（当然得写在函数里）</p>
+</li>
+<li><p>__CLASS__<br>类的名称，php5起返回类被定义时候的名称（区分大小写）</p>
+</li>
+<li><p>__TRAIT__<br>trait的名字</p>
+</li>
+<li><p>__METHOD__<br>类的方法名，返回该方法被定义时的名称</p>
+</li>
+<li><p>__NAMESPACE__<br>当前命名空间的名称</p>
+</li>
+</ol>
+<h2 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h2><p>语法:<br><code>namespace 空间名;</code><br>每一个命名空间类似于一个文件夹，函数类似于文件，同一个文件夹不能有相同命名的文件，所以需要使用命名空间，使用命名空间的函数时，用<code>NAMESPACE\函数名</code>的格式调用</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/PHP/" rel="tag"># PHP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/03/13/python%E7%BB%83%E4%B9%A0%E9%A2%98/" rel="prev" title="python练习题">
+      <i class="fa fa-chevron-left"></i> python练习题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/03/17/PHP%E7%9A%84%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="next" title="PHP的类与对象">
+      PHP的类与对象 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">基本语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E9%87%8A"><span class="nav-number">2.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E5%80%BC%E4%B8%8E%E4%BC%A0%E5%9D%80"><span class="nav-number">3.</span> <span class="nav-text">传值与传址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%EF%BC%8C%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E4%B8%8E%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="nav-number">4.</span> <span class="nav-text">局部变量，全局变量与超全局变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E6%A3%80%E6%B5%8B%E5%92%8C%E5%8F%98%E9%87%8F%E5%88%A0%E9%99%A4"><span class="nav-number">5.</span> <span class="nav-text">变量检测和变量删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#static%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">6.</span> <span class="nav-text">static关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%95%8C%E5%AE%9A%E7%AC%A6"><span class="nav-number">7.</span> <span class="nav-text">字符串界定符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strlen-%E5%92%8Cmb-strlen"><span class="nav-number">8.</span> <span class="nav-text">strlen()和mb_strlen()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP%E7%B1%BB%E5%9E%8B%E6%AF%94%E8%BE%83"><span class="nav-number">9.</span> <span class="nav-text">PHP类型比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F"><span class="nav-number">10.</span> <span class="nav-text">常量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E7%BD%AE%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">11.</span> <span class="nav-text">并置运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#strpos-%E5%87%BD%E6%95%B0"><span class="nav-number">12.</span> <span class="nav-text">strpos()函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">13.</span> <span class="nav-text">逻辑运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E6%AF%94%E8%BE%83%E7%AC%A6%EF%BC%88%E5%A4%AA%E7%A9%BA%E8%88%B9%EF%BC%89"><span class="nav-number">14.</span> <span class="nav-text">组合比较符（太空船）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E7%BB%84"><span class="nav-number">15.</span> <span class="nav-text">数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E6%8E%92%E5%88%97"><span class="nav-number">16.</span> <span class="nav-text">数组排列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF"><span class="nav-number">17.</span> <span class="nav-text">循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">18.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AD%94%E6%9C%AF%E5%B8%B8%E9%87%8F"><span class="nav-number">19.</span> <span class="nav-text">魔术常量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="nav-number">20.</span> <span class="nav-text">命名空间</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="？？喵！！"
+      src="/images/hearder.jpg">
+  <p class="site-author-name" itemprop="name">？？喵！！</p>
+  <div class="site-description" itemprop="description">瞄一下学过代码，写一个睡喵的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">？？喵！！</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">66k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:56</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>-->
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
+

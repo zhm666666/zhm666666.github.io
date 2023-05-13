@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前面经过一周的PHP学习，这是第二周 简单表单语法 12345&lt;form action&#x3D;&quot;提交表单的地址&quot; method&#x3D;&quot;提交表单的方式&quot;&gt;  &#x2F;&#x2F;GET POST REQUEST &lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;提交数据的名称&quot;&gt;   &#x2F;&#x2F;type属性中的text表示上传类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP的学习2.0">
+<meta property="og:url" content="http://example.com/2023/03/18/PHP%E7%9A%84%E5%AD%A6%E4%B9%A02-0/index.html">
+<meta property="og:site_name" content="睡猫的博客">
+<meta property="og:description" content="前面经过一周的PHP学习，这是第二周 简单表单语法 12345&lt;form action&#x3D;&quot;提交表单的地址&quot; method&#x3D;&quot;提交表单的方式&quot;&gt;  &#x2F;&#x2F;GET POST REQUEST &lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;提交数据的名称&quot;&gt;   &#x2F;&#x2F;type属性中的text表示上传类">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230318151115.png">
+<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230318111159.png">
+<meta property="article:published_time" content="2023-03-18T02:10:51.000Z">
+<meta property="article:modified_time" content="2023-03-24T14:23:59.587Z">
+<meta property="article:author" content="？？喵！！">
+<meta property="article:tag" content="PHP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230318151115.png">
+
+<link rel="canonical" href="http://example.com/2023/03/18/PHP%E7%9A%84%E5%AD%A6%E4%B9%A02-0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>PHP的学习2.0 | 睡猫的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">睡猫的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">分享代码，记录生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/18/PHP%E7%9A%84%E5%AD%A6%E4%B9%A02-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PHP的学习2.0
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-18 10:10:51" itemprop="dateCreated datePublished" datetime="2023-03-18T10:10:51+08:00">2023-03-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-24 22:23:59" itemprop="dateModified" datetime="2023-03-24T22:23:59+08:00">2023-03-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>前面经过一周的PHP学习，这是第二周</p>
+<h2 id="简单表单"><a href="#简单表单" class="headerlink" title="简单表单"></a>简单表单</h2><p>语法</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=<span class="string">&quot;提交表单的地址&quot;</span> method=<span class="string">&quot;提交表单的方式&quot;</span>&gt;  <span class="comment">//GET POST REQUEST</span></span><br><span class="line"> &lt;input type=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;提交数据的名称&quot;</span>&gt;   <span class="comment">//type属性中的text表示上传类型是文本</span></span><br><span class="line"> &lt;input type=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;提交数据的名称&quot;</span>&gt;</span><br><span class="line"> &lt;input type=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;提交&quot;</span>&gt;   <span class="comment">//type属性中的submit表示这是一个提交按钮</span></span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+<p>可以用超全局变量<code>$_POST[]</code>,<code>$_GET[]</code>,<code>$_REQUEST</code>获取提交的表单数据</p>
+<h2 id="文件上传表单"><a href="#文件上传表单" class="headerlink" title="文件上传表单"></a>文件上传表单</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=<span class="string">&quot;upload_file.php&quot;</span> method=<span class="string">&quot;post&quot;</span> enctype=<span class="string">&quot;multipart/form-data&quot;</span>&gt;</span><br><span class="line">    &lt;label <span class="keyword">for</span>=<span class="string">&quot;file&quot;</span>&gt;文件名：&lt;/label&gt;</span><br><span class="line">    &lt;input type=<span class="string">&quot;file&quot;</span> name=<span class="string">&quot;file&quot;</span> id=<span class="string">&quot;file&quot;</span>&gt;&lt;br&gt;  </span><br><span class="line">    &lt;input type=<span class="string">&quot;submit&quot;</span> name=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;提交&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>和简单表单类似，将type属性改成<strong>file</strong>表示上传的是一个文件.<br>enctype表示提交表单要使用哪种内容类型，文件用<code>enctype=&quot;multipart/form-data&quot;</code>.<br>方式一般使用post类型。<br>上传的文件保存在超全局变量<code>$_FILES</code>中<br>如在<strong>upload_file.php</strong>中使用<code>print_r($_FILES)</code>,可以打印查看文件的信息<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230318151115.png"></p>
+<h2 id="date格式化日期"><a href="#date格式化日期" class="headerlink" title="date格式化日期"></a>date格式化日期</h2><p><code>date(&quot;format&quot;)</code><br>format可以是 d（天），m（月），Y（年）,中间可以插入其他字符<br>例如 <code>echo date(Y/m/d)</code>  结果<code>2023/3/18</code></p>
+<h2 id="包含文件"><a href="#包含文件" class="headerlink" title="包含文件"></a>包含文件</h2><p><code>include &#39;文件名&#39;;</code><br><code>require &#39;文件名&#39;;</code><br><code>include_once &#39;文件名&#39;;</code><br><code>require_once &#39;文件名&#39;;</code><br>区别找不到文件时require生成致命错误，include产生一个警告，继续执行。<br>一个文件包含两次相同的文件会报错，加上_once就只会扫描一次，不会报错</p>
+<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><ol>
+<li><p><strong>打开文件</strong><br><code>$file=fopen(&quot;文件名&quot;，&quot;打开模式&quot;);</code><br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230318111159.png" alt="几种模式"></p>
+</li>
+<li><p><strong>关闭文件</strong><br><code>fcloes($file);</code>  &#x2F;&#x2F;<em>流程，打开文件，执行一些代码，关闭文件</em></p>
+</li>
+<li><p><strong>检测文件末尾（EOF）</strong><br><code>feof($file);</code><br>在循环遍历未知长度的数据时，feof() 函数很有用。</p>
+</li>
+<li><p><strong>逐行读取文件</strong><br><code>fgets($file);</code><br>在调用该函数之后，文件指针会移动到下一行.</p>
+</li>
+<li><p><strong>逐字符读取文件</strong><br><code>fgetc($file)</code><br>在调用该函数之后，文件指针会移动到下一个字符。</p>
+</li>
+</ol>
+<p><strong>完整演示</strong>一遍操作文件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$file</span>=<span class="title function_ invoke__">fopen</span>(<span class="string">&quot;welcome.txt&quot;</span>,<span class="string">&quot;r&quot;</span>) <span class="keyword">or</span> <span class="keyword">exit</span>(<span class="string">&quot;无法打开文件!&quot;</span>);  <span class="comment">//打开文件只读</span></span><br><span class="line"><span class="keyword">while</span> (!<span class="title function_ invoke__">feof</span>(<span class="variable">$file</span>))  <span class="comment">//判断是否到EOF</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="title function_ invoke__">fgetc</span>(<span class="variable">$file</span>);  <span class="comment">//逐字符遍历数组，也可以fgets逐行</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">fclose</span>(<span class="variable">$file</span>);   <span class="comment">//关闭文件</span></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>cookie常用于识别用户，是服务器留在用户计算机上的小文件，计算机请求页面时，计算机会发送cookie。</p>
+<ol>
+<li><strong>创建cookie</strong><br><code>&lt;?php  setcookie(name,value,expire,path,domain);  ?&gt;</code><br> &#x2F;&#x2F;必须位于<html>标签之前<br>例如<code>setcookie(&quot;user&quot;, &quot;miao&quot;, time()+3600)</code> &#x2F;&#x2F;名user，值miao，3600秒后过期<br>也可以<code>$a=time()+60*60*24*30; setcookie(&quot;user&quot;, &quot;miao&quot;, $a)</code><br>&#x2F;&#x2F;60秒<em>60分</em>24小时*30天</li>
+<li><strong>取回cookie的值</strong><br>可以用超全局变量<code>$_COOKIE[]</code>取回cookie<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_COOKIE</span>[<span class="string">&quot;user&quot;</span>];   <span class="comment">// 输出user的cookie 值</span></span><br><span class="line"><span class="title function_ invoke__">print_r</span>(<span class="variable">$_COOKIE</span>);     <span class="comment">// 查看所有 cookie</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>删除cookie</strong><br>把<code>time()</code>改成过去的时间<br>例如<code>setcookie(&quot;user&quot;, &quot;miao&quot;, time()-360);</code> </li>
+<li><strong>检测是否设置了cookie</strong><br>使用<code>isset($_COOKIE[])</code></li>
+<li><strong>编码方式</strong><br>在发送cookie时，cookie的值会自动进行URL编码,在取回时进行自动解码。为防止URL编码，请使用<code>setrawcookie()</code>取而代之</li>
+</ol>
+<h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h2><p>session变量是用于储存用户会话信息（用户数据），更改用户会话信息的设置。工作机制：为每个访客创建一个唯一的id(UID)，并基于这个UID来存储变量。UID存储在cookie中，或者通过URL进行传导</p>
+<ol>
+<li><strong>启动会话</strong><br><code>session_start()</code>  &#x2F;&#x2F;&#x2F;<em>函数必须位于<html>标签之前</em></li>
+<li><strong>储存session变量</strong><br>使用<code>$_SESSION[]</code>超级变量，并进行赋值<br>例如<br>可以将用户的浏览量设置成<br><code>$_SESSION[&#39;views&#39;]</code>,每次访问后使<code>$_SESSION[&#39;views&#39;]+=1</code><br>或是给用户添加admin权限等<br>如果用户成功登陆的话，储存一个登陆成功的凭证的session <code>$_SESSION[admin]=ture</code></li>
+<li><strong>销毁Session</strong><br>如果希望删除某些session数据，可以使用<code>unset()</code>或<code>session_destroy()</code>函数<br><strong>unset()</strong> 函数用于释放指定的session变量:例如  <code>$_SESSION[&#39;views&#39;]</code><br><strong>session_destroy()</strong> 函数彻底销毁重置session  </li>
+<li><strong>检测是否设置了session</strong><br>使用<code>isset($_SESSION[])</code></li>
+</ol>
+<h2 id="序列化与反序列化"><a href="#序列化与反序列化" class="headerlink" title="序列化与反序列化"></a>序列化与反序列化</h2><p><strong>JSON定义</strong> ：一种轻量级的数据交换语言，以文本字符串为基础</p>
+<ol>
+<li>{} 双括号表示对象</li>
+<li>[] 中括号表示数组</li>
+<li>“” 双引号内是属性或值</li>
+<li>: 冒号表示后者是前者的值(这个值可以是字符串、数字、也可以是另一个数组或对象)</li>
+<li>，逗号用来分隔属性或者对象</li>
+<li>例如<code>&#123;&quot;a&quot;:16,&quot;b&quot;:18,&quot;c&quot;:20&#125;</code></li>
+</ol>
+<p><strong>PHP JSON</strong></p>
+<ol>
+<li><p><code>json_encode($value，参数)</code>     &#x2F;&#x2F;   对变量（对象也可以）进行json编码<br><code>JSON_UNESCAPED_UNICODE</code>  参数选项，如果我们不希望中文被编码，可以添加该参数。</p>
+</li>
+<li><p><code>json_decode(json字符串)</code>  对json格式字符解码，转化成php变量</p>
+</li>
+</ol>
+<p><strong>serialize</strong><br><code>serialize()</code>序列化是将变量(或者对象)转换为可保存或传输的字符串的过程<br><strong>unserialize</strong><br><code>unserialize()</code>反序列化就是在适当的时候把这个字符串再转化成原来的变量使用</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/PHP/" rel="tag"># PHP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/03/17/PHP%E7%9A%84%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="prev" title="PHP的类与对象">
+      <i class="fa fa-chevron-left"></i> PHP的类与对象
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/03/21/MYSQL%E7%9A%84%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/" rel="next" title="MYSQL的简单学习">
+      MYSQL的简单学习 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E8%A1%A8%E5%8D%95"><span class="nav-number">1.</span> <span class="nav-text">简单表单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E8%A1%A8%E5%8D%95"><span class="nav-number">2.</span> <span class="nav-text">文件上传表单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#date%E6%A0%BC%E5%BC%8F%E5%8C%96%E6%97%A5%E6%9C%9F"><span class="nav-number">3.</span> <span class="nav-text">date格式化日期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%85%E5%90%AB%E6%96%87%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">包含文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cookie"><span class="nav-number">6.</span> <span class="nav-text">Cookie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Session"><span class="nav-number">7.</span> <span class="nav-text">Session</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">8.</span> <span class="nav-text">序列化与反序列化</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="？？喵！！"
+      src="/images/hearder.jpg">
+  <p class="site-author-name" itemprop="name">？？喵！！</p>
+  <div class="site-description" itemprop="description">瞄一下学过代码，写一个睡喵的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">？？喵！！</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">66k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:56</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>-->
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
+

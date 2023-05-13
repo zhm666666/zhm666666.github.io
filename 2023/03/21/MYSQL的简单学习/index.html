@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="MYSQL简介 关系型数据库MYSQL数据库是一个关系型数据库,关系型数据库就是指,建立在关系模型的基础上,由多张互相连接的二维表组成的数据库 数据模型通过客户端连接数据库管理系统(DBMS),通过DBMS创建数据库,再通过数据库创建数据表 MYSQL启动与连接–启动,以管理员身份运行命令行net start mysql80,关闭net stop mysql80–连接,可以用mysql自带的客户端">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MYSQL的简单学习">
+<meta property="og:url" content="http://example.com/2023/03/21/MYSQL%E7%9A%84%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="睡猫的博客">
+<meta property="og:description" content="MYSQL简介 关系型数据库MYSQL数据库是一个关系型数据库,关系型数据库就是指,建立在关系模型的基础上,由多张互相连接的二维表组成的数据库 数据模型通过客户端连接数据库管理系统(DBMS),通过DBMS创建数据库,再通过数据库创建数据表 MYSQL启动与连接–启动,以管理员身份运行命令行net start mysql80,关闭net stop mysql80–连接,可以用mysql自带的客户端">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230321210554.png">
+<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230321195429.png">
+<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230325193715.png">
+<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230325212816.png">
+<meta property="article:published_time" content="2023-03-21T12:47:47.000Z">
+<meta property="article:modified_time" content="2023-05-03T09:04:00.729Z">
+<meta property="article:author" content="？？喵！！">
+<meta property="article:tag" content="MYSQL">
+<meta property="article:tag" content="SQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230321210554.png">
+
+<link rel="canonical" href="http://example.com/2023/03/21/MYSQL%E7%9A%84%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>MYSQL的简单学习 | 睡猫的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">睡猫的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">分享代码，记录生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/21/MYSQL%E7%9A%84%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MYSQL的简单学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-21 20:47:47" itemprop="dateCreated datePublished" datetime="2023-03-21T20:47:47+08:00">2023-03-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-03 17:04:00" itemprop="dateModified" datetime="2023-05-03T17:04:00+08:00">2023-05-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MYSQL/" itemprop="url" rel="index"><span itemprop="name">MYSQL</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="MYSQL简介"><a href="#MYSQL简介" class="headerlink" title="MYSQL简介"></a>MYSQL简介</h2><ol>
+<li><strong>关系型数据库</strong><br>MYSQL数据库是一个关系型数据库,关系型数据库就是指,建立在关系模型的基础上,由多张互相连接的二维表组成的数据库</li>
+<li><strong>数据模型</strong><br>通过客户端连接数据库管理系统(DBMS),通过DBMS创建数据库,再通过数据库创建数据表<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230321210554.png"></li>
+<li><strong>MYSQL启动与连接</strong><br>–启动,以管理员身份运行命令行<code>net start mysql80</code>,关闭<code>net stop mysql80</code><br>–连接,可以用mysql自带的客户端命令行运行,也可以在系统的命令行里输入<code>mysql -u root -p</code></li>
+</ol>
+<h2 id="SQL语法"><a href="#SQL语法" class="headerlink" title="SQL语法"></a>SQL语法</h2><ol>
+<li><strong>通用语法</strong><ol>
+<li>sql语法是以英文分号<code>;</code>结尾,可以多行书写,或使用空格来增强语句的可读性</li>
+<li>MYSQL数据库的语句不区分大小写,但是关键字建议使用大写</li>
+<li>注释:   单行注释:<code>--</code>,<code>#</code>    多行注释:<code>/*  */</code></li>
+</ol>
+</li>
+<li><strong>分类</strong><ol>
+<li>DDL  数据库定义语言</li>
+<li>DML  数据库操作语言</li>
+<li>DQL  数据库查询语言</li>
+<li>DCL  数据库控制语言<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230321195429.png"></li>
+</ol>
+</li>
+</ol>
+<h3 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h3><p>将DDL语句主要分为<strong>数据库</strong>,<strong>表</strong>,<strong>字段</strong>来讲解</p>
+<ol>
+<li><p><strong>DDL的数据库操作</strong></p>
+<ol>
+<li>创建新的数据库 <code>create database 数据库名;</code></li>
+<li>删除数据库 <code>drop database 数据库名;</code></li>
+<li>查询所有数据库 <code>show databases;</code></li>
+<li>查询当前数据库 <code>select database();</code></li>
+<li>使用,进入数据库 <code>use 数据库名;</code></li>
+</ol>
+</li>
+<li><p><strong>表操作</strong><br>在进行表操作时,必须先进入数据库中(use)</p>
+<ol>
+<li>创建新的表 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> 表名(</span><br><span class="line">    字段<span class="number">1</span> 类型 [comment 注释],    #有逗号,</span><br><span class="line">    字段<span class="number">2</span> 类型 [comment 注释],    #[]表示里面可有可无</span><br><span class="line">    <span class="keyword">last</span>字段 类型 [comment 注释]  #最后一个字段后面没有逗号</span><br><span class="line">)[comment 注释];    #语句结束需要用分号;</span><br></pre></td></tr></table></figure></li>
+<li>删除表 <code>drop table 表名;</code></li>
+<li>修改表名 <code>alter table 旧表名 rename to 新表名;</code></li>
+<li>查询当前数据库所有表 <code>show tables;</code></li>
+<li>查询指定表的建表语句 <code>show creat table 表名;</code></li>
+</ol>
+</li>
+<li><p><strong>字段操作</strong>  </p>
+<ol>
+<li>增加表中的字段<code>alter table 表名 add 字段名 类型 [comment 注释] [约束];</code></li>
+<li>删除表中的字段名<code>alter table 表名 drop 字段名;</code></li>
+<li>修改表中的字段数据类型<code>alter table 表名 modify 字段名 新数据类型;</code></li>
+<li>修改表中的字段名和字段类型<code>alter table 表名 change 旧字段名 新字段名 新数据类型 [comment 注释] [约束];</code></li>
+<li>查询表结构(所有的字段) <code>desc 表名;</code></li>
+</ol>
+</li>
+</ol>
+<h3 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h3><p>DML是数据操作语言,主要对表中的数据进行<strong>增删改</strong>的操作</p>
+<ol>
+<li><p><strong>数据的增加</strong></p>
+<ol>
+<li>给指定字段添加数据<br><code>insert into 表名(字段1,字段2,...) values(值1,值2,...);</code> &#x2F;&#x2F;指定字段添加一行数据</li>
+<li>给全部字段添加数据<br><code>insert into 表名 values(值1,值2,...);</code>  &#x2F;&#x2F;有几个字段就要填写几个值,添加一行数据</li>
+<li>指定字段批量添加数据<br><code>insert into 表名(字段1,字段2,...) values(值1,值2,...),(值1,值2,...);</code> &#x2F;&#x2F;指定字段添加好几行</li>
+<li>全部字段批量添加数据<br><code>insert into 表名 values(值1,值2,...),(值1,值2,...);</code>  &#x2F;&#x2F;values有几个括号就有几行值</li>
+<li>注意: 字符串和日期型数据需要包含在引号中,数据的大小不能超过规定大小</li>
+</ol>
+</li>
+<li><p><strong>数据的删除</strong><br><code>delete from 表名 [where 条件];</code><br>delete删除的不是某一字段的值,而是符合条件的那一整行值,如果没有条件则删除全部数据。<br>如果要删除某一字段的值可以用update将值改为NULL;</p>
+</li>
+<li><p><strong>数据的修改</strong><br><code>update 表名 set 字段名1=值1,字段名2=值2,...[where 条件];</code><br>条件控制着哪几行做修改,如果没有条件,则修改整张表格</p>
+</li>
+</ol>
+<h3 id="DQL"><a href="#DQL" class="headerlink" title="DQL"></a>DQL</h3><p>DQL是数据查询语言,主要用来<strong>查询</strong>数据</p>
+<ol>
+<li><p><strong>基本查询</strong></p>
+<ol>
+<li>查询指定字段<code>select 字段1,字段2,... from 表名;</code></li>
+<li>查询所有字段<code>select * from 表名;</code>  &#x2F;&#x2F;*代表所有字段,但是不太直观</li>
+<li>设置别名<code>select 字段1[as 别名1],字段2 [as 别名2],... from 表名;</code></li>
+<li>去除重复内容<code>select [distinct] 字段列表 from 表名;</code>  加上distinct即可</li>
+</ol>
+</li>
+<li><p><strong>条件查询</strong><br>过滤不符合条件的数据</p>
+<ol>
+<li><code>select 字段列表 from 表名 where 字段1 条件 [and 字段2 条件...];</code><br>条件:</li>
+<li><code>between 最小值 and 最大值</code>  在最小值(包含)和最大值(包含)之间的结果</li>
+<li><code>in()</code>   在只要满足in()中的其中一个条件的数据都会被打印出来</li>
+<li><code>like 占位符</code>  占位符**_**代表一个字符(如<code>__</code>表示两个字符大小的数据),  **%**代表任意个字符(如 <code>%x</code> 代表所有以x结尾的数据)</li>
+<li><code>is null</code>,<code>is not null</code>  数据是null</li>
+<li>其余常见<code>&gt;</code>,<code>&lt;</code>,<code>&gt;=</code>,<code>&lt;=</code>,<code>=</code>,<code>!= 和 &lt;&gt;</code>,<code>and 和 &amp;&amp;</code>,<code>or 和 ||</code>,<code>not 和 !</code></li>
+</ol>
+</li>
+<li><p><strong>聚合函数</strong><br>聚合函数都是作用于数据的某一列的(某一字段), 是某一列的运算(null值不参与所有聚合函数的运算)</p>
+<ol>
+<li><code>select 聚合函数(字段列表) from 表名;</code>  </li>
+<li>常见聚合函数<br> <img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230325193715.png"></li>
+</ol>
+</li>
+<li><p><strong>分组查询</strong><br><code>select 聚合函数(字段列表) from 表名 [where 条件] group by 分组字段名(或聚合函数) [having 分组后再次过滤的条件];</code><br><strong>where</strong> 是分组前的过滤, <strong>group by</strong> 是分组, <strong>having</strong> 是分组之后的过滤<br><code>where</code>不能对集合函数进行判断,而<code>having</code>可以<br>举个例子:<br><code>select school,count(*) from student where age&lt;16 group by school having count(student)&gt;100;</code><br>含义:查询所有年龄小于16的学生(<code>select count(*) from student where age&lt;16</code>),并根据学校进行分组(<code>group by school</code>),统计各个学校的学生数量(<code>count(*)</code>),选出学生大于一百的学校(<code>having count(student)&gt;100</code>)</p>
+</li>
+<li><p><strong>排序查询</strong></p>
+<ol>
+<li>语法:  <code>select 字段列表 from 表名 order by 字段1 [desc],字段2 [desc];</code></li>
+<li><strong>desc</strong>表示该查询结果为降序排序,如果不写,则默认是升序<strong>asc</strong></li>
+<li>如果有多个字段进行排序,当第一个字段相同时,再按照第二个字段的排序</li>
+</ol>
+</li>
+<li><p><strong>分页查询</strong><br>分页查询的语法,不同的数据库有不同的实现,这里介绍mysql的<strong>limit</strong><br>语法:  <code>select 字段列表 from 表名 limit 起始值,查询数据数;</code><br>注意:  起始值是以0作为开始,展示的数据是从(起始值+1)开始<br>如第一页可以表示成:<br><code>select age from user limit 0,5;</code>  &#x2F;&#x2F;表示从第1条数据开始,展示后面的5条数据(包含第一条)<br>例如<br><code>select * from user limit 0,1;</code>  &#x2F;&#x2F;表示展示这张表中第一行的的全部数据</p>
+</li>
+<li><p><strong>编写顺序与执行顺序</strong><br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230325212816.png"><br>蓝色代表编写顺序,红色序号代表执行顺序</p>
+</li>
+</ol>
+<h3 id="DCL"><a href="#DCL" class="headerlink" title="DCL"></a>DCL</h3><p>DCL是数据控制语言,主要作用是管理<strong>用户</strong>,控制<strong>访问权限</strong></p>
+<h3 id="联合查询"><a href="#联合查询" class="headerlink" title="联合查询"></a>联合查询</h3><p>联合查询(union查询),就是把多次查询的结果合并起来,形成一个新的查询结果集</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> 字段列表 <span class="keyword">from</span> 表a</span><br><span class="line"><span class="keyword">union</span> </span><br><span class="line"><span class="keyword">select</span> 字段列表 <span class="keyword">from</span> 表b;</span><br></pre></td></tr></table></figure>
+<p>注意: <code>union</code>去重, <code>union all</code>不去重<br>对于联合查询的多张表的列数必须保持一致,字段类型也必须保持一致。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MYSQL/" rel="tag"># MYSQL</a>
+              <a href="/tags/SQL/" rel="tag"># SQL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/03/18/PHP%E7%9A%84%E5%AD%A6%E4%B9%A02-0/" rel="prev" title="PHP的学习2.0">
+      <i class="fa fa-chevron-left"></i> PHP的学习2.0
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/03/26/SQL%E6%B3%A8%E5%85%A5%E7%9A%84%E5%AD%A6%E4%B9%A0/" rel="next" title="SQL注入的学习">
+      SQL注入的学习 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MYSQL%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">MYSQL简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL%E8%AF%AD%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">SQL语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DDL"><span class="nav-number">2.1.</span> <span class="nav-text">DDL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DML"><span class="nav-number">2.2.</span> <span class="nav-text">DML</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DQL"><span class="nav-number">2.3.</span> <span class="nav-text">DQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DCL"><span class="nav-number">2.4.</span> <span class="nav-text">DCL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="nav-number">2.5.</span> <span class="nav-text">联合查询</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="？？喵！！"
+      src="/images/hearder.jpg">
+  <p class="site-author-name" itemprop="name">？？喵！！</p>
+  <div class="site-description" itemprop="description">瞄一下学过代码，写一个睡喵的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">？？喵！！</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">66k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:56</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>-->
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
+

