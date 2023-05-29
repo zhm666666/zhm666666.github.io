@@ -273,6 +273,109 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/29/PHP%E5%BC%B1%E7%B1%BB%E5%9E%8B%E6%AF%94%E8%BE%83%E7%BB%95%E8%BF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/29/PHP%E5%BC%B1%E7%B1%BB%E5%9E%8B%E6%AF%94%E8%BE%83%E7%BB%95%E8%BF%87/" class="post-title-link" itemprop="url">PHP弱类型比较绕过</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-05-29 20:02:24 / 修改时间：22:25:10" itemprop="dateCreated datePublished" datetime="2023-05-29T20:02:24+08:00">2023-05-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>PHP是一种弱类型语言,这意味着变量的类型是根据上下文自动推断的,不需要强调声明(如c语言),带来方便的同时,也带来了许多安全隐患<br>PHP的比较也分为弱类型(<code>==</code>)比较和强类型(<code>===</code>)比较,还有(<code>!=</code>)和(<code>!==</code>)</p>
+<h1 id="md5比较绕过"><a href="#md5比较绕过" class="headerlink" title="md5比较绕过"></a>md5比较绕过</h1><p>在ctf赛题中,经常会出现类似于这样的一段代码,要求我们传入两个参数的值不同,而<code>md5()</code>后的值相同</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$a</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;a&#x27;</span>];</span><br><span class="line"><span class="variable">$b</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;b&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$a</span>!=<span class="variable">$b</span> &amp;&amp; <span class="title function_ invoke__">md5</span>(<span class="variable">$a</span>) ==<span class="title function_ invoke__">md5</span>(<span class="variable">$a</span>))&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;ok!!&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="0e等于0绕过"><a href="#0e等于0绕过" class="headerlink" title="0e等于0绕过"></a>0e等于0绕过</h2><p>一个字符串经过md5处理后如果是以<code>0e</code>开头的,那么在php中就会被认为是科学计数法表示的数字(在科学计数法中，<code>e</code>或<code>E</code>用于表示指数。例如，数字300可以表示为<code>3e2</code>或<code>3E2</code>，意思是<code>3 × 10^2</code>同样，数字0.003可以表示为 <code>3e-3</code> 或 <code>3E-3</code>，意思是 <code>3 × 10^-3</code>),也就是说<code>0e</code>开头的表示的数字为<code>0 × 10^n</code>都为0,这样一来,就可以成功绕过比较</p>
+<p>下面是常见的md5后为<code>0e</code>开头的字符串<br><code>QNKCDZO</code>  &#x3D;&gt;md5 <code>0e830400451993494058024219903391</code><br><code>s878926199a</code>  &#x3D;&gt;md5 <code>0e545993274517709034328855841020</code><br><code>0e215962017</code> &#x3D;&gt;md5 <code>0e291242476940776845150308577824</code></p>
+<p>需要注意的是,这种绕过手法只适用于弱类型比较,强类型比较是不能使用这种方式的<br>还有一种题目,是上面题目的变种,希望传入参数的值与其本身<code>md5()</code>处理过的值相同</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$a</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;a&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$a</span>==<span class="title function_ invoke__">md5</span>(<span class="variable">$a</span>))&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;ok!!&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里只要一个字符是以<code>0e</code>开头,<code>md5</code>后还是<code>0e</code>开头即可<br><code>0e215962017</code> &#x3D;&gt;md5 <code>0e291242476940776845150308577824</code></p>
+<h2 id="数组绕过"><a href="#数组绕过" class="headerlink" title="数组绕过"></a>数组绕过</h2><p><code>md5()</code>函数期望的得到的是一个字符串,但是如果传入一个数组的话,函数会报出一个警告,并返回<code>NULL</code>值<br>当我们传入两个不同的数组,参数值必然不相等,而经过md5处理后,其值为<code>NULL</code>,<code> **payload**</code>?a[]&#x3D;1&amp;b[]&#x3D;2&#96;</p>
+<h2 id="原生类绕过"><a href="#原生类绕过" class="headerlink" title="原生类绕过"></a>原生类绕过</h2><p>如果在类中进行比较一般是无法通过数组进行绕过的,这时候可以配合反序列化中的原生类技巧绕过,<a target="_blank" rel="noopener" href="http://shuimao.xyz/2023/04/23/%E5%AD%A6%E4%B9%A0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/#%E4%B8%80%E4%BA%9B%E6%8A%80%E5%B7%A7">原生类绕过</a></p>
+<h2 id="哈希冲突绕过"><a href="#哈希冲突绕过" class="headerlink" title="哈希冲突绕过"></a>哈希冲突绕过</h2><p>MD5 是一种哈希算法，它将任意长度的输入数据映射到固定长度（128 位）的输出。由于 MD5 算法的输出长度是固定的，而输入数据的长度是任意的，所以理论上必然存在两个不同的输入数据，它们的 MD5 哈希值相同。</p>
+<p>但是一般这些字符中都有一些不可见字符,所以这里采用url编码<br><code>$a=M%C9h%FF%0E%E3%5C%20%95r%D4w%7Br%15%87%D3o%A7%B2%1B%DCV%B7J%3D%C0x%3E%7B%95%18%AF%BF%A2%00%A8%28K%F3n%8EKU%B3_Bu%93%D8Igm%A0%D1U%5D%83%60%FB_%07%FE%A2</code></p>
+<p><code>$b=M%C9h%FF%0E%E3%5C%20%95r%D4w%7Br%15%87%D3o%A7%B2%1B%DCV%B7J%3D%C0x%3E%7B%95%18%AF%BF%A2%02%A8%28K%F3n%8EKU%B3_Bu%93%D8Igm%A0%D1%D5%5D%83%60%FB_%07%FE%A2</code><br>这两个字符串即是哈希冲突的两个字符串</p>
+<h1 id="字符串与数字之间的弱类型"><a href="#字符串与数字之间的弱类型" class="headerlink" title="字符串与数字之间的弱类型"></a>字符串与数字之间的弱类型</h1><h2 id="字符强转为数字"><a href="#字符强转为数字" class="headerlink" title="字符强转为数字"></a>字符强转为数字</h2><p>php在做匹配和比较时候，会根据匹配的类型做类型转换，例如比较数字和字符串是否相等,就会进行转换,转换规则是前面的数字不变后面字母被当成字符型舍去<br>简单来说,在php中<br><code>123</code>&#x3D;&#x3D;<code>123a</code><br><code>6asdijbsujy</code>&#x3D;&#x3D;<code>6</code><br>后面的字符会被舍去,只比较最前面的数字</p>
+<h2 id="字符串被解析成十六进制"><a href="#字符串被解析成十六进制" class="headerlink" title="字符串被解析成十六进制"></a>字符串被解析成十六进制</h2><p>本来应该输入的是字符串,但是以<code>0x</code>开头的字符串在进行一些比较或运算时,就被php当做16进制数进行解析了</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$hex</span> = <span class="string">&#x27;0xdeadc0de&#x27;</span>;</span><br><span class="line"><span class="variable">$dec</span> = <span class="number">3735929054</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$hex</span> ==<span class="variable">$dec</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;OKKK&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ps:在php中使用<code>dechex()</code>将十进制数转换为十六进制数,使用<code>hexdec()</code>将十六进制数转换为十进制数</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/23/buu%E5%88%B7%E9%A2%98%E4%B9%8Bsql%E6%B3%A8%E5%85%A5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -304,7 +407,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-25 21:55:15" itemprop="dateModified" datetime="2023-05-25T21:55:15+08:00">2023-05-25</time>
+                <time title="修改时间：2023-05-27 19:34:46" itemprop="dateModified" datetime="2023-05-27T19:34:46+08:00">2023-05-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -322,14 +425,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.6k</span>
+              <span>4.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>13 分钟</span>
+              <span>15 分钟</span>
             </span>
 
         </div>
@@ -342,7 +445,8 @@
 
       
           <p>经过一段时间的学习,开始刷题之旅,题目都来自<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges">BUUCTF平台</a><br>大致分为<code>简单</code>,<code>签到</code>,<code>中等</code>三个等级(困难的还做不出~~~),每道题写个<code>wp</code></p>
-<h1 id="简单难度"><a href="#简单难度" class="headerlink" title="简单难度"></a>简单难度</h1><h2 id="极客大挑战-2019-LoveSQL"><a href="#极客大挑战-2019-LoveSQL" class="headerlink" title="[极客大挑战 2019]LoveSQL"></a>[极客大挑战 2019]LoveSQL</h2><p><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523201418.png"><br>进入靶机很容易发现是SQL注入<br>两个传参为<code>?username&amp;password</code><br>尝试丢单引号,发现报错,确定为注入点<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523201708.png"><br>丢个%23(#)进去,报错消失,证明为单引号闭合<br>常规<code>group by</code>爆出3列<br>常规union注入,发现有回显!<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523202045.png"><br>无过滤,有回显,直接走流程<br><strong>pyload</strong></p>
+<h1 id="简单难度"><a href="#简单难度" class="headerlink" title="简单难度"></a>简单难度</h1><p>简单难度大概就是新生赛的难度</p>
+<h2 id="极客大挑战-2019-LoveSQL"><a href="#极客大挑战-2019-LoveSQL" class="headerlink" title="[极客大挑战 2019]LoveSQL"></a>[极客大挑战 2019]LoveSQL</h2><p><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523201418.png"><br>进入靶机很容易发现是SQL注入<br>两个传参为<code>?username&amp;password</code><br>尝试丢单引号,发现报错,确定为注入点<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523201708.png"><br>丢个%23(#)进去,报错消失,证明为单引号闭合<br>常规<code>group by</code>爆出3列<br>常规union注入,发现有回显!<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523202045.png"><br>无过滤,有回显,直接走流程<br><strong>pyload</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?username<span class="operator">=</span>admin<span class="operator">&amp;</span>password<span class="operator">=</span>admin<span class="string">&#x27;union select 1,2,group_concat(id,username,password) from l0ve1ysq1%23</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="极客大挑战-2019-BabySQL"><a href="#极客大挑战-2019-BabySQL" class="headerlink" title="[极客大挑战 2019]BabySQL"></a>[极客大挑战 2019]BabySQL</h2><p><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523205904.png"><br>进入靶机,提示有过滤<br>丢单引号,尝试丢单引号,发现报错,确定为注入点,丢个%23(#)进去,报错消失,证明为单引号闭合<br>常规<code>group by</code>发现报错<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230523210205.png"><br>提示表明错误发生在<code>3#</code>附近,猜测是<code>by</code>被替换为空了,尝试双写绕过,成功!(3列)<br>这边心急直接丢进去查表名</p>
@@ -359,7 +463,10 @@
 <p>试了一下,<code>or</code>,<code>圆括号</code>,<code>=</code>被过滤,而且没有回显,虽然<code>or</code>可以大写绕过,<code>=</code>可以用<code>like</code>绕过,但是括号被过滤了…..报错注入肯定要括号,盲注要括号,union注入没回显,好吧,常规思路全部不行</p>
 <p>那就只能,看一下源代码,抓一下包看看有没有提示了<br>果然,源码有提示<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230524125605.png"><br>但是被加密过了………………..见得太少了,不知道什么加密,去搜wp,原来是<code>base32</code><br>解码后<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230524130220.png"><br>还是加密过的,但是这个比较眼熟,应该是<code>base64</code>,解码后得到<br><code>select * from user where username = &#39;$name&#39;</code><br>说实话看着还是有点懵,是想提示我们,账号和密码是分别查询的吗<br>再看看页面<code>wrong pass!</code>,有可能<code>admin</code>就是正确的账号<br>把<code>admin</code>改成<code>ad</code>,提示<code>wrong user!</code>,那应该就是了,账号密码是两个查询语句,先查询有没有这个账户,如果有就查询密码,如果密码正确就登入,应该是这样的一个思路<br>我们利用创建虚拟表的特性,可以给表中增加一条数据<code>admin</code>:<code>123</code>,同时传入密码,就可以成功登入了<br>通过select逐渐添加列数,可以知道一共是有三列,这时候我们需要判断,哪一列是账号,哪一列是密码(猜测为<code>id</code>,<code>username</code>,<code>password</code>的常见结构)<br>如果账号在错误的位置,会提示<code>wrong user!</code>,在正确的位置会提示<code>wrong pass!</code>,最后测出账号是第二列<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230525194014.png"><br>payload<br><code>name=1&#39;union select 1,&#39;admin&#39;,&#39;123&#39;#&amp;pw=123</code>没想到不对!!!<br>最后查阅wp才知道,这个密码经过了<strong>md5加密</strong>…,所以我们表中的数据也要是md5加密过的才能对得上<br>所以最终的<strong>payload</strong>是<br><code>name=1&#39;union select 1,&#39;admin&#39;,&#39;202cb962ac59075b964b07152d234b70&#39;#&amp;pw=123</code></p>
 <h2 id="CISCN2019-华北赛区-Day2-Web1-Hack-World"><a href="#CISCN2019-华北赛区-Day2-Web1-Hack-World" class="headerlink" title="[CISCN2019 华北赛区 Day2 Web1]Hack World"></a>[CISCN2019 华北赛区 Day2 Web1]Hack World</h2><p>进入界面,提示表名和字段名都是<code>flag</code>,只需要知道<code>id</code>就可以拿到了,传参就是<code>id</code><br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230525194737.png"><br>简单提交一下,<code>&#39;</code>,发现提示<code>bool(false)</code>,警觉,一下就要想到布尔盲注<br>然后试着<code>#</code>闭合一下,提示<code>SQL Injection Checked.</code>有过滤,测试了一下<code>空格</code>也被过滤了<br>那就试一下简单的数字<code>1</code>,<code>2</code>,发现是有结果的,输入其他字符都是提示<code>bool(false)</code><br>那就试一下盲注吧(ps:其实可以布尔盲注的大部分都可以时间盲注,除了if被过滤的时候)<br>这里不知道什么闭合,但是注释符被过滤的情况下,会优先考虑一下是不是数字型(没有闭合)<br>尝试payload<code>id=if(1=1,sleep(2),0)</code>,页面转圈圈,果然,存在注入点,且无闭合<br>虽然时间盲注也可以做,但是按效率来说,还得是我布尔盲注,<a target="_blank" rel="noopener" href="https://shuimao.xyz/2023/03/26/SQL%E6%B3%A8%E5%85%A5%E7%9A%84%E5%AD%A6%E4%B9%A0/#%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8">上脚本!</a>,这里用到异或法实现真假的转化<br>payload:<code>id=0^(ascii(substr((select(database())),1,1))&gt;100)</code>,如果<code>ascii</code>条件为真,那就是<code>0^1</code>,结果还是1,这时候就会显示<code>Hello, glzjin wants a girlfriend.</code>,<code>ascii</code>条件为假,那就是<code>0^0</code>,结果为0,这时候显示<code>Error Occured When Fetch Result.</code><br>因为表名和字段名已经知道了,直接使用无空格转态脚本跑就行<br><strong>payload</strong>(这里group被过滤了,直接去掉就行)<br><code>id=0^(ascii(substr((select(flag)from(flag)),&#123;i&#125;,1))&gt;&#123;mid&#125;)</code></p>
-<h1 id="签到"><a href="#签到" class="headerlink" title="签到"></a>签到</h1><h2 id="强网杯-2019-随便注"><a href="#强网杯-2019-随便注" class="headerlink" title="[强网杯 2019]随便注"></a>[强网杯 2019]随便注</h2>
+<h1 id="签到难度"><a href="#签到难度" class="headerlink" title="签到难度"></a>签到难度</h1><p>签到难度大概是一般比赛的常规题</p>
+<h2 id="强网杯-2019-随便注"><a href="#强网杯-2019-随便注" class="headerlink" title="[强网杯 2019]随便注"></a>[强网杯 2019]随便注</h2><p>进入界面<img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230525215719.png"><br>丢个单引号试试,结果出现报错,丢入<code>%23</code>,恢复正常,存在注入点,且为单引号闭合<br>常规<code>union select</code>,结果提示<code>return preg_match(&quot;/select|update|delete|drop|insert|where|\./i&quot;,$inject);</code>这个是一个正则表达,表示过滤了<code>select</code>,<code>update</code>,<code>delete</code>,<code>drop</code>,<code>insert</code>,<code>wher</code>,<code>.</code><br><code>/i</code>表示不区分大小写,常规的注入,遇到过滤<code>select</code>就完全行不通了,一般select被过滤最先想到的就是<a target="_blank" rel="noopener" href="https://shuimao.xyz/2023/03/31/SQL%E6%B3%A8%E5%85%A52-0/#%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5">堆叠注入</a>,当然也还要<a target="_blank" rel="noopener" href="https://shuimao.xyz/2023/03/31/SQL%E6%B3%A8%E5%85%A52-0/#%E6%97%A0%E5%88%97%E5%90%8D%E6%B3%A8%E5%85%A5">mysql8.0新特性</a>这样的考点<br>这边尝试堆叠注入,发现可行<br>用常规的堆叠注入的思路就能做,这边要注意的是,使用<code>?inject=1&#39;;show tables;%23</code>爆出的表名是<code>1919810931114514</code>,这边需要使用一对反引号进行包裹`,才能正常查询</p>
+<p>还有一种非常规思路,因为页面提供了一个可以查询数据库的语句,只要我们利用堆叠注入mysql语句,将需要查的表和字段名改成已有的表和数据名<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230525221409.png"><br><strong>payload</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;; rename table words to word1; rename table `1919810931114514` to words;alter table words add id int unsigned not Null auto_increment primary key; alter table words change flag data varchar(100);#</span></span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -1345,7 +1452,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-30 12:27:12" itemprop="dateModified" datetime="2023-04-30T12:27:12+08:00">2023-04-30</time>
+                <time title="修改时间：2023-05-29 20:03:11" itemprop="dateModified" datetime="2023-05-29T20:03:11+08:00">2023-05-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1363,14 +1470,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>884</span>
+              <span>1.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -1398,217 +1505,8 @@
 <h2 id="file-get-contents"><a href="#file-get-contents" class="headerlink" title="file_get_contents()"></a>file_get_contents()</h2><p>用于将整个文件读入到一个字符串中。它接受一个文件名作为参数，并返回该文件的内容。例如：<br><code>$contents = file_get_contents(&#39;index.php&#39;);</code><br>这行代码将读取名为 <code>index.php</code> 的文件，并将其内容存储在 $contents 变量中</p>
 <h2 id="file-put-contents-参1-参2"><a href="#file-put-contents-参1-参2" class="headerlink" title="file_put_contents(参1,参2)"></a>file_put_contents(参1,参2)</h2><p>它用于将字符串写入文件中。它的功能与依次调用 fopen()，fwrite() 以及 fclose()相同。<strong>将参数二的内容写入参数1的文件中</strong><br>成功返回写入到文件内数据的字节数，失败则返回 FALSE。</p>
 <h2 id="array-push"><a href="#array-push" class="headerlink" title="array_push()"></a>array_push()</h2><p>array_push() 函数向数组尾部插入一个或多个元素。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/04/Upload%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/hearder.jpg">
-      <meta itemprop="name" content="？？喵！！">
-      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="睡猫的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/04/04/Upload%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" class="post-title-link" itemprop="url">Upload文件上传漏洞</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-04-04 16:19:37" itemprop="dateCreated datePublished" datetime="2023-04-04T16:19:37+08:00">2023-04-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-04 21:02:56" itemprop="dateModified" datetime="2023-05-04T21:02:56+08:00">2023-05-04</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hacker/" itemprop="url" rel="index"><span itemprop="name">Hacker</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>5.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>20 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>很多网站都有文件上传的功能,如果有些网站对上传的文件不做严格的限制,用户上传了一些特殊文件,后台就会将上传文件的内容当做代码执行,这样一来,用户就可以通过上传一些木马文件,获取到网站的WebShell(网页后门),用一些WebShell管理工具,实现对网站的控制<br>检测后缀:如果一个后缀能骗过检测机制,又能成功被Windows识别,那么就可以成功绕过上传<br>检测文件内容:通常需要上传一个图片马</p>
-<h2 id="简单的一句话木马"><a href="#简单的一句话木马" class="headerlink" title="简单的一句话木马"></a>简单的一句话木马</h2><p><code>&lt;?php @eval($_POST[a]); ?&gt;</code>   有时候<code>&lt;?= @eval($_POST[a]); ?&gt;</code>这样也可以(没有php)</p>
-<ol>
-<li><code>eval()</code>函数,eval函数的作用是将括号里的字符串都当做php语句执行</li>
-<li><code>@</code>是错误控制运算符,可以将产生的错误忽略</li>
-<li><code>$_POST[]</code>是超全局变量,用于获取post请求的值</li>
-<li><code>a</code>是可以修改的,使用中国蚁剑连接时,a为密码</li>
-<li>有<code>&lt;?</code>的木马容易被识别,来个不一样的<code>GIF89a? &lt;script language=&quot;php&quot;&gt;eval($_REQUEST[1])&lt;/script&gt;</code> 密码是1</li>
-</ol>
-<h2 id="JavaScript-简称JS-前端验证"><a href="#JavaScript-简称JS-前端验证" class="headerlink" title="JavaScript(简称JS)前端验证"></a>JavaScript(简称JS)前端验证</h2><p>一般的前端验证的错误提示是弹窗,前端验证是指在客户端就对文件进行合法性检查,但显而易见,所有的前端验证都是不安全的,因为前端都是用户可控的</p>
-<ol>
-<li>F12找到检验文件的代码,删除后再上传</li>
-<li>可以用一些浏览器插件来关掉JS的功能,使检测失效</li>
-<li>先将文件的后缀改成允许上传的格式,再用抓包软件拦截后上传,在抓包软件中再将后缀改回原本想要上传的格式,这样就可以绕过前端直接发往后端<?php @eval($_POST[x]); ?></li>
-</ol>
-<h2 id="Content-Type验证"><a href="#Content-Type验证" class="headerlink" title="Content-Type验证"></a>Content-Type验证</h2><p>  MediaType即是Internet Media Type，互联网媒体类型；也叫做MIME类型，在Http协议消息头中，使用Content-Type来表示具体请求中的媒体类型信息。也就是说,每种类型的文件上传时,都会给他一个Content-Type值作为标识,但是这个也是用户可修改的</p>
-<ol>
-<li><strong>常见类型</strong>：<br>text&#x2F;html  HTML格式<br>text&#x2F;plain  纯文本格式<br>text&#x2F;xml   XML格式<br>image&#x2F;gif  gif图片格式<br>image&#x2F;jpeg  jpg图片格式<br>image&#x2F;png  png图片格式</li>
-<li><strong>绕过方法</strong><ol>
-<li>用抓包软件拦截,再将content-type类型修改为允许上传的类型,注意有两个content-type,注意不要改错</li>
-<li>实际上只要我们上传的是允许上传的类型,就会自动为我们生成一个正确的content-type,只要参考前端验证3的方法即可</li>
-</ol>
-</li>
-</ol>
-<h2 id="黑名单绕过"><a href="#黑名单绕过" class="headerlink" title="黑名单绕过"></a>黑名单绕过</h2><p>如果明确说明了不允许某类文件的上传,即为把这类文件设置为黑名单</p>
-<h3 id="等价扩展名绕过"><a href="#等价扩展名绕过" class="headerlink" title="等价扩展名绕过"></a>等价扩展名绕过</h3><ol>
-<li><p><strong>原理</strong><br>等价扩展名就是在更改后缀名的同时不改变文件性质,如果,没有对等价扩展名加以限制,可以绕过黑名单</p>
-</li>
-<li><p><strong>php的等价扩展名</strong><br>php2 php3 php4 phps phtml php5 phpt</p>
-</li>
-<li><p><strong>asp的等价扩展名</strong><br>asa, cer, cdx</p>
-</li>
-<li><p><strong>aspx的等价扩展名</strong><br>ashx, asmx, ascx</p>
-</li>
-<li><p><strong>jsp的等价扩展名</strong><br>jspx jspf</p>
-</li>
-</ol>
-<h3 id="htaccess绕过"><a href="#htaccess绕过" class="headerlink" title=".htaccess绕过"></a>.htaccess绕过</h3><p><code>.htaccess</code>文件是超文本入口,可以实现改变文件扩展名等功能,只在当前目录和子目录生效<br><code>.htaccess</code>文件是用来修改Apache的配置的文件,如果和主配置文件有冲突的话,优先.htaccess配置</p>
-<ol>
-<li><code>.htaccess</code>文件代码<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;FilesMatch &quot;shell.jpg&quot;&gt;                      </span><br><span class="line">SetHandler  application/x-httpd-php            </span><br><span class="line">&lt;/FilesMatch&gt;</span><br></pre></td></tr></table></figure>
-
-这段代码的功能是如果发现shell.jpg文件,就将它当做php代码来解析</li>
-<li><strong>流程</strong><br>先将<code>.htaccess</code>文件上传,再将<code>.jpg</code>文件上传,然后找到<code>.jpg</code>的上传地址用蚁剑连接即可</li>
-<li>有些题目会把MIME类型做限制,但没有限制<code>.htaccess</code>后缀,这时候可以通过修改Content-Type成功上传<br>如果<code>.htaccess</code>后缀也被加入黑名单,这个方法失效</li>
-</ol>
-<h3 id="大小写绕过"><a href="#大小写绕过" class="headerlink" title="大小写绕过"></a>大小写绕过</h3><p>大小写绕过和sql注入原理的差不多,<strong>Windows对大小写不敏感</strong>,但如果源代码里有这个函数<code>strtolower()</code>(把接收到的都转为小写),则大小写绕过失效</p>
-<h3 id="空格绕过"><a href="#空格绕过" class="headerlink" title="空格绕过"></a>空格绕过</h3><ol>
-<li><strong>原理</strong>:<br>windos在存储时会自动去处空格,在后缀的首或尾部加入一个空格,如果网站没有过滤空格的话,可以成功上传</li>
-<li><strong>注意</strong>:<br>浏览器有可能会自动过滤上传文件的空格,建议使用抓包软件在数据包中加入空格</li>
-<li><code>trim()</code>函数的作用是首尾去除空格,有这个函数空格绕过失效</li>
-</ol>
-<h3 id="点绕过"><a href="#点绕过" class="headerlink" title=".点绕过"></a>.点绕过</h3><p>在Windows中,系统会自动忽略删除末尾的<code>.</code>,所以我们上传类似于<code>.php.</code>这样的文件也是可以生效的,但如果检测机制没有去删除这个<code>.</code>,那么就会把最后一个<code>.</code>后面当成后缀名,文件就可以成功上传(用抓包软件)</p>
-<h3 id="复写-点绕过"><a href="#复写-点绕过" class="headerlink" title="复写.点绕过"></a>复写.点绕过</h3><ol>
-<li><strong>原理</strong><br>原理和点绕过类似,但是源代码中加入了<code>deldot()</code>函数用来删除文件名末尾的点,这时候如果我们直接在<code>.</code>后面加上空格,他是会被忽略的,<code>.</code>还是会被删除</li>
-<li><strong>方法</strong><br>如果我们写入两个点,中间加上空格<code>. .</code>这样一来,最后一个点会被删除,中间的空格不会被忽略,于是不认为前面一个点是末尾的点,实现点绕过.(用抓包软件)</li>
-</ol>
-<h3 id="DATA绕过"><a href="#DATA绕过" class="headerlink" title="::$DATA绕过"></a>::$DATA绕过</h3><ol>
-<li><strong>原理</strong><br>php在Windows环境的时候,如果文件的后缀名后面有<code>::$DATA</code>,则会把后面的数据当做文件流处理,不会检测后缀名</li>
-<li><strong>注意</strong><br><code>::$DATA</code>要想生效必须要在php+Windows环境,Windows保存文件时会去除后面<code>::$DATA</code>,所以在连接时找到的地址不含<code>::$DATA</code></li>
-</ol>
-<h3 id="复写后缀绕过"><a href="#复写后缀绕过" class="headerlink" title="复写后缀绕过"></a>复写后缀绕过</h3><ol>
-<li><strong>原理</strong><br>和SQL注入里的复写绕过类似,源代码中有<code>str_ireplace(参1,参2,参3)</code>函数,可以将关键后缀替换为空,如果是替换为空,且只进行一次的话,则可以复写<code>pphphp</code>绕过</li>
-</ol>
-<h2 id="白名单绕过"><a href="#白名单绕过" class="headerlink" title="白名单绕过"></a>白名单绕过</h2><p>如果明确说明了只允许某类文件的上传,其他类型的文件都不允许上传,即为把这类文件设置为白名单,显然,白名单是要比黑名单安全性更高</p>
-<h3 id="00截断绕过"><a href="#00截断绕过" class="headerlink" title="00截断绕过"></a>00截断绕过</h3><ol>
-<li><p><strong>使用条件</strong>：</p>
-<ol>
-<li>php版本要小于5.3.4。</li>
-<li>文件路径(sava_path)可控。</li>
-<li>magic_quotes_gpc需要为关闭状态。</li>
-</ol>
-</li>
-<li><p><strong>原理</strong><br>所谓的<code>00截断</code>指的就是<code>%00</code>和<code>0x00</code><br><code>%00</code>适用于GET传参,URL解码后是空字符NULL,解码成16进制也为0x00<br><code>0x00</code>适用于POST传参,解析后也是空字符NULL,0x代表16进制<br>当一个字符串中存在空字符的时候,再被解析的时候会导致空字符后面的字符被丢弃(类似于SQL语句中的注释符)</p>
-</li>
-<li><p><strong>流程</strong><br>上传文件时,把木马文件改成可以上传的类型,然后用抓包软件修改数据包<br>GET传参:在 sava_path的地方加上想要的文件名和后缀,最后加上%00<br>POST传参:在sava_path的地方加上想要的文件名和后缀,最后加上一个字符,在用Hxe(16进制1)找到最后这个字符将它修改为00</p>
-</li>
-</ol>
-<p><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230405093410.png" alt="最后效果"></p>
-<h3 id="图片马"><a href="#图片马" class="headerlink" title="图片马"></a>图片马</h3><p>在upload-labs pass 14关开始,检测程序不仅仅是根据后缀来判断文件是否合法了,会根据文件内容来检测上传文件是否为一个真实的文件,这时候,我们可以试着上传一个图片马</p>
-<ol>
-<li><strong>概念</strong><br>图片马,即是携带了一句话木马的图片,外表是一个正常的图片,但是图片的编码中写入了一句话木马</li>
-<li><strong>图片马的制作</strong><br>将图片文件和一句话木马php文件保存在同一文件夹下,在此文件夹的命令提示符下输入<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copy a.jpg/b+ shell.php/a c.jpg</span><br></pre></td></tr></table></figure>
-a.jpg是一个正常的图片,shell.php是一句话木马,c.jpg是合成以后的图片马</li>
-<li><strong>使用条件</strong><br>并非所有的情况下都可以使用图片马,在正常情况下,图片不会被解析为可执行文件,需要网站存在文件包含漏洞或文件解析漏洞才行,在upload-labs pass 14里并没有这个环境,可以在&#x2F;upload&#x2F;目录下创建一个include.php文件,里面写入<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$file</span> = <span class="variable">$_GET</span>[ <span class="string">&#x27;file&#x27;</span> ] ;</span><br><span class="line"><span class="keyword">include</span> (<span class="variable">$file</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></li>
-<li><strong>webshell的获取</strong><br>需要访问的地址并非图片保存的地址,而是include.php(文件包含漏洞)的地址,并用GET传参将图片的地址传入<code>?file=图片地址</code>,再用蚁剑连接<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230405110808.png"></li>
-<li><strong>解释一下文件包含漏洞的原理</strong><br>在php文件中include包含其他文件时,他本来想引用一个php文件,但是漏洞就是,他不会去识别是什么php文件,引用的文件都当做php来解析,解决了图片马不当做php解析的问题<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/a.jpg" alt="无马图"></li>
-</ol>
-<h3 id="getimagesize-图片马"><a href="#getimagesize-图片马" class="headerlink" title="getimagesize()-图片马"></a>getimagesize()-图片马</h3><p>getimagesize()函数将测定任何GIF，JPG，PNG，SWF，SWC，PSD，TIFF，BMP，IFF，JP2，JPX，JB2，JPC，XBM或WBMP图像文件的大小并返回图像的尺寸以及文件类型和一个可以用于普通HTML文件中<IMG>标记中的 height&#x2F;width 文本字符串。<br>如果无法读取图片信息,则会被认定为非真实图像,要绕过这个函数检测实际上和利用图片马上传即可</p>
-<h3 id="exif-imagetype-图片马"><a href="#exif-imagetype-图片马" class="headerlink" title="exif_imagetype()-图片马"></a>exif_imagetype()-图片马</h3><p>exif_imagetype()读取一个图像的第一个字节并检查其后缀名。<br>返回值与getimage()函数返回的索引2相同，但是速度比getimage快得多。需要开启php_exif模块<br>如果无法读取图片信息,则会被认定为非真实图像,要绕过这个函数检测实际上和利用图片马上传即可</p>
-<h3 id="二次渲染绕过"><a href="#二次渲染绕过" class="headerlink" title="二次渲染绕过"></a>二次渲染绕过</h3><ol>
-<li><strong>二次渲染原理</strong><br>二次渲染就是根据用户上传的图片,重新生成一个新的图片,保存新的图片,删除原来上传的图片,比如根据用户上传的不同大小的图片,渲染成符合条件的大小固定的图片</li>
-<li><strong>绕过原理</strong><br>在二次渲染中,图片有增加部分,有减少部分,有不变部分,有可能我们在图片中写入的木马会被渲染掉,所有我们先上传一张图片,再将上传后渲染过的图片保存下来,对比渲染前后的编码变化,将木马写在不变部分,再次上传图片,利用文件包含漏洞,即可获得WebShell</li>
-<li><strong>注意</strong><br>这种方式适用于git格式,其他方式过于复杂,暂时不做了解,同时,也需要一个可以将木马以二进制形式写入图片的软件</li>
-</ol>
-<h2 id="条件竞争绕过"><a href="#条件竞争绕过" class="headerlink" title="条件竞争绕过"></a>条件竞争绕过</h2><ol>
-<li><p><strong>原理</strong><br>有些网站的服务器会先将上传的文件保存下来,再进行后缀或文件内容的对比,如果符合条件,则对文件进行重命名,如果不符合,则会删除文件.<br>但文件的保存和删除还是有间隔的,如果我们能在删除之前访问网页,就可以成功执行上传代码<br>ps:php中<code>unlike()</code>是用于删除函数的,如果服务器是先重命名再判断,就无法找到提交的路径了</p>
-</li>
-<li><p><strong>保存一句话木马</strong><br>由原理可知,非法的文件在上传后会被删除,哪怕我们在用一句话木马在间隔中访问到了WebShell,之后还是会被删除,所以我们必须想办法使木马保存在服务器里<br>所以我们将一句话木马改为<br><code>&lt;?php fputs(fopen(&#39;shell2.php&#39;,&#39;w&#39;),&#39;&lt;?php @eval($_POST[&quot;aa&quot;])?&gt;&#39;); ?&gt;</code><br>解释:</p>
-<ol>
-<li><code>fputs(参1,参2,参3)</code>函数的作用是将参2(<code>&#39;&lt;?php @eval($_POST[&quot;aa&quot;])?&gt;&#39;</code>)的内容写进参1(<code>fopen(&#39;shell2.php&#39;,&#39;w&#39;)</code>)。参3可选,规定要了写入的最大字节数。</li>
-<li><code>fopen(参1,参2)</code>这是一个<a target="_blank" rel="noopener" href="http://shuimao.xyz/2023/03/18/PHP%E7%9A%84%E5%AD%A6%E4%B9%A02-0/#%E6%96%87%E4%BB%B6">之前学过的函数</a>,不过多解释,这里的作用是用来创建新文件,保存一句话木马</li>
-</ol>
-</li>
-<li><p><strong>注意</strong><br>我们上传的文件会被删除,但只要我们访问到了网站,就会自动保存<code>shell2.php</code>,所以我们实际最终获取WebShell的地址是在<code>shell2.php</code>,这里注意上传文件名(<code>shell,php</code>)和文件内创建的文件(<code>shell2.php</code>)不能重名,不然无法创建</p>
-</li>
-<li><p><strong>Burp重放</strong><br>文件的保存和删除的间隔太短了,所以我们使用Burp抓包软件进行不停放包</p>
-<ol>
-<li>先上传文件,再将抓到的包发到<strong>intruder(攻击器)</strong></li>
-<li>payload set中设置null payloads</li>
-<li>payload选项选择无限重发(continue indefinitely)<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230406174916.png"></li>
-</ol>
-</li>
-<li><p><strong>脚本访问</strong><br>手动刷新浏览器太慢了,写个python脚本来访问,输出访问成功,代表代码成功执行,再用蚁剑连接</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&quot;上传文件的地址&quot;</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    html = requests.get(url)</span><br><span class="line">    <span class="keyword">if</span> html.status_code == <span class="number">200</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;访问成功&quot;</span>)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure></li>
-</ol>
-<h3 id="条件竞争-图片马"><a href="#条件竞争-图片马" class="headerlink" title="条件竞争-图片马"></a>条件竞争-图片马</h3><ol>
-<li><strong>文件解析漏洞</strong><br>中间件Apache(阿帕奇)解析漏洞主要是因为低版本Apache默认一个文件可以有多个用.分割得后缀，当最右边的后缀无法识别则继续向左看，直到碰到合法后缀才进行解析.图片中,<code>.7z</code>是无法被浏览器解析的,如<code>shell.php.7z</code>如果存在文件解析漏洞,则会被当成php文件解析</li>
-<li><strong>原理</strong><br>如果文件是先进行了后缀或文件内容的审查,合法的文件才进行保存,最后进行重命名.这样一来就无法上传<code>.php</code>文件了,这时可以试着上传图片马,但是由前面可知,图片马需要用到文件包含或是文件解析漏洞,那么我们就要利用文件保存和重命名之间的时间差,访问还未被重命名的文件,这时因为文件解析漏洞的存在,就会把文件当成php来解析</li>
-<li><strong>流程</strong><br>流程和前面的条件竞争没有什么区别,只是将上面的一句话木马写入图片,在用Burp重放,用python脚本访问</li>
-</ol>
-<h2 id="数组拼接漏洞"><a href="#数组拼接漏洞" class="headerlink" title="数组拼接漏洞"></a>数组拼接漏洞</h2><ol>
-<li><strong>explode()函数</strong><br>会以一个字符串去分割另一个字符串，并将字符串分割后的结果存储成一个数组</li>
-<li><strong>原理</strong><br>示例upload-labs pass 21,这关采用的是白名单后缀验证,将上传的文件根据<code>.</code>作为分隔符,切割的内容以数组的形式保存,然后将数组的第一项与第n-1项拼接(n为数组总元素个数),成为最后的文件名,如果我们上传时,指定第一项为<code>shell.php</code>,第二项为空,第三项为jpg,这样一来,进行检测时,会因为最后一项为jpg而绕过,最后拼接时,拼接的是第一项与第二项(3-1&#x3D;2),即为<code>shell.php+空</code>,为php文件</li>
-</ol>
+<h2 id="strcmp-参1-参2"><a href="#strcmp-参1-参2" class="headerlink" title="strcmp(参1,参2)"></a>strcmp(参1,参2)</h2><p><code>strcmp</code>用来比较参1,参2的大小,如果<code>参1&gt;参2</code>返回<code>1</code>,<code>参2&gt;参1</code>返回<code>-1</code>,<code>参1=参2</code>返回<code>0</code><br>需要注意的是参1和参2都必须为字符串,​php 5.2​​版本之前，利用​​strcmp​​函数将数组与字符串进行比较会返回​​-1​​，但是从​​5.3​​开始，会返回​​0​​。</p>
+<h2 id="scandir"><a href="#scandir" class="headerlink" title="scandir()"></a>scandir()</h2><p><code>scandir()</code> 函数返回指定目录中的文件和目录的数组<br>成功则返回文件和目录的数组。失败则返回 FALSE。如果 directory 不是一个目录，则抛出 E_WARNING 级别的错误。<br>可以在达成代码执行时使用此函数进行,对目标文件进行获取,使用print_r()输出数组</p>
 
       
     </div>
@@ -1627,7 +1525,7 @@ a.jpg是一个正常的图片,shell.php是一句话木马,c.jpg是合成以后�
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1695,14 +1593,14 @@ a.jpg是一个正常的图片,shell.php是一句话木马,c.jpg是合成以后�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -1745,13 +1643,13 @@ a.jpg是一个正常的图片,shell.php是一句话木马,c.jpg是合成以后�
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">80k</span>
+    <span title="站点总字数">83k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">4:46</span>
+    <span title="站点阅读时长">4:56</span>
 </div>
 
 <!--

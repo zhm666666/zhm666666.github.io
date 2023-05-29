@@ -20,21 +20,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="瞄一下学过代码，写一个睡喵的博客">
+  <meta name="description" content="简介PHP是一种弱类型语言,这意味着变量的类型是根据上下文自动推断的,不需要强调声明(如c语言),带来方便的同时,也带来了许多安全隐患PHP的比较也分为弱类型(&#x3D;&#x3D;)比较和强类型(&#x3D;&#x3D;&#x3D;)比较,还有(!&#x3D;)和(!&#x3D;&#x3D;) md5比较绕过在ctf赛题中,经常会出现类似于这样的一段代码,要求我们传入两个参数的值不同,而md5()后的值相同 12345$a&#x3D;$_GET[&amp;#x27;a&amp;#x27;];$b&#x3D;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sqlmap工具的使用">
-<meta property="og:url" content="http://example.com/2023/04/13/sqlmap%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:title" content="PHP弱类型比较绕过">
+<meta property="og:url" content="http://example.com/2023/05/29/PHP%E5%BC%B1%E7%B1%BB%E5%9E%8B%E6%AF%94%E8%BE%83%E7%BB%95%E8%BF%87/index.html">
 <meta property="og:site_name" content="睡猫的博客">
-<meta property="og:description" content="瞄一下学过代码，写一个睡喵的博客">
+<meta property="og:description" content="简介PHP是一种弱类型语言,这意味着变量的类型是根据上下文自动推断的,不需要强调声明(如c语言),带来方便的同时,也带来了许多安全隐患PHP的比较也分为弱类型(&#x3D;&#x3D;)比较和强类型(&#x3D;&#x3D;&#x3D;)比较,还有(!&#x3D;)和(!&#x3D;&#x3D;) md5比较绕过在ctf赛题中,经常会出现类似于这样的一段代码,要求我们传入两个参数的值不同,而md5()后的值相同 12345$a&#x3D;$_GET[&amp;#x27;a&amp;#x27;];$b&#x3D;">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-04-13T13:05:31.000Z">
-<meta property="article:modified_time" content="2023-04-13T13:06:54.122Z">
+<meta property="article:published_time" content="2023-05-29T12:02:24.000Z">
+<meta property="article:modified_time" content="2023-05-29T14:25:10.834Z">
 <meta property="article:author" content="？？喵！！">
-<meta property="article:tag" content="SQL">
-<meta property="article:tag" content="Hacker">
+<meta property="article:tag" content="PHP">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2023/04/13/sqlmap%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/">
+<link rel="canonical" href="http://example.com/2023/05/29/PHP%E5%BC%B1%E7%B1%BB%E5%9E%8B%E6%AF%94%E8%BE%83%E7%BB%95%E8%BF%87/">
 
 
 <script id="page-configurations">
@@ -47,7 +46,7 @@
   };
 </script>
 
-  <title>sqlmap工具的使用 | 睡猫的博客</title>
+  <title>PHP弱类型比较绕过 | 睡猫的博客</title>
   
 
 
@@ -191,7 +190,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/13/sqlmap%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/29/PHP%E5%BC%B1%E7%B1%BB%E5%9E%8B%E6%AF%94%E8%BE%83%E7%BB%95%E8%BF%87/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/hearder.jpg">
@@ -204,7 +203,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          sqlmap工具的使用
+          PHP弱类型比较绕过
         </h1>
 
         <div class="post-meta">
@@ -215,7 +214,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-04-13 21:05:31 / 修改时间：21:06:54" itemprop="dateCreated datePublished" datetime="2023-04-13T21:05:31+08:00">2023-04-13</time>
+              <time title="创建时间：2023-05-29 20:02:24 / 修改时间：22:25:10" itemprop="dateCreated datePublished" datetime="2023-05-29T20:02:24+08:00">2023-05-29</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -223,7 +222,11 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+                  <a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
                 </span>
             </span>
 
@@ -240,14 +243,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>1.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>7 分钟</span>
             </span>
 
         </div>
@@ -259,7 +262,25 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>PHP是一种弱类型语言,这意味着变量的类型是根据上下文自动推断的,不需要强调声明(如c语言),带来方便的同时,也带来了许多安全隐患<br>PHP的比较也分为弱类型(<code>==</code>)比较和强类型(<code>===</code>)比较,还有(<code>!=</code>)和(<code>!==</code>)</p>
+<h1 id="md5比较绕过"><a href="#md5比较绕过" class="headerlink" title="md5比较绕过"></a>md5比较绕过</h1><p>在ctf赛题中,经常会出现类似于这样的一段代码,要求我们传入两个参数的值不同,而<code>md5()</code>后的值相同</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$a</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;a&#x27;</span>];</span><br><span class="line"><span class="variable">$b</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;b&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$a</span>!=<span class="variable">$b</span> &amp;&amp; <span class="title function_ invoke__">md5</span>(<span class="variable">$a</span>) ==<span class="title function_ invoke__">md5</span>(<span class="variable">$a</span>))&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;ok!!&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="0e等于0绕过"><a href="#0e等于0绕过" class="headerlink" title="0e等于0绕过"></a>0e等于0绕过</h2><p>一个字符串经过md5处理后如果是以<code>0e</code>开头的,那么在php中就会被认为是科学计数法表示的数字(在科学计数法中，<code>e</code>或<code>E</code>用于表示指数。例如，数字300可以表示为<code>3e2</code>或<code>3E2</code>，意思是<code>3 × 10^2</code>同样，数字0.003可以表示为 <code>3e-3</code> 或 <code>3E-3</code>，意思是 <code>3 × 10^-3</code>),也就是说<code>0e</code>开头的表示的数字为<code>0 × 10^n</code>都为0,这样一来,就可以成功绕过比较</p>
+<p>下面是常见的md5后为<code>0e</code>开头的字符串<br><code>QNKCDZO</code>  &#x3D;&gt;md5 <code>0e830400451993494058024219903391</code><br><code>s878926199a</code>  &#x3D;&gt;md5 <code>0e545993274517709034328855841020</code><br><code>0e215962017</code> &#x3D;&gt;md5 <code>0e291242476940776845150308577824</code></p>
+<p>需要注意的是,这种绕过手法只适用于弱类型比较,强类型比较是不能使用这种方式的<br>还有一种题目,是上面题目的变种,希望传入参数的值与其本身<code>md5()</code>处理过的值相同</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$a</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;a&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$a</span>==<span class="title function_ invoke__">md5</span>(<span class="variable">$a</span>))&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;ok!!&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里只要一个字符是以<code>0e</code>开头,<code>md5</code>后还是<code>0e</code>开头即可<br><code>0e215962017</code> &#x3D;&gt;md5 <code>0e291242476940776845150308577824</code></p>
+<h2 id="数组绕过"><a href="#数组绕过" class="headerlink" title="数组绕过"></a>数组绕过</h2><p><code>md5()</code>函数期望的得到的是一个字符串,但是如果传入一个数组的话,函数会报出一个警告,并返回<code>NULL</code>值<br>当我们传入两个不同的数组,参数值必然不相等,而经过md5处理后,其值为<code>NULL</code>,<code> **payload**</code>?a[]&#x3D;1&amp;b[]&#x3D;2&#96;</p>
+<h2 id="原生类绕过"><a href="#原生类绕过" class="headerlink" title="原生类绕过"></a>原生类绕过</h2><p>如果在类中进行比较一般是无法通过数组进行绕过的,这时候可以配合反序列化中的原生类技巧绕过,<a target="_blank" rel="noopener" href="http://shuimao.xyz/2023/04/23/%E5%AD%A6%E4%B9%A0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/#%E4%B8%80%E4%BA%9B%E6%8A%80%E5%B7%A7">原生类绕过</a></p>
+<h2 id="哈希冲突绕过"><a href="#哈希冲突绕过" class="headerlink" title="哈希冲突绕过"></a>哈希冲突绕过</h2><p>MD5 是一种哈希算法，它将任意长度的输入数据映射到固定长度（128 位）的输出。由于 MD5 算法的输出长度是固定的，而输入数据的长度是任意的，所以理论上必然存在两个不同的输入数据，它们的 MD5 哈希值相同。</p>
+<p>但是一般这些字符中都有一些不可见字符,所以这里采用url编码<br><code>$a=M%C9h%FF%0E%E3%5C%20%95r%D4w%7Br%15%87%D3o%A7%B2%1B%DCV%B7J%3D%C0x%3E%7B%95%18%AF%BF%A2%00%A8%28K%F3n%8EKU%B3_Bu%93%D8Igm%A0%D1U%5D%83%60%FB_%07%FE%A2</code></p>
+<p><code>$b=M%C9h%FF%0E%E3%5C%20%95r%D4w%7Br%15%87%D3o%A7%B2%1B%DCV%B7J%3D%C0x%3E%7B%95%18%AF%BF%A2%02%A8%28K%F3n%8EKU%B3_Bu%93%D8Igm%A0%D1%D5%5D%83%60%FB_%07%FE%A2</code><br>这两个字符串即是哈希冲突的两个字符串</p>
+<h1 id="字符串与数字之间的弱类型"><a href="#字符串与数字之间的弱类型" class="headerlink" title="字符串与数字之间的弱类型"></a>字符串与数字之间的弱类型</h1><h2 id="字符强转为数字"><a href="#字符强转为数字" class="headerlink" title="字符强转为数字"></a>字符强转为数字</h2><p>php在做匹配和比较时候，会根据匹配的类型做类型转换，例如比较数字和字符串是否相等,就会进行转换,转换规则是前面的数字不变后面字母被当成字符型舍去<br>简单来说,在php中<br><code>123</code>&#x3D;&#x3D;<code>123a</code><br><code>6asdijbsujy</code>&#x3D;&#x3D;<code>6</code><br>后面的字符会被舍去,只比较最前面的数字</p>
+<h2 id="字符串被解析成十六进制"><a href="#字符串被解析成十六进制" class="headerlink" title="字符串被解析成十六进制"></a>字符串被解析成十六进制</h2><p>本来应该输入的是字符串,但是以<code>0x</code>开头的字符串在进行一些比较或运算时,就被php当做16进制数进行解析了</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$hex</span> = <span class="string">&#x27;0xdeadc0de&#x27;</span>;</span><br><span class="line"><span class="variable">$dec</span> = <span class="number">3735929054</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$hex</span> ==<span class="variable">$dec</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;OKKK&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ps:在php中使用<code>dechex()</code>将十进制数转换为十六进制数,使用<code>hexdec()</code>将十六进制数转换为十进制数</p>
+
     </div>
 
     
@@ -268,8 +289,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/SQL/" rel="tag"># SQL</a>
-              <a href="/tags/Hacker/" rel="tag"># Hacker</a>
+              <a href="/tags/PHP/" rel="tag"># PHP</a>
           </div>
 
         
@@ -278,13 +298,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/04/12/%E5%AD%A6%E4%B9%A0%E9%98%85%E8%AF%BB%E4%BB%A3%E7%A0%81/" rel="prev" title="学习阅读代码">
-      <i class="fa fa-chevron-left"></i> 学习阅读代码
+    <a href="/2023/05/23/buu%E5%88%B7%E9%A2%98%E4%B9%8Bsql%E6%B3%A8%E5%85%A5/" rel="prev" title="buu刷题之sql注入">
+      <i class="fa fa-chevron-left"></i> buu刷题之sql注入
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/04/15/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E4%B8%8E%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" rel="next" title="命令执行与代码执行漏洞">
-      命令执行与代码执行漏洞 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -343,6 +360,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#md5%E6%AF%94%E8%BE%83%E7%BB%95%E8%BF%87"><span class="nav-number">2.</span> <span class="nav-text">md5比较绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0e%E7%AD%89%E4%BA%8E0%E7%BB%95%E8%BF%87"><span class="nav-number">2.1.</span> <span class="nav-text">0e等于0绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E7%BB%95%E8%BF%87"><span class="nav-number">2.2.</span> <span class="nav-text">数组绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E7%94%9F%E7%B1%BB%E7%BB%95%E8%BF%87"><span class="nav-number">2.3.</span> <span class="nav-text">原生类绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%E7%BB%95%E8%BF%87"><span class="nav-number">2.4.</span> <span class="nav-text">哈希冲突绕过</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%8E%E6%95%B0%E5%AD%97%E4%B9%8B%E9%97%B4%E7%9A%84%E5%BC%B1%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">字符串与数字之间的弱类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E5%BC%BA%E8%BD%AC%E4%B8%BA%E6%95%B0%E5%AD%97"><span class="nav-number">3.1.</span> <span class="nav-text">字符强转为数字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A2%AB%E8%A7%A3%E6%9E%90%E6%88%90%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6"><span class="nav-number">3.2.</span> <span class="nav-text">字符串被解析成十六进制</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

