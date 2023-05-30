@@ -296,10 +296,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-05-29 20:02:24 / 修改时间：22:25:10" itemprop="dateCreated datePublished" datetime="2023-05-29T20:02:24+08:00">2023-05-29</time>
+              <time title="创建时间：2023-05-29 20:02:24" itemprop="dateCreated datePublished" datetime="2023-05-29T20:02:24+08:00">2023-05-29</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-30 11:42:39" itemprop="dateModified" datetime="2023-05-30T11:42:39+08:00">2023-05-30</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -320,14 +326,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.9k</span>
+              <span>2.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>7 分钟</span>
+              <span>8 分钟</span>
             </span>
 
         </div>
@@ -356,7 +362,8 @@
 <h1 id="字符串与数字之间的弱类型"><a href="#字符串与数字之间的弱类型" class="headerlink" title="字符串与数字之间的弱类型"></a>字符串与数字之间的弱类型</h1><h2 id="字符强转为数字"><a href="#字符强转为数字" class="headerlink" title="字符强转为数字"></a>字符强转为数字</h2><p>php在做匹配和比较时候，会根据匹配的类型做类型转换，例如比较数字和字符串是否相等,就会进行转换,转换规则是前面的数字不变后面字母被当成字符型舍去<br>简单来说,在php中<br><code>123</code>&#x3D;&#x3D;<code>123a</code><br><code>6asdijbsujy</code>&#x3D;&#x3D;<code>6</code><br>后面的字符会被舍去,只比较最前面的数字</p>
 <h2 id="字符串被解析成十六进制"><a href="#字符串被解析成十六进制" class="headerlink" title="字符串被解析成十六进制"></a>字符串被解析成十六进制</h2><p>本来应该输入的是字符串,但是以<code>0x</code>开头的字符串在进行一些比较或运算时,就被php当做16进制数进行解析了</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$hex</span> = <span class="string">&#x27;0xdeadc0de&#x27;</span>;</span><br><span class="line"><span class="variable">$dec</span> = <span class="number">3735929054</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$hex</span> ==<span class="variable">$dec</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;OKKK&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>ps:在php中使用<code>dechex()</code>将十进制数转换为十六进制数,使用<code>hexdec()</code>将十六进制数转换为十进制数</p>
+<p>ps:在php中使用<code>dechex()</code>将十进制数转换为十六进制数,使用<code>hexdec()</code>将十六进制数转换为十进制数<br>对字符串进行十六进制编码解码可以用下面的脚本,<code>hex2bin</code>将十六进制数转化为二进制字符串</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hexEncode</span>(<span class="params"><span class="variable">$str</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">bin2hex</span>(<span class="variable">$str</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hexDecode</span>(<span class="params"><span class="variable">$str</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">hex2bin</span>(<span class="variable">$str</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 示例</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;index.php&quot;</span>;</span><br><span class="line"><span class="variable">$encoded</span> = <span class="title function_ invoke__">hexEncode</span>(<span class="variable">$str</span>);</span><br><span class="line"><span class="variable">$decoded</span> = <span class="title function_ invoke__">hexDecode</span>(<span class="variable">$encoded</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;原始字符串: <span class="subst">$str</span>\n&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;编码后的字符串: <span class="subst">$encoded</span>\n&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;解码后的字符串: <span class="subst">$decoded</span>\n&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -516,7 +523,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-21 10:11:05" itemprop="dateModified" datetime="2023-05-21T10:11:05+08:00">2023-05-21</time>
+                <time title="修改时间：2023-05-30 11:45:20" itemprop="dateModified" datetime="2023-05-30T11:45:20+08:00">2023-05-30</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -524,7 +531,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hacker/" itemprop="url" rel="index"><span itemprop="name">Hacker</span></a>
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
                 </span>
             </span>
 
@@ -740,7 +747,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-09 21:15:02" itemprop="dateModified" datetime="2023-05-09T21:15:02+08:00">2023-05-09</time>
+                <time title="修改时间：2023-05-30 11:46:14" itemprop="dateModified" datetime="2023-05-30T11:46:14+08:00">2023-05-30</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -748,7 +755,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hacker/" itemprop="url" rel="index"><span itemprop="name">Hacker</span></a>
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
                 </span>
             </span>
 
@@ -877,7 +884,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-10 20:10:26" itemprop="dateModified" datetime="2023-05-10T20:10:26+08:00">2023-05-10</time>
+                <time title="修改时间：2023-05-30 11:46:23" itemprop="dateModified" datetime="2023-05-30T11:46:23+08:00">2023-05-30</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -885,7 +892,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hacker/" itemprop="url" rel="index"><span itemprop="name">Hacker</span></a>
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
                 </span>
             </span>
 
@@ -1077,7 +1084,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-04 20:23:01" itemprop="dateModified" datetime="2023-05-04T20:23:01+08:00">2023-05-04</time>
+                <time title="修改时间：2023-05-30 11:45:43" itemprop="dateModified" datetime="2023-05-30T11:45:43+08:00">2023-05-30</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1085,7 +1092,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hacker/" itemprop="url" rel="index"><span itemprop="name">Hacker</span></a>
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
                 </span>
             </span>
 
@@ -1095,7 +1102,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.2k</span>
+              <span>5.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -1136,7 +1143,7 @@
 <li><strong>解码绕过(重点)</strong><br><code>echo 编码后字符 |base64 -d |bash(或是sh)</code><br>例子:<code>echo Y2F0IGZsYWcucGhw|base64 -d|bash</code>&#x3D;<code>cat flag.php</code><br>利用管道符将解码后的命令输入到bash(或sh),这样命令才会被识别成命令执行,不然只会输出解码后的字符串</li>
 </ol>
 <h2 id="其他的一些绕过"><a href="#其他的一些绕过" class="headerlink" title="其他的一些绕过"></a>其他的一些绕过</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">\   //反斜线</span><br><span class="line">&quot;&quot;   //空字符串</span><br><span class="line">&#x27;&#x27;  //空字符串</span><br><span class="line">适用于过滤不严格的情况,待补充</span><br></pre></td></tr></table></figure>
-
+<p>例如 <code>ls</code>被过滤的情况下可以使用<code>l\s</code>,这个命令在linux中是可以被识别为<code>ls</code>的,但是如果过滤不严格的情况下就可以绕过过滤,类似的还有<code>l&#39;&#39;s</code>,<code>l&quot;&quot;s</code></p>
 <h2 id="escapeshellarg-和escapeshellcmd"><a href="#escapeshellarg-和escapeshellcmd" class="headerlink" title="escapeshellarg()和escapeshellcmd()"></a>escapeshellarg()和escapeshellcmd()</h2><p>buuctf例题连接<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#[BUUCTF%202018]Online%20Tool">[BUUCTF 2018]Online Tool</a></p>
 <ol>
 <li><strong>escapeshellarg()</strong><br>这个函数通过将输入的内容两端添加单引号包裹,这样以确保能够直接将一个字符串传入shell函数，使原本会被理解成参数选项的部分被理解成命令内容,确保不会参数参数注入漏洞<br>如果想通过输入单引号进行闭合也是不可行的,此函数会将单引号<code>&#39;</code>进行转义后再用单引号包裹<code>&#39;\&#39;&#39;</code><br>ps:参数注入漏洞是指，在执行命令的时候，用户控制了命令中的某个参数，并通过一些危险的参数功能，达成攻击的目的。</li>
@@ -1210,7 +1217,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-23 22:18:27" itemprop="dateModified" datetime="2023-04-23T22:18:27+08:00">2023-04-23</time>
+                <time title="修改时间：2023-05-30 11:45:51" itemprop="dateModified" datetime="2023-05-30T11:45:51+08:00">2023-05-30</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1218,7 +1225,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hacker/" itemprop="url" rel="index"><span itemprop="name">Hacker</span></a>
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
                 </span>
             </span>
 
@@ -1265,6 +1272,7 @@
 <li><strong>cat</strong><br>命令用于连接文件并打印到标准输出设备上,可以知道文件内容,但是经常被过滤吧</li>
 <li><strong>cd</strong>：切换当前工作目录；<br>用法：cd 后面加目录</li>
 <li><strong>ls</strong>：显示指定工作目录下的内容；<br>用法：ls 文件或路径</li>
+<li><strong>dir</strong>: 显示指定工作目录下的内容<br>和<code>ls</code>类似,同于<code>ls -C -b</code>,在<code>ls</code>被过滤时是一个不错的选择</li>
 <li><strong>cp</strong>：拷贝文件；<br>用法：cp 要复制的文件 目标路径&#x2F;新的名字</li>
 <li><strong>echo</strong>：输出<br>用法：输入什么就打印什么,可以配合管道符<code>|</code>使用,也可以配合反引号内联执行<br><code>echo &gt; 1.txt</code> 将输出的内容重定向到文件中,表示覆盖后写入<br><code>echo &gt;&gt; 1.txt</code>：将输出的内容重定向到文件中,表示追加写入</li>
 <li>**find [path] [expression]**：<br>查找指定文件；用法：find 目录 -name 文件<br><code>path</code>是要查找的目录路径，可以是一个目录或文件名，也可以是多个路径，如果未指定路径，则默认为当前目录<br><code>expression</code> 是可选参数，用于指定查找的条件，可以是文件名、文件类型、文件大小等等。<br>例如:<code>find /home -name “*.txt”</code><br>查找&#x2F;home目录下，所有以.txt 结尾的文件或者目录<br><code>-name</code>:是按文件名查找，支持使用通配符 * 和 ?。</li>
@@ -1363,10 +1371,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-04-13 21:05:31 / 修改时间：21:06:54" itemprop="dateCreated datePublished" datetime="2023-04-13T21:05:31+08:00">2023-04-13</time>
+              <time title="创建时间：2023-04-13 21:05:31" itemprop="dateCreated datePublished" datetime="2023-04-13T21:05:31+08:00">2023-04-13</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-30 11:44:46" itemprop="dateModified" datetime="2023-05-30T11:44:46+08:00">2023-05-30</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -1525,7 +1539,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1593,7 +1607,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1649,7 +1663,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">4:56</span>
+    <span title="站点阅读时长">4:57</span>
 </div>
 
 <!--
