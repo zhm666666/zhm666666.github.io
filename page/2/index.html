@@ -217,7 +217,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-30 11:45:28" itemprop="dateModified" datetime="2023-05-30T11:45:28+08:00">2023-05-30</time>
+                <time title="修改时间：2023-06-02 17:34:43" itemprop="dateModified" datetime="2023-06-02T17:34:43+08:00">2023-06-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -235,14 +235,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.7k</span>
+              <span>6.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>20 分钟</span>
+              <span>22 分钟</span>
             </span>
 
         </div>
@@ -291,13 +291,22 @@
 <li><p><strong>jsp的等价扩展名</strong><br>jspx jspf</p>
 </li>
 </ol>
-<h3 id="htaccess绕过"><a href="#htaccess绕过" class="headerlink" title=".htaccess绕过"></a>.htaccess绕过</h3><p><code>.htaccess</code>文件是超文本入口,可以实现改变文件扩展名等功能,只在当前目录和子目录生效<br><code>.htaccess</code>文件是用来修改Apache的配置的文件,如果和主配置文件有冲突的话,优先.htaccess配置</p>
+<h3 id="htaccess绕过"><a href="#htaccess绕过" class="headerlink" title=".htaccess绕过"></a>.htaccess绕过</h3><p><code>.htaccess</code>文件是分布式配置文件,可以实现改变文件扩展名等功能,只在当前目录和子目录生效<br><code>.htaccess</code>文件是用来修改Apache的配置的文件,如果和主配置文件有冲突的话,优先.htaccess配置</p>
 <ol>
 <li><code>.htaccess</code>文件代码<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;FilesMatch &quot;shell.jpg&quot;&gt;                      </span><br><span class="line">SetHandler  application/x-httpd-php            </span><br><span class="line">&lt;/FilesMatch&gt;</span><br></pre></td></tr></table></figure>
 
 这段代码的功能是如果发现shell.jpg文件,就将它当做php代码来解析</li>
 <li><strong>流程</strong><br>先将<code>.htaccess</code>文件上传,再将<code>.jpg</code>文件上传,然后找到<code>.jpg</code>的上传地址用蚁剑连接即可</li>
-<li>有些题目会把MIME类型做限制,但没有限制<code>.htaccess</code>后缀,这时候可以通过修改Content-Type成功上传<br>如果<code>.htaccess</code>后缀也被加入黑名单,这个方法失效</li>
+<li><strong>前提</strong><br>有些题目会把MIME类型做限制,但没有限制<code>.htaccess</code>后缀,这时候可以通过修改Content-Type成功上传<br>如果<code>.htaccess</code>后缀也被加入黑名单,或是中间件不是<code>Apache</code>,这个方法失效</li>
+</ol>
+<h3 id="user-ini绕过"><a href="#user-ini绕过" class="headerlink" title=".user.ini绕过"></a>.user.ini绕过</h3><p><code>.user.ini</code>文件是用来声明 PHP 设置更改的文件,可以支持在每个目录进行不同的配置,比<code>php.ini</code>有更高的优先级,和<code>.htaccess</code>文件类似,但是<code>.htaccess</code>只能在Apache中间件中使用,而<code>.user.ini</code>有更广的使用面</p>
+<ol>
+<li><p><code>.user.ini</code>文件代码</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">auto_prepend_file</span>=shell.jpg</span><br></pre></td></tr></table></figure>
+<p>这段代码表示在执行PHP脚本之前，会自动包含名为shell.jpg的文件。这意味着，如果 <code>shell.jpg</code> 文件中包含了有效的PHP代码，那么这些代码将在执行PHP脚本之前被执行</p>
+</li>
+<li><p><strong>流程</strong><br>先将<code>.user.ini</code>文件上传,再将<code>shell.jpg</code>文件上传,需要注意的是,这里需要找到<code>.user.ini</code>的<strong>同级目录</strong>(必须是php文件),因为<code>.user.ini</code>文件是它同级php文件的配置文件,这个文件会自动包含<code>shell</code>文件</p>
+</li>
 </ol>
 <h3 id="大小写绕过"><a href="#大小写绕过" class="headerlink" title="大小写绕过"></a>大小写绕过</h3><p>大小写绕过和sql注入原理的差不多,<strong>Windows对大小写不敏感</strong>,但如果源代码里有这个函数<code>strtolower()</code>(把接收到的都转为小写),则大小写绕过失效</p>
 <h3 id="空格绕过"><a href="#空格绕过" class="headerlink" title="空格绕过"></a>空格绕过</h3><ol>
@@ -1934,13 +1943,13 @@ __NAMESPACE__
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">83k</span>
+    <span title="站点总字数">84k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">4:57</span>
+    <span title="站点阅读时长">5:01</span>
 </div>
 
 <!--

