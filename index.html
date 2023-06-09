@@ -296,10 +296,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-06-04 11:55:30 / 修改时间：22:27:07" itemprop="dateCreated datePublished" datetime="2023-06-04T11:55:30+08:00">2023-06-04</time>
+              <time title="创建时间：2023-06-04 11:55:30" itemprop="dateCreated datePublished" datetime="2023-06-04T11:55:30+08:00">2023-06-04</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-09 16:20:01" itemprop="dateModified" datetime="2023-06-09T16:20:01+08:00">2023-06-09</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -316,14 +322,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>527</span>
+              <span>905</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -335,9 +341,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>POST &#x2F;flag.php HTTP&#x2F;1.1<br>Host: 127.0.0.1:80<br>Content-Type: application&#x2F;x-www-form-urlencoded<br>Content-Length: 36</p>
-<p>key&#x3D;197699688d0025883b252f05e409c554<br>#注意Content-Length那里，必须和你的POST请求长度一样</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> quote</span><br><span class="line"></span><br><span class="line">first_code =<span class="string">&quot;&quot;&quot;   &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">url_encoded = quote(first_code,safe=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">url_encoded = url_encoded.replace(<span class="string">&#x27;%0A&#x27;</span>, <span class="string">&#x27;%0D%0A&#x27;</span>)</span><br><span class="line">url_encoded = <span class="string">&#x27;gopher://127.0.0.1:80/&#x27;</span>+<span class="string">&#x27;_&#x27;</span>+url_encoded</span><br><span class="line">url_encoded = quote(url_encoded,safe=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(url_encoded)</span><br></pre></td></tr></table></figure>
+          <h1 id="SSRF简介"><a href="#SSRF简介" class="headerlink" title="SSRF简介"></a>SSRF简介</h1><p>**SSRF(Server-Side Request Forgery)**翻译过来是服务器端请求伪造,一般情况下，SSRF攻击的目标是外网无法访问的内部系统。如果服务器提供了从其它服务器请求数据的功能,攻击者就可以构造恶意的路径,例如,使服务器端向内网其他服务器发起请求,由于请求是由服务端发起的，所以服务端能够成功读取一些隔离文件,然后返回给攻击者,就造成了ssrf攻击</p>
+<p>简单来说,利用一个可以发起网络请求的服务器当作跳板来攻击内部其他服务器。</p>
+<h1 id="与SSRF有关的协议"><a href="#与SSRF有关的协议" class="headerlink" title="与SSRF有关的协议"></a>与SSRF有关的协议</h1><h2 id="HTTP-x2F-S协议"><a href="#HTTP-x2F-S协议" class="headerlink" title="HTTP&#x2F;S协议"></a>HTTP&#x2F;S协议</h2><h2 id="file协议"><a href="#file协议" class="headerlink" title="file协议"></a>file协议</h2><h2 id="dict"><a href="#dict" class="headerlink" title="dict"></a>dict</h2><h2 id="gopher协议"><a href="#gopher协议" class="headerlink" title="gopher协议"></a>gopher协议</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> quote</span><br><span class="line"></span><br><span class="line">first_code =<span class="string">&quot;&quot;&quot;   &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">url_encoded = quote(first_code,safe=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">url_encoded = url_encoded.replace(<span class="string">&#x27;%0A&#x27;</span>, <span class="string">&#x27;%0D%0A&#x27;</span>)</span><br><span class="line">url_encoded = <span class="string">&#x27;gopher://127.0.0.1:80/&#x27;</span>+<span class="string">&#x27;_&#x27;</span>+url_encoded</span><br><span class="line">url_encoded = quote(url_encoded,safe=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(url_encoded)</span><br></pre></td></tr></table></figure>
+
+
+<p>ip转化为其他进制</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$ip</span> = <span class="string">&#x27;127.0.0.1&#x27;</span>;</span><br><span class="line"><span class="variable">$ip</span> = <span class="title function_ invoke__">explode</span>(<span class="string">&#x27;.&#x27;</span>,<span class="variable">$ip</span>);</span><br><span class="line"><span class="variable">$r</span> = (<span class="variable">$ip</span>[<span class="number">0</span>] &lt;&lt; <span class="number">24</span>) | (<span class="variable">$ip</span>[<span class="number">1</span>] &lt;&lt; <span class="number">16</span>) | (<span class="variable">$ip</span>[<span class="number">2</span>] &lt;&lt; <span class="number">8</span>) | <span class="variable">$ip</span>[<span class="number">3</span>] ;</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$r</span> &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="variable">$r</span> += <span class="number">4294967296</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;十进制:&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$r</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;八进制:&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">decoct</span>(<span class="variable">$r</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;十六进制:&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">dechex</span>(<span class="variable">$r</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -387,7 +397,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-05-30 11:42:39" itemprop="dateModified" datetime="2023-05-30T11:42:39+08:00">2023-05-30</time>
+                <time title="修改时间：2023-06-08 11:26:06" itemprop="dateModified" datetime="2023-06-08T11:26:06+08:00">2023-06-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -395,11 +405,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/PHP/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
                 </span>
             </span>
 
@@ -1616,7 +1622,7 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -1659,13 +1665,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">86k</span>
+    <span title="站点总字数">87k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">5:07</span>
+    <span title="站点阅读时长">5:11</span>
 </div>
 
 <!--
