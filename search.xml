@@ -37,6 +37,7 @@
     <title>PHP弱类型比较绕过</title>
     <url>/2023/05/29/PHP%E5%BC%B1%E7%B1%BB%E5%9E%8B%E6%AF%94%E8%BE%83%E7%BB%95%E8%BF%87/</url>
     <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>PHP是一种弱类型语言,这意味着变量的类型是根据上下文自动推断的,不需要强调声明(如c语言),带来方便的同时,也带来了许多安全隐患<br>PHP的比较也分为弱类型(<code>==</code>)比较和强类型(<code>===</code>)比较,还有(<code>!=</code>)和(<code>!==</code>)</p>
+<span id="more"></span>
 <h1 id="md5比较绕过"><a href="#md5比较绕过" class="headerlink" title="md5比较绕过"></a>md5比较绕过</h1><p>在ctf赛题中,经常会出现类似于这样的一段代码,要求我们传入两个参数的值不同,而<code>md5()</code>后的值相同</p>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$a</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;a&#x27;</span>];</span><br><span class="line"><span class="variable">$b</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;b&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$a</span>!=<span class="variable">$b</span> &amp;&amp; <span class="title function_ invoke__">md5</span>(<span class="variable">$a</span>) ==<span class="title function_ invoke__">md5</span>(<span class="variable">$a</span>))&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;ok!!&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
